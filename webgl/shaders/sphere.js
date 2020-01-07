@@ -98,8 +98,8 @@ void main() {
   average = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] + uAudioBandsBuffer[3] +
     uAudioBandsBuffer[4] + uAudioBandsBuffer[5] + uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 8.0;
 
-  float noiseSc = uNoiseScale * (.5 + 1.0 * average);
-  float noiseFreq = uNoiseFrequency + 0.05 * average ;
+  float noiseSc =    3.0 * average;
+  float noiseFreq =  0.5 * average ;
   
 
   float ns0 =  noiseSc *  snoise(vec3(v0.x + uNoiseOffset.x, v0.y + uNoiseOffset.y, v0.z + uNoiseOffset.z) * noiseFreq );
@@ -144,20 +144,13 @@ uniform float uAudioBandsBuffer[8];
 varying float average;
 
 void main() {
-
-    // vec3    colorAmbient = vec3(1.0 - ((uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.0));
-    // vec3    colorAmbient = mix(uMateri+alAmbientA, uMaterialAmbientB, max(average, 0.2));
-
-
-    float testcol = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] ) / 3.0;
+    float testcol = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7] + uAudioBandsBuffer[5] ) / 3.0;
     vec3  colorAmbient = vec3(testcol * uMaterialAmbientA);
 
     vec3    ambient =  uLightAmbient * colorAmbient;
 
     vec3 colorDiffuse = vec3(testcol * uMaterialDiffuseA);
 
-    // vec3    colorDiffuse = mix(uMaterialDiffuseA, uMaterialDiffuseB, max(average, 0.2));
-    // vec3    colorDiffuse = vec3(.8 - ((uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] ) / 3.0));
     vec3    lightDirection = normalize(uLightPosition - vPos);
     float   diffuseIntensity =  max(dot(vNormal, lightDirection), 0.0);
     vec3    diffuse = uLightDiffuse * (diffuseIntensity * colorDiffuse);
