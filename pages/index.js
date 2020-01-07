@@ -5,8 +5,8 @@ import WebGL from '../webgl';
 const Index = () => {
   useEffect(
     () => {
-      const gl = new WebGL();
-      gl.load().then(() => gl.render())
+      // const gl = new WebGL();
+      // gl.load().then(() => gl.render())
     }, 
   );
 

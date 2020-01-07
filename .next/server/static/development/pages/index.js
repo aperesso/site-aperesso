@@ -8812,9 +8812,8 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 const Index = () => {
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    const gl = new _webgl__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    gl.load().then(() => gl.render());
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {// const gl = new WebGL();
+    // gl.load().then(() => gl.render())
   });
   return __jsx("canvas", {
     id: "webGL",
