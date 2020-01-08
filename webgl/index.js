@@ -13,7 +13,7 @@ import Particles from './scene/particles';
 
 const WebGL = function() {
   const canvas = document.getElementById('webGL');
-  const { width , height } = getDimensions('webGL');
+  const { width , height } = getDimensions('webGL-wrapper');
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(CAMERA_SETTINGS.fov, width / height, CAMERA_SETTINGS.near, CAMERA_SETTINGS.far);
@@ -37,22 +37,30 @@ const WebGL = function() {
   const filmPass = new FilmPass(0.35,0.25, 648, false);
   composer.addPass(filmPass)
 
-  const audio = new Audio();
+  this.audio = new Audio();
   const sphere = new Sphere();
   const particles = new Particles();
 
   this.load = async () => {
-    await audio.load();
-    sphere.setUp(audio);
+    await this.audio.load();
+    sphere.setUp(this.audio);
     scene.add(sphere.mesh);
-    await particles.setUp(audio);
+    await particles.setUp(this.audio);
     scene.add(particles.points);
+  }
+
+  this.onResize = () => {
+    const size = getDimensions('webGL-wrapper');
+    camera.aspect = size.width /size.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize( size.width, size.height );
+    composer.setSize( size.width, size.height );
   }
 
   this.render = () => {
     renderer.setAnimationLoop(
       () => {
-        audio.update();
+        this.audio.update();
         sphere.update();
         particles.update();
         composer.render();

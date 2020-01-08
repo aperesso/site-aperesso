@@ -1,0 +1,29 @@
+
+.header {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fafafa;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0.25em;
+
+  ul {
+    list-style-type: none;
+    display: flex;
+
+    a { 
+      margin-left: 104px;
+    }
+  }
+
+  a { 
+    color : #fafafa;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+}

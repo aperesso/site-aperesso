@@ -1,7 +1,116 @@
+.header {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fafafa;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0.25em; }
+  .header ul {
+    list-style-type: none;
+    display: flex; }
+    .header ul a {
+      margin-left: 104px; }
+  .header a {
+    color: #fafafa;
+    text-transform: uppercase;
+    text-decoration: none; }
+
 html, body {
   box-sizing: border-box;
-  background: #010101;
-  overflow: hidden; }
+  background: #050505;
+  overflow: hidden;
+  color: #fafafa; }
+
+.layout {
+  background: #050505; }
+
+.target {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 40px;
+  fill: #fafafa;
+  opacity: 0.5;
+  pointer-events: none; }
+
+.loader {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black; }
+
+.homepage {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #050505; }
+  .homepage .webGL-canvas {
+    height: calc(100vh - 240px);
+    background: pink;
+    width: 100vw; }
+    .homepage .webGL-canvas canvas {
+      width: 100%;
+      height: 100%; }
+  .homepage h1 {
+    color: #FAFAFA;
+    position: absolute;
+    bottom: 160px;
+    left: 80px;
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 33px; }
+
+.blinking-cursor {
+  font-weight: bold;
+  font-size: 30px;
+  margin-left: 8px;
+  color: #2E3D48;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite; }
+
+@keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
 
 
 /*# sourceMappingURL=styles.chunk.css.map*/

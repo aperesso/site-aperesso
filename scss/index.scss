@@ -1,5 +1,21 @@
 html, body {
   box-sizing: border-box;
-  background: #010101;
+  background: #050505;
   overflow: hidden;
+  color: #fafafa;
+}
+
+.layout {
+  background: #050505;
+}
+
+.target {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 40px;
+  fill: #fafafa;
+  opacity: 0.5;
+  pointer-events: none;
 }
