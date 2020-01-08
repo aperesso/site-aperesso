@@ -5,6 +5,16 @@ html, body {
   color: #fafafa;
 }
 
+.no-btn {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 .layout {
   background: #050505;
 }
@@ -14,8 +24,15 @@ html, body {
   z-index: 100;
   top: 0;
   left: 0;
-  width: 40px;
-  fill: #fafafa;
+  width: 100vw;
+  height: 100vh;
+
   opacity: 0.5;
   pointer-events: none;
 }
+
+.target-icon {
+  position: absolute;
+  width: 40px;
+}
+

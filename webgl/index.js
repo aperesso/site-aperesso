@@ -37,7 +37,8 @@ const WebGL = function() {
   const filmPass = new FilmPass(0.35,0.25, 648, false);
   composer.addPass(filmPass)
 
-  this.audio = new Audio();
+  this.audio = this.audio || new Audio();
+  console.log(this.audio);
   const sphere = new Sphere();
   const particles = new Particles();
 

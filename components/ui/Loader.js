@@ -1,0 +1,47 @@
+import React , { useEffect , useState } from "react";
+
+import '../../scss/ui/loader.scss';
+
+const Loader = ({show, ...props}) => {
+
+    const [shouldRender, setRender] = useState(show)
+
+    useEffect(
+        () => {
+            if (show) setRender(true);
+        } , [show]
+    )
+
+    const onAnimationEnd = () => {
+        if (!show) setRender(false)
+    }
+
+    if (!shouldRender) return null;
+
+    return (
+        <div className="loader" style={
+            {animation: `${show ? "fadeIn" : "fadeOut"} 0.2s ease-out`}
+        } onAnimationEnd={onAnimationEnd}>
+            <div className="loader-wrapper">
+                <svg viewBox="0 0 100 100" {...props}>
+                    <path
+                    fill="#fff"
+                    d="M73 50c0-12.7-10.3-23-23-23S27 37.3 27 50m3.9 0c0-10.5 8.5-19.1 19.1-19.1S69.1 39.5 69.1 50"
+                    >
+                        <animateTransform
+                            attributeName="transform"
+                            attributeType="XML"
+                            type="rotate"
+                            dur="1s"
+                            from="0 50 50"
+                            to="360 50 50"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                </svg>
+            </div>
+        </div> 
+    )
+}
+
+export default Loader;

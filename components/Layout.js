@@ -1,30 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect , memo } from 'react';
 
 import Header from './Header';
 
-import Target from '../icons/target.svg';
+import { useSelector } from '../lib/useRedux';
+
 
 import '../scss/index.scss';
 
 const Layout = props => {
+
+    const [ audio ] = useSelector(state => [
+        state.audio
+    ]);
    
+
     useEffect(
         () => {
-            const target = document.getElementById('target');
-            const { width , height } = target.getBoundingClientRect();
 
-            const mouseMove = event => {
-                target.style.left = event.clientX - width / 2;
-                target.style.top = event.clientY - height / 2;
-            }
-
-            window.addEventListener("mousemove", mouseMove);
-            return(
-                () => {
-                    window.removeEventListener("mousemove", mouseMove);
-                }
-            )
-        } , []
+        }
     )
 
 
@@ -34,9 +27,8 @@ const Layout = props => {
             <div className={props.page || ""}>
                 {props.children}
             </div>
-            <Target id="target" className="target"/>
         </div>
     )
 }
 
-export default Layout;
+export default memo(Layout);

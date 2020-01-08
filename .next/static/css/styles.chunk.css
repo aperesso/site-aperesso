@@ -26,6 +26,15 @@ html, body {
   overflow: hidden;
   color: #fafafa; }
 
+.no-btn {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit; }
+
 .layout {
   background: #050505; }
 
@@ -34,10 +43,14 @@ html, body {
   z-index: 100;
   top: 0;
   left: 0;
-  width: 40px;
-  fill: #fafafa;
+  width: 100vw;
+  height: 100vh;
   opacity: 0.5;
   pointer-events: none; }
+
+.target-icon {
+  position: absolute;
+  width: 40px; }
 
 .loader {
   position: absolute;
@@ -46,7 +59,92 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: black; }
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .loader .loader-wrapper {
+    position: relative; }
+  .loader svg {
+    width: 40px; }
+
+@keyframes fadeIn {}@keyframes fadeOut {
+  0% {
+    top: 0; }
+  100% {
+    top: -100vh; } }
+
+.audio-controller {
+  padding: 8px; }
+  .audio-controller .sound-wave {
+    display: flex; }
+  .audio-controller .sound-bar {
+    width: 2px;
+    height: 2px;
+    background-color: #fafafa;
+    margin-right: 2px;
+    transform: scaleY(1);
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    .audio-controller .sound-bar:nth-child(4n) {
+      animation-name: bar-scale-xl;
+      animation-duration: 1s; }
+    .audio-controller .sound-bar:nth-child(4) {
+      animation-duration: 1.15s; }
+    .audio-controller .sound-bar:nth-child(3) {
+      animation-name: bar-scale-lg;
+      animation-duration: 0.8s; }
+    .audio-controller .sound-bar:nth-child(6) {
+      animation-name: bar-scale-md;
+      animation-duration: 0.85s; }
+    .audio-controller .sound-bar:nth-child(2), .audio-controller .sound-bar:nth-child(5), .audio-controller .sound-bar:nth-child(7), .audio-controller .sound-bar:nth-child(9) {
+      animation-name: bar-scale-sm;
+      animation-duration: .9s; }
+
+@keyframes bar-scale-sm {
+  0%, 50% {
+    transform: scaleY(1); }
+  25% {
+    transform: scaleY(6); }
+  75% {
+    transform: scaleY(4); } }
+
+@keyframes bar-scale-md {
+  0%, 50% {
+    transform: scaleY(2); }
+  25% {
+    transform: scaleY(6); }
+  75% {
+    transform: scaleY(5); } }
+
+@keyframes bar-scale-lg {
+  0%, 50% {
+    transform: scaleY(8); }
+  25% {
+    transform: scaleY(4); }
+  75% {
+    transform: scaleY(6); } }
+
+@keyframes bar-scale-xl {
+  0%, 50% {
+    transform: scaleY(1); }
+  25% {
+    transform: scaleY(7); }
+  75% {
+    transform: scaleY(11); } }
+  .audio-controller .sound-bar--still {
+    animation: none; }
+    .audio-controller .sound-bar--still:nth-child(4n) {
+      transform: scaleY(7); }
+    .audio-controller .sound-bar--still:nth-child(3) {
+      transform: scaleY(4); }
+    .audio-controller .sound-bar--still:nth-child(6) {
+      transform: scaleY(6); }
+    .audio-controller .sound-bar--still:nth-child(2), .audio-controller .sound-bar--still:nth-child(5), .audio-controller .sound-bar--still:nth-child(7), .audio-controller .sound-bar--still:nth-child(9) {
+      animation-name: bar-scale-sm;
+      animation-duration: .9s; }
 
 .homepage {
   height: 100vh;
@@ -55,7 +153,8 @@ html, body {
   background: #050505; }
   .homepage .webGL-canvas {
     height: calc(100vh - 240px);
-    background: pink;
+    position: relative;
+    background: #050505;
     width: 100vw; }
     .homepage .webGL-canvas canvas {
       width: 100%;
@@ -63,13 +162,26 @@ html, body {
   .homepage h1 {
     color: #FAFAFA;
     position: absolute;
-    bottom: 160px;
+    bottom: 48px;
     left: 80px;
     opacity: 0.7;
     text-transform: uppercase;
     font-size: 30px;
     font-weight: bold;
     line-height: 33px; }
+  .homepage .homepage-controllers {
+    display: flex;
+    position: absolute;
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+    bottom: 0;
+    right: 0; }
+  .homepage .homepage--fullsize {
+    padding: 8px;
+    margin-left: 32px; }
+    .homepage .homepage--fullsize img {
+      width: 16px; }
 
 .blinking-cursor {
   font-weight: bold;
