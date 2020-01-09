@@ -116,14 +116,14 @@ const Target = coord => {
     },
     1: setCoord
   } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    x: 0,
-    y: 0
+    x: -100,
+    y: -100
   });
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     const mouseMove = event => {
       setCoord(() => ({
-        x: event.clientX,
-        y: event.clientY
+        x: event.clientX - 20,
+        y: event.clientY - 20
       }));
     };
 
@@ -463,49 +463,29 @@ const App = ({
   pageProps,
   reduxStore
 }) => {
-  const coord = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])({
-    x: 0,
-    y: 0
-  });
-
-  const mouseMove = event => {
-    const targetIcon = document.getElementById('target-icon');
-    coord.current.x++;
-    coord.current.y++;
-  };
-
-  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
-    // const target = document.getElementById('target');
-    // const { width , height } = target.getBoundingClientRect();
-    window.addEventListener("mousemove", mouseMove);
-    return () => {
-      window.removeEventListener("mousemove", mouseMove);
-    };
-  }, []);
   return __jsx(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, __jsx(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2___default.a, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 17
     },
     __self: undefined
   }), __jsx(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: reduxStore,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 41
+      lineNumber: 18
     },
     __self: undefined
   }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42
+      lineNumber: 19
     },
     __self: undefined
   })), __jsx(_components_ui_Target__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    coord: coord.current,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43
+      lineNumber: 20
     },
     __self: undefined
   })));
@@ -519,23 +499,68 @@ const App = ({
 /*!***************************!*\
   !*** ./reducers/index.js ***!
   \***************************/
-/*! exports provided: initialState, default */
+/*! exports provided: initialState, loadWebGL, enterWebGl, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-create-reducer */ "redux-create-reducer");
-/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_create_reducer__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var immutability_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! immutability-helper */ "immutability-helper");
-/* harmony import */ var immutability_helper__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(immutability_helper__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadWebGL", function() { return loadWebGL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enterWebGl", function() { return enterWebGl; });
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptors */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux-create-reducer */ "redux-create-reducer");
+/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! redux-actions */ "redux-actions");
+/* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(redux_actions__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(target, key, source[key]); }); } else if (_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default.a) { _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default()(target, _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default()(source)); } else { ownKeys(Object(source)).forEach(function (key) { _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(target, key, _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(source, key)); }); } } return target; }
+
 
 
 const initialState = {
-  audio: null
+  webGL: null,
+  enteredWebGL: false
 };
-const reducer = {};
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux_create_reducer__WEBPACK_IMPORTED_MODULE_0__["createReducer"])(initialState, reducer));
+const LOAD_WEBGL = "load::webgl";
+const ENTER_WEBGL = "enter::webgl";
+const loadWebGL = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(LOAD_WEBGL);
+const enterWebGl = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(ENTER_WEBGL);
+const reducer = {
+  [LOAD_WEBGL]: (state, {
+    payload
+  }) => {
+    return _objectSpread({}, state, {
+      webGL: payload
+    });
+  },
+  [ENTER_WEBGL]: state => {
+    return _objectSpread({}, state, {
+      enteredWebGL: true
+    });
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__["createReducer"])(initialState, reducer));
 
 /***/ }),
 
@@ -661,17 +686,6 @@ module.exports = require("core-js/library/fn/object/keys");
 
 /***/ }),
 
-/***/ "immutability-helper":
-/*!**************************************!*\
-  !*** external "immutability-helper" ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("immutability-helper");
-
-/***/ }),
-
 /***/ "react":
 /*!************************!*\
   !*** external "react" ***!
@@ -702,6 +716,17 @@ module.exports = require("react-redux");
 /***/ (function(module, exports) {
 
 module.exports = require("redux");
+
+/***/ }),
+
+/***/ "redux-actions":
+/*!********************************!*\
+  !*** external "redux-actions" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-actions");
 
 /***/ }),
 

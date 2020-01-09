@@ -1,38 +1,50 @@
-import { useEffect , useState , useCallback } from "react";
+import { useEffect , useState , useCallback , useMemo } from "react";
 
 import Layout from '../components/Layout';
 import Loader from '../components/ui/Loader';
 import AudioController from '../components/ui/AudioController';
-
 import WebGL from '../webgl';
+import { loadWebGL } from '../reducers';
+import { useSelector, useDispatch } from "../lib/useRedux";
 
 import '../scss/homepage.scss';
 
+
+
 const Index = () => {
 
-  const [webGL, setWebGL ] = useState(null);
+  const [webGL, setWebGL] = useState(false);
+  const [audio, setAudio] = useState({});
 
   useEffect(
     () => {
-      // const onResize = () => {
-      //   if (!webGL) return ;
-      //   webGL.onResize();
-      // }
-      // if (!webGL) {
-      //   const GL = new WebGL();
-      //   GL.load()
-      //   .then(
-      //     async () => {
-      //         await setWebGL(() => GL);
-      //   }).then(() => GL.render())
-      // }
-      // window.addEventListener('resize', onResize)
-      // return (() => {
-      //   window.removeEventListener('resize', onResize)
-      // })
-    }, [webGL]
-  );
+       if (!webGL) {
+          const GL = new WebGL();
+          GL.load().then(() => {
+            setWebGL(true);
+            setAudio(() => GL.audio);
+          }).then(() => GL.render());
+       }
+        return (
+          () => {
+            if (webGL && audio.stop) {
+              audio.stop();
+            }
+          }
+        )
+    } , 
+    [webGL, audio]
+  )
 
+  useEffect(
+    () => {
+      if (audio.isPlaying) {
+        audio.play()
+      } else if (audio.stop) {
+        audio.stop()
+      }
+    } , [audio.isPlaying, audio.stop]
+  )
 
   const onChangeFullscreen = useCallback(
     () => {
@@ -60,10 +72,29 @@ const Index = () => {
     } , []
   )
 
+
+  const onStart = useCallback(() => {
+      setAudio(audio => ({
+        ...audio,
+        isPlaying: true,
+      }))
+    } , []
+  )
+
+  const onPause = useCallback(
+    () => {
+      setAudio(audio => ({
+        ...audio,
+        isPlaying: false,
+      }))
+    } , []
+  )
+
+
   return(
     <Layout page='homepage'>
       {
-        //<Loader show={!webGL}/>
+        <Loader loading={!webGL} onStart={onStart}/>
       }
       <div className='webGL-canvas' id="webGL-wrapper">
         {
@@ -74,12 +105,16 @@ const Index = () => {
           a Freelance Front-End Developer
           <span className="blinking-cursor">|</span>
         </h1>
-        <div className="homepage-controllers">
-          <AudioController/>
-          <button className="no-btn homepage--fullsize" onClick={onChangeFullscreen} >
-            <img src='/assets/image/expand.svg'/>
-          </button>
-        </div>
+       { 
+          webGL && (
+            <div className="homepage-controllers">
+              <AudioController isPlaying={audio.isPlaying} onStart={onStart} onPause={onPause}/>
+              <button className="no-btn homepage--fullsize" onClick={onChangeFullscreen} >
+                <img src='/assets/image/expand.svg'/>
+              </button>
+            </div>
+          )
+        }
       </div>
     </Layout>
   )

@@ -2,31 +2,34 @@ import React , { useMemo , useState , useCallback } from 'react';
 
 import '../../scss/ui/audiocontroller.scss';
 
-const AudioController = ({isActive}) => {
+const AudioController = ({isPlaying, onStart, onPause}) => {
 
-  const [animateIcon, setIconAnimation] = useState(false)
+  const [isHover, setHover] = useState(false);
 
   const className = useMemo(
     () => {
-      return `${animateIcon ? '' : 'sound-bar--still'} sound-bar`
-    }, [animateIcon])
+      const isStill = (isPlaying && isHover) || (!isPlaying && !isHover)
+      return `${!isStill ? '' : 'sound-bar--still'} sound-bar`
+    }, [isPlaying, isHover])
 
   const onMouseEnter = useCallback(
-    () => setIconAnimation(a => !a),
+    () => setHover(() => true),
     [],
   )
 
   const onMouseLeave = useCallback(
-    () => setIconAnimation(a => !a) 
+    () => setHover(() => false) 
     , []
   )
+
 
   return(
     <button 
       className="audio-controller no-btn" 
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      >
+      onClick={isPlaying ? onPause : onStart}
+    >
       <div className="sound-wave">
         {
           Array(10).fill(null).map(

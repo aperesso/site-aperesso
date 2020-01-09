@@ -65,14 +65,22 @@ html, body {
   justify-content: center; }
   .loader .loader-wrapper {
     position: relative; }
-  .loader svg {
+  .loader .loader-loading {
     width: 40px; }
+  .loader .loader-waiting {
+    width: 80px; }
 
-@keyframes fadeIn {}@keyframes fadeOut {
+@keyframes fadeIn {
   0% {
-    top: 0; }
+    opacity: 0; }
   100% {
-    top: -100vh; } }
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 
 .audio-controller {
   padding: 8px; }

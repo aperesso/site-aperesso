@@ -68,8 +68,20 @@ const Audio = function() {
     this.analyzer = new THREE.AudioAnalyser(sound, AUDIO_SETTINGS.ftSize)
   }
 
+  this.isPlaying = false;
+  
+  this.stop = () => {
+    this.isPlaying = false;
+    if (sound.isPlaying) sound.pause(); 
+  }
+
+  this.play = async () => {
+    // if (!sound) await this.load()
+    this.isPlaying = true;
+    if (!sound.isPlaying) sound.play();
+  }
+
   this.update = () => {
-    if (!sound.isPlaying) sound.play(); 
     const samples = this.analyzer.getFrequencyData();
     updateFrequencyBands(samples);
     updateFrequencyBandsBuffer();

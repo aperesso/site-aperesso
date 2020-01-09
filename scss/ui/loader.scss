@@ -14,22 +14,33 @@
         position: relative;
     }
 
-    svg {
+    .loader-loading {
         width: 40px;
+    }
+
+    .loader-waiting {
+        width : 80px;
     }
 }
 
 @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
 
-  }
+        opacity: 1;
+    }
+}
+
   
 @keyframes fadeOut {
-0% {
-    top : 0;
-}
-100% {
+    0% {
+        opacity: 1;
+    }
+    100% {
 
-    top: -100vh;
-}
+        opacity: 0;
+    }
 }
 

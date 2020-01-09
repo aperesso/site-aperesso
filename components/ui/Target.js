@@ -1,14 +1,14 @@
 import React , { memo , useEffect , useState } from 'react';
 
 const Target = coord => {
-  const [{ x, y }, setCoord] = useState({x: 0, y : 0}) 
+  const [{ x, y }, setCoord] = useState({x: -100, y : -100}) 
 
   useEffect(
     () => {
         const mouseMove = event => {
           setCoord(() => ({
-            x : event.clientX,
-            y : event.clientY
+            x : event.clientX - 20,
+            y : event.clientY - 20
           }))
         }
 

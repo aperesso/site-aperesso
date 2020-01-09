@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -234,26 +234,24 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 const Layout = props => {
-  const [audio] = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(state => [state.audio]);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {});
   return __jsx("div", {
     className: "layout",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 13
     },
     __self: undefined
   }, __jsx(_Header__WEBPACK_IMPORTED_MODULE_1__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26
+      lineNumber: 14
     },
     __self: undefined
   }), __jsx("div", {
     className: props.page || "",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 15
     },
     __self: undefined
   }, props.children));
@@ -282,31 +280,35 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 const AudioController = ({
-  isActive
+  isPlaying,
+  onStart,
+  onPause
 }) => {
   const {
-    0: animateIcon,
-    1: setIconAnimation
+    0: isHover,
+    1: setHover
   } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const className = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
-    return `${animateIcon ? '' : 'sound-bar--still'} sound-bar`;
-  }, [animateIcon]);
-  const onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => setIconAnimation(a => !a), []);
-  const onMouseLeave = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => setIconAnimation(a => !a), []);
+    const isStill = isPlaying && isHover || !isPlaying && !isHover;
+    return `${!isStill ? '' : 'sound-bar--still'} sound-bar`;
+  }, [isPlaying, isHover]);
+  const onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => setHover(() => true), []);
+  const onMouseLeave = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => setHover(() => false), []);
   return __jsx("button", {
     className: "audio-controller no-btn",
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave,
+    onClick: isPlaying ? onPause : onStart,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 27
     },
     __self: undefined
   }, __jsx("div", {
     className: "sound-wave",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 30
+      lineNumber: 33
     },
     __self: undefined
   }, Array(10).fill(null).map((_, i) => __jsx("div", {
@@ -314,7 +316,7 @@ const AudioController = ({
     className: className,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 36
     },
     __self: undefined
   }))));
@@ -333,70 +335,49 @@ const AudioController = ({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var _babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../scss/ui/loader.scss */ "./scss/ui/loader.scss");
-/* harmony import */ var _scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_3__);
-
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../scss/ui/loader.scss */ "./scss/ui/loader.scss");
+/* harmony import */ var _scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_scss_ui_loader_scss__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../lib/useRedux */ "./lib/useRedux.js");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers */ "./reducers/index.js");
 var _jsxFileName = "/Users/alexiaperesson/site-aperesso/components/ui/Loader.js";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
-const Loader = (_ref) => {
-  let {
-    show
-  } = _ref,
-      props = Object(_babel_runtime_corejs2_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["show"]);
 
+
+const Loader = ({
+  loading,
+  onStart
+}) => {
   const {
     0: shouldRender,
     1: setRender
-  } = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(show);
-  Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(() => {
-    if (show) setRender(true);
-  }, [show]);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(loading);
+  const [enteredWebGL] = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(state => [state.enteredWebGL]);
+  const dispatch = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
 
-  const onAnimationEnd = () => {
-    if (!show) setRender(false);
-  };
+  const onAnimationEnd = () => setRender(false);
 
-  if (!shouldRender) return null;
-  return __jsx("div", {
-    className: "loader",
+  const renderLoading = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => __jsx("svg", {
+    className: "loader-loading",
+    viewBox: "0 0 100 100",
     style: {
-      animation: `${show ? "fadeIn" : "fadeOut"} 0.2s ease-out`
+      animation: !loading ? "fadeOut 0.2s ease-out" : "none"
     },
-    onAnimationEnd: onAnimationEnd,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22
+      lineNumber: 19
     },
     __self: undefined
-  }, __jsx("div", {
-    className: "loader-wrapper",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 25
-    },
-    __self: undefined
-  }, __jsx("svg", Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    viewBox: "0 0 100 100"
-  }, props, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 26
-    },
-    __self: undefined
-  }), __jsx("path", {
+  }, __jsx("path", {
     fill: "#fff",
     d: "M73 50c0-12.7-10.3-23-23-23S27 37.3 27 50m3.9 0c0-10.5 8.5-19.1 19.1-19.1S69.1 39.5 69.1 50",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 23
     },
     __self: undefined
   }, __jsx("animateTransform", {
@@ -409,10 +390,76 @@ const Loader = (_ref) => {
     repeatCount: "indefinite",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 27
     },
     __self: undefined
-  })))));
+  }))), []);
+  const onEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    onStart();
+    dispatch(Object(_reducers__WEBPACK_IMPORTED_MODULE_3__["enterWebGl"])());
+  }, [dispatch, onStart]);
+  const enterScreen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => __jsx("button", {
+    className: "no-btn loader-waiting",
+    onClick: onEnter,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 51
+    },
+    __self: undefined
+  }, __jsx("svg", {
+    viewBox: "0 0 512 512",
+    fill: "#fafafa",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 55
+    },
+    __self: undefined
+  }, __jsx("path", {
+    d: "M173.781 280.469c-4.16 4.16-4.16 10.923 0 15.083a10.716 10.716 0 007.552 3.115c2.731 0 5.461-1.045 7.531-3.115l64-64a10.643 10.643 0 002.304-3.477c.299-.747.341-1.515.469-2.304.107-.597.363-1.152.363-1.771 0-.811-.299-1.536-.469-2.283-.128-.576-.128-1.195-.363-1.749a11.19 11.19 0 00-2.368-3.563l-63.936-63.936c-4.16-4.16-10.923-4.16-15.083 0s-4.16 10.923 0 15.083l45.76 45.781H32c-5.888 0-10.667 4.779-10.667 10.667S26.112 234.667 32 234.667h187.584l-45.803 45.802z",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 56
+    },
+    __self: undefined
+  }), __jsx("path", {
+    d: "M444.608 0c-1.643 0-3.243.32-4.843.491-.81-.192-1.578-.491-2.432-.491h-256C151.936 0 128 23.936 128 53.333V160c0 5.888 4.779 10.667 10.667 10.667s10.667-4.779 10.667-10.667V53.333c0-17.643 14.357-32 32-32h204.032l-80.107 34.325a46.033 46.033 0 00-27.925 42.347v328.661h-96c-15.339 0-28.373-10.667-31.552-15.083l-.448-123.627c-.021-5.867-4.8-10.624-10.667-10.624h-.043c-5.888.021-10.645 4.821-10.624 10.709l.491 124.309c-.427 4.672 1.771 9.557 6.677 14.933 8.725 9.557 26.048 20.715 46.165 20.715h96v17.941c0 25.387 20.672 46.059 46.059 46.059a45.811 45.811 0 0018.133-3.712l121.216-51.947a46.033 46.033 0 0027.925-42.347V46.059C490.667 20.672 469.995 0 444.608 0zm24.725 413.995a24.677 24.677 0 01-14.997 22.72L333.12 488.661c-3.072 1.344-6.357 2.005-9.728 2.005-13.632 0-24.725-11.093-24.725-24.725V98.005a24.677 24.677 0 0114.997-22.72L434.88 23.339c3.072-1.344 6.357-2.005 9.728-2.005 13.632 0 24.725 11.093 24.725 24.725v367.936z",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 57
+    },
+    __self: undefined
+  }), __jsx("path", {
+    d: "M330.667 234.667c-5.888 0-10.667 4.779-10.667 10.667V288c0 5.888 4.779 10.667 10.667 10.667s10.667-4.779 10.667-10.667v-42.667c-.001-5.888-4.779-10.666-10.667-10.666z",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 58
+    },
+    __self: undefined
+  }))), [loading, onEnter, enteredWebGL]);
+  const renderState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    if (loading) return renderLoading;
+    if (!enteredWebGL) return enterScreen;
+  }, [enterScreen, enteredWebGL]);
+  if (!shouldRender) return null;
+  return __jsx("div", {
+    className: "loader",
+    style: {
+      animation: !loading && enteredWebGL ? "fadeOut 1s ease-out" : 'none'
+    },
+    onAnimationEnd: onAnimationEnd,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 77
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "loader-wrapper",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80
+    },
+    __self: undefined
+  }, renderState));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Loader);
@@ -579,6 +626,17 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-prope
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/get-own-property-descriptors */ "core-js/library/fn/object/get-own-property-descriptors");
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js":
 /*!****************************************************************************************!*\
   !*** ./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js ***!
@@ -678,103 +736,32 @@ module.exports = __webpack_require__(/*! core-js/library/fn/weak-map */ "core-js
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js ***!
-  \********************************************************************/
+/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js ***!
+  \***************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
-/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
-/* harmony import */ var _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_assign__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _defineProperty; });
+/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
+/* harmony import */ var _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
 
-function _extends() {
-  _extends = _core_js_object_assign__WEBPACK_IMPORTED_MODULE_0___default.a || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js":
-/*!************************************************************************************!*\
-  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutProperties.js ***!
-  \************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutProperties; });
-/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
-/* harmony import */ var _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutPropertiesLoose.js");
-
-
-function _objectWithoutProperties(source, excluded) {
-  if (source == null) return {};
-  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(source, excluded);
-  var key, i;
-
-  if (_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_0___default.a) {
-    var sourceSymbolKeys = _core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_0___default()(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    _core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
   }
 
-  return target;
-}
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutPropertiesLoose.js":
-/*!*****************************************************************************************!*\
-  !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/objectWithoutPropertiesLoose.js ***!
-  \*****************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
-/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
-/* harmony import */ var _core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_core_js_object_keys__WEBPACK_IMPORTED_MODULE_0__);
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-
-  var sourceKeys = _core_js_object_keys__WEBPACK_IMPORTED_MODULE_0___default()(source);
-
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
+  return obj;
 }
 
 /***/ }),
@@ -10794,19 +10781,15 @@ var BufferGeometryUtils = {
       uvA.fromArray(uvs, a * 2);
       uvB.fromArray(uvs, b * 2);
       uvC.fromArray(uvs, c * 2);
-      var x1 = vB.x - vA.x;
-      var x2 = vC.x - vA.x;
-      var y1 = vB.y - vA.y;
-      var y2 = vC.y - vA.y;
-      var z1 = vB.z - vA.z;
-      var z2 = vC.z - vA.z;
-      var s1 = uvB.x - uvA.x;
-      var s2 = uvC.x - uvA.x;
-      var t1 = uvB.y - uvA.y;
-      var t2 = uvC.y - uvA.y;
-      var r = 1.0 / (s1 * t2 - s2 * t1);
-      sdir.set((t2 * x1 - t1 * x2) * r, (t2 * y1 - t1 * y2) * r, (t2 * z1 - t1 * z2) * r);
-      tdir.set((s1 * x2 - s2 * x1) * r, (s1 * y2 - s2 * y1) * r, (s1 * z2 - s2 * z1) * r);
+      vB.sub(vA);
+      vC.sub(vA);
+      uvB.sub(uvA);
+      uvC.sub(uvA);
+      var r = 1.0 / (uvB.x * uvC.y - uvC.x * uvB.y); // silently ignore degenerate uv triangles having coincident or colinear vertices
+
+      if (!isFinite(r)) return;
+      sdir.copy(vB).multiplyScalar(uvC.y).addScaledVector(vC, -uvB.y).multiplyScalar(r);
+      tdir.copy(vC).multiplyScalar(uvB.x).addScaledVector(vB, -uvC.x).multiplyScalar(r);
       tan1[a].add(sdir);
       tan1[b].add(sdir);
       tan1[c].add(sdir);
@@ -11185,6 +11168,78 @@ var BufferGeometryUtils = {
 
     result.setIndex(newIndices);
     return result;
+  },
+
+  /**
+   * @param {BufferGeometry} geometry
+   * @param {number} drawMode
+   * @return {BufferGeometry>}
+   */
+  toTrianglesDrawMode: function (geometry, drawMode) {
+    if (drawMode === _build_three_module_js__WEBPACK_IMPORTED_MODULE_3__["TrianglesDrawMode"]) {
+      console.warn('THREE.BufferGeometryUtils.toTrianglesDrawMode(): Geometry already defined as triangles.');
+      return geometry;
+    }
+
+    if (drawMode === _build_three_module_js__WEBPACK_IMPORTED_MODULE_3__["TriangleFanDrawMode"] || drawMode === _build_three_module_js__WEBPACK_IMPORTED_MODULE_3__["TriangleStripDrawMode"]) {
+      var index = geometry.getIndex(); // generate index if not present
+
+      if (index === null) {
+        var indices = [];
+        var position = geometry.getAttribute('position');
+
+        if (position !== undefined) {
+          for (var i = 0; i < position.count; i++) {
+            indices.push(i);
+          }
+
+          geometry.setIndex(indices);
+          index = geometry.getIndex();
+        } else {
+          console.error('THREE.BufferGeometryUtils.toTrianglesDrawMode(): Undefined position attribute. Processing not possible.');
+          return geometry;
+        }
+      } //
+
+
+      var numberOfTriangles = index.count - 2;
+      var newIndices = [];
+
+      if (drawMode === _build_three_module_js__WEBPACK_IMPORTED_MODULE_3__["TriangleFanDrawMode"]) {
+        // gl.TRIANGLE_FAN
+        for (var i = 1; i <= numberOfTriangles; i++) {
+          newIndices.push(index.getX(0));
+          newIndices.push(index.getX(i));
+          newIndices.push(index.getX(i + 1));
+        }
+      } else {
+        // gl.TRIANGLE_STRIP
+        for (var i = 0; i < numberOfTriangles; i++) {
+          if (i % 2 === 0) {
+            newIndices.push(index.getX(i));
+            newIndices.push(index.getX(i + 1));
+            newIndices.push(index.getX(i + 2));
+          } else {
+            newIndices.push(index.getX(i + 2));
+            newIndices.push(index.getX(i + 1));
+            newIndices.push(index.getX(i));
+          }
+        }
+      }
+
+      if (newIndices.length / 3 !== numberOfTriangles) {
+        console.error('THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unable to generate correct amount of triangles.');
+      } // build final geometry
+
+
+      var newGeometry = geometry.clone();
+      newGeometry.setIndex(newIndices);
+      newGeometry.clearGroups();
+      return newGeometry;
+    } else {
+      console.error('THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unknown draw mode:', drawMode);
+      return geometry;
+    }
   }
 };
 
@@ -11200,17 +11255,46 @@ var BufferGeometryUtils = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
-/* harmony import */ var _components_ui_Loader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ui/Loader */ "./components/ui/Loader.js");
-/* harmony import */ var _components_ui_AudioController__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ui/AudioController */ "./components/ui/AudioController.js");
-/* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptors */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
+/* harmony import */ var _components_ui_Loader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/ui/Loader */ "./components/ui/Loader.js");
+/* harmony import */ var _components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/ui/AudioController */ "./components/ui/AudioController.js");
+/* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../reducers */ "./reducers/index.js");
+/* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lib/useRedux */ "./lib/useRedux.js");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__);
+
+
+
+
+
+
+
 var _jsxFileName = "/Users/alexiaperesson/site-aperesso/pages/index.js";
 
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement;
+
+function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(target, key, source[key]); }); } else if (_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default.a) { _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default()(target, _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default()(source)); } else { ownKeys(Object(source)).forEach(function (key) { _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(target, key, _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(source, key)); }); } } return target; }
+
+
+
 
 
 
@@ -11222,25 +11306,34 @@ const Index = () => {
   const {
     0: webGL,
     1: setWebGL
-  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {// const onResize = () => {
-    //   if (!webGL) return ;
-    //   webGL.onResize();
-    // }
-    // if (!webGL) {
-    //   const GL = new WebGL();
-    //   GL.load()
-    //   .then(
-    //     async () => {
-    //         await setWebGL(() => GL);
-    //   }).then(() => GL.render())
-    // }
-    // window.addEventListener('resize', onResize)
-    // return (() => {
-    //   window.removeEventListener('resize', onResize)
-    // })
-  }, [webGL]);
-  const onChangeFullscreen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+  } = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(false);
+  const {
+    0: audio,
+    1: setAudio
+  } = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])({});
+  Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
+    if (!webGL) {
+      const GL = new _webgl__WEBPACK_IMPORTED_MODULE_11__["default"]();
+      GL.load().then(() => {
+        setWebGL(true);
+        setAudio(() => GL.audio);
+      }).then(() => GL.render());
+    }
+
+    return () => {
+      if (webGL && audio.stop) {
+        audio.stop();
+      }
+    };
+  }, [webGL, audio]);
+  Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
+    if (audio.isPlaying) {
+      audio.play();
+    } else if (audio.stop) {
+      audio.stop();
+    }
+  }, [audio.isPlaying, audio.stop]);
+  const onChangeFullscreen = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(() => {
     if (!document.fullscreenElement) {
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen();
@@ -11269,59 +11362,80 @@ const Index = () => {
       }
     }
   }, []);
-  return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  const onStart = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(() => {
+    setAudio(audio => _objectSpread({}, audio, {
+      isPlaying: true
+    }));
+  }, []);
+  const onPause = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(() => {
+    setAudio(audio => _objectSpread({}, audio, {
+      isPlaying: false
+    }));
+  }, []);
+  return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_8__["default"], {
     page: "homepage",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64
+      lineNumber: 95
     },
     __self: undefined
-  }, __jsx("div", {
+  }, __jsx(_components_ui_Loader__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    loading: !webGL,
+    onStart: onStart,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 97
+    },
+    __self: undefined
+  }), __jsx("div", {
     className: "webGL-canvas",
     id: "webGL-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 99
     },
     __self: undefined
   }, __jsx("canvas", {
     id: "webGL",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 70
+      lineNumber: 101
     },
     __self: undefined
   }), __jsx("h1", {
     className: "homepage-title",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72
+      lineNumber: 103
     },
     __self: undefined
   }, "Hello I am Alexia Peresson  ", __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73
+      lineNumber: 104
     },
     __self: undefined
   }), "a Freelance Front-End Developer", __jsx("span", {
     className: "blinking-cursor",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75
+      lineNumber: 106
     },
     __self: undefined
-  }, "|")), __jsx("div", {
+  }, "|")), webGL && __jsx("div", {
     className: "homepage-controllers",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 77
+      lineNumber: 110
     },
     __self: undefined
-  }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    isPlaying: audio.isPlaying,
+    onStart: onStart,
+    onPause: onPause,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78
+      lineNumber: 111
     },
     __self: undefined
   }), __jsx("button", {
@@ -11329,20 +11443,89 @@ const Index = () => {
     onClick: onChangeFullscreen,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 79
+      lineNumber: 112
     },
     __self: undefined
   }, __jsx("img", {
     src: "/assets/image/expand.svg",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 80
+      lineNumber: 113
     },
     __self: undefined
   })))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
+
+/***/ }),
+
+/***/ "./reducers/index.js":
+/*!***************************!*\
+  !*** ./reducers/index.js ***!
+  \***************************/
+/*! exports provided: initialState, loadWebGL, enterWebGl, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadWebGL", function() { return loadWebGL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enterWebGl", function() { return enterWebGl; });
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptors */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-descriptor */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/get-own-property-symbols */ "./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/keys */ "./node_modules/@babel/runtime-corejs2/core-js/object/keys.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/defineProperty */ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js");
+/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! redux-create-reducer */ "redux-create-reducer");
+/* harmony import */ var redux_create_reducer__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! redux-actions */ "redux-actions");
+/* harmony import */ var redux_actions__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(redux_actions__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(target, key, source[key]); }); } else if (_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default.a) { _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default()(target, _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default()(source)); } else { ownKeys(Object(source)).forEach(function (key) { _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(target, key, _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(source, key)); }); } } return target; }
+
+
+
+const initialState = {
+  webGL: null,
+  enteredWebGL: false
+};
+const LOAD_WEBGL = "load::webgl";
+const ENTER_WEBGL = "enter::webgl";
+const loadWebGL = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(LOAD_WEBGL);
+const enterWebGl = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(ENTER_WEBGL);
+const reducer = {
+  [LOAD_WEBGL]: (state, {
+    payload
+  }) => {
+    return _objectSpread({}, state, {
+      webGL: payload
+    });
+  },
+  [ENTER_WEBGL]: state => {
+    return _objectSpread({}, state, {
+      enteredWebGL: true
+    });
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__["createReducer"])(initialState, reducer));
 
 /***/ }),
 
@@ -11455,8 +11638,8 @@ const WebGL = function () {
   composer.addPass(renderScene);
   const filmPass = new three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_2__["FilmPass"](0.35, 0.25, 648, false);
   composer.addPass(filmPass);
-  this.audio = this.audio || new _utils_audio__WEBPACK_IMPORTED_MODULE_5__["default"]();
-  console.log(this.audio);
+  this.loading = true;
+  this.audio = new _utils_audio__WEBPACK_IMPORTED_MODULE_5__["default"]();
   const sphere = new _scene_sphere__WEBPACK_IMPORTED_MODULE_7__["default"]();
   const particles = new _scene_particles__WEBPACK_IMPORTED_MODULE_8__["default"]();
 
@@ -11466,6 +11649,7 @@ const WebGL = function () {
     scene.add(sphere.mesh);
     await particles.setUp(this.audio);
     scene.add(particles.points);
+    this.loading = false;
   };
 
   this.onResize = () => {
@@ -12048,8 +12232,20 @@ const Audio = function () {
     this.analyzer = new three__WEBPACK_IMPORTED_MODULE_1__["AudioAnalyser"](sound, _settings__WEBPACK_IMPORTED_MODULE_2__["AUDIO_SETTINGS"].ftSize);
   };
 
-  this.update = () => {
+  this.isPlaying = false;
+
+  this.stop = () => {
+    this.isPlaying = false;
+    if (sound.isPlaying) sound.pause();
+  };
+
+  this.play = async () => {
+    // if (!sound) await this.load()
+    this.isPlaying = true;
     if (!sound.isPlaying) sound.play();
+  };
+
+  this.update = () => {
     const samples = this.analyzer.getFrequencyData();
     updateFrequencyBands(samples);
     updateFrequencyBandsBuffer();
@@ -12204,7 +12400,7 @@ const GUI_SPHERE_SETTINGS = {
 
 /***/ }),
 
-/***/ 6:
+/***/ 3:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/
@@ -12345,6 +12541,17 @@ module.exports = require("core-js/library/fn/object/freeze");
 /***/ (function(module, exports) {
 
 module.exports = require("core-js/library/fn/object/get-own-property-descriptor");
+
+/***/ }),
+
+/***/ "core-js/library/fn/object/get-own-property-descriptors":
+/*!*************************************************************************!*\
+  !*** external "core-js/library/fn/object/get-own-property-descriptors" ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("core-js/library/fn/object/get-own-property-descriptors");
 
 /***/ }),
 
@@ -12499,6 +12706,28 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-redux");
+
+/***/ }),
+
+/***/ "redux-actions":
+/*!********************************!*\
+  !*** external "redux-actions" ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-actions");
+
+/***/ }),
+
+/***/ "redux-create-reducer":
+/*!***************************************!*\
+  !*** external "redux-create-reducer" ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("redux-create-reducer");
 
 /***/ }),
 

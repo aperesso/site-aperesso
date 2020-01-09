@@ -33,12 +33,12 @@ const WebGL = function() {
   const renderScene = new RenderPass(scene, camera);
   composer.addPass(renderScene);
 
-
   const filmPass = new FilmPass(0.35,0.25, 648, false);
-  composer.addPass(filmPass)
+  composer.addPass(filmPass);
 
-  this.audio = this.audio || new Audio();
-  console.log(this.audio);
+  this.loading = true;
+
+  this.audio = new Audio();
   const sphere = new Sphere();
   const particles = new Particles();
 
@@ -48,6 +48,7 @@ const WebGL = function() {
     scene.add(sphere.mesh);
     await particles.setUp(this.audio);
     scene.add(particles.points);
+    this.loading = false;
   }
 
   this.onResize = () => {
@@ -57,6 +58,8 @@ const WebGL = function() {
     renderer.setSize( size.width, size.height );
     composer.setSize( size.width, size.height );
   }
+
+  
 
   this.render = () => {
     renderer.setAnimationLoop(
@@ -68,6 +71,7 @@ const WebGL = function() {
       }
     )
   }
+
 }
 
 export default WebGL;
