@@ -1,7 +1,9 @@
 import React , { memo , useEffect , useState } from 'react';
+import { useSelector } from '../../lib/useRedux';
 
-const Target = coord => {
+const Target = () => {
   const [{ x, y }, setCoord] = useState({x: -100, y : -100}) 
+  const device = useSelector(state => state.device);
 
   useEffect(
     () => {
@@ -19,6 +21,10 @@ const Target = coord => {
             }
         )
     } , [])
+
+  if (device !== 'desktop') { 
+    return null;
+  }
 
   return (
     <div className="target">

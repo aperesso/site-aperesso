@@ -15,16 +15,20 @@ const Index = () => {
 
   const [webGL, setWebGL] = useState(false);
   const [audio, setAudio] = useState({});
+  const [onResize, setOnResize] = useState();
 
   useEffect(
     () => {
-       if (!webGL) {
+
+      if (!webGL) {
           const GL = new WebGL();
           GL.load().then(() => {
             setWebGL(true);
             setAudio(() => GL.audio);
-          }).then(() => GL.render());
-       }
+            setOnResize(() => GL.onResize);
+            GL.render()
+          })
+      }
         return (
           () => {
             if (webGL && audio.stop) {
@@ -44,6 +48,19 @@ const Index = () => {
         audio.stop()
       }
     } , [audio.isPlaying, audio.stop]
+  )
+
+  useEffect(
+    () => {
+      if (!onResize) return;
+      window.addEventListener('resize', onResize)
+      return (
+        () => {
+          if (!onResize) return;
+          window.removeEventListener('resize', onResize)
+        }
+      )
+    } , [onResize]
   )
 
   const onChangeFullscreen = useCallback(
@@ -81,6 +98,14 @@ const Index = () => {
     } , []
   )
 
+  const onAnimationStart = useCallback(() => {
+    onStart();
+    const title = document.getElementById('title');
+    const text  = "Hello I am Alexia Peresson \na Freelance Front-End Developer"
+    
+    
+  }, [onStart])
+
   const onPause = useCallback(
     () => {
       setAudio(audio => ({
@@ -94,15 +119,17 @@ const Index = () => {
   return(
     <Layout page='homepage'>
       {
-        <Loader loading={!webGL} onStart={onStart}/>
+        <Loader loading={!webGL} onStart={onAnimationStart}/>
       }
       <div className='webGL-canvas' id="webGL-wrapper">
         {
           <canvas id='webGL'/>
         }
         <h1 className='homepage-title'>
-          Hello I am Alexia Peresson  <br/>
-          a Freelance Front-End Developer
+          <span id="title">
+            Hello I am Alexia Peresson  <br/>
+            a Freelance Front-End Developer
+          </span>
           <span className="blinking-cursor">|</span>
         </h1>
        { 

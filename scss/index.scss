@@ -35,4 +35,25 @@ html, body {
   position: absolute;
   width: 40px;
 }
+#resizeChecker {
+  position: absolute;
+  width: 5px;
+  opacity: 0;
+	display: block;
+  pointer-events: none;
+  
+  @media screen and (max-width: 1199px) {
+    width: 4px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 3px;
+  }
+
+  @media screen and (max-width: 640px) {
+    width: 2px;
+  }
+  
+
+}
 

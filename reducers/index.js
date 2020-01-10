@@ -2,27 +2,27 @@ import { createReducer } from 'redux-create-reducer' ;
 import { createAction} from 'redux-actions';
 
 export const initialState = { 
-  webGL : null,
   enteredWebGL : false,
+  device : ''
 }
 
-const LOAD_WEBGL = "load::webgl";
 const ENTER_WEBGL = "enter::webgl";
+const SET_DEVICE  = "set::device"
 
-export const loadWebGL = createAction(LOAD_WEBGL);
 export const enterWebGl = createAction(ENTER_WEBGL);
+export const setDevice  = createAction(SET_DEVICE);
 
 const reducer = {
-  [LOAD_WEBGL] : (state, {payload}) => {
-    return ({
-      ...state,
-      webGL : payload
-    })
-  },
   [ENTER_WEBGL] : state => {
     return ({
       ...state,
       enteredWebGL : true
+    })
+  },  
+  [SET_DEVICE] : (state, {payload}) => {
+    return ({
+      ...state,
+      device : payload
     })
   },  
 }

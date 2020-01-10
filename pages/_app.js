@@ -6,6 +6,7 @@ import "@babel/polyfill";
 import withReduxStore from "../lib/with-redux-store";
 
 import Target from '../components/ui/Target';
+import DeviceChecker from '../components/ui/DeviceChecker';
 
 import '../scss/index.scss';
 
@@ -18,6 +19,7 @@ const App = ({Component, pageProps, reduxStore }) => {
       <Provider store={reduxStore}>
         <Component {...pageProps}/>
         <Target/>
+        <DeviceChecker/>
       </Provider>
     </>
   )

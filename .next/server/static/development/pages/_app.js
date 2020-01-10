@@ -93,6 +93,90 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./components/ui/DeviceChecker.js":
+/*!****************************************!*\
+  !*** ./components/ui/DeviceChecker.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/parse-int */ "./node_modules/@babel/runtime-corejs2/core-js/parse-int.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../lib/useRedux */ "./lib/useRedux.js");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../reducers */ "./reducers/index.js");
+
+var _jsxFileName = "/Users/alexiaperesson/site-aperesso/components/ui/DeviceChecker.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+
+
+const MAX_WIDTH_MOBILE = 768;
+
+const DeviceChecker = () => {
+  const ref = Object(react__WEBPACK_IMPORTED_MODULE_1__["useRef"])();
+  const dispatch = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
+  const device = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(state => state.device);
+  const getDeviceFromWidth = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(wi => {
+    switch (wi) {
+      case 5:
+        return "desktop";
+
+      case 4:
+        return "tablet-landscape";
+
+      case 3:
+        return "tablet-portrait";
+
+      default:
+      case 2:
+        return "mobile";
+    }
+  }, []);
+  const onResize = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(() => {
+    const style = window.getComputedStyle(ref.current);
+
+    const wi = _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(style.width, 10);
+
+    const newDeviceType = getDeviceFromWidth(wi);
+
+    if (device !== newDeviceType) {
+      dispatch(Object(_reducers__WEBPACK_IMPORTED_MODULE_3__["setDevice"])(newDeviceType));
+    }
+  }, [getDeviceFromWidth, device, dispatch]);
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
+    if (!device) {
+      const style = window.getComputedStyle(ref.current);
+
+      const wi = _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(style.width, 10);
+
+      const device = getDeviceFromWidth(wi);
+      dispatch(Object(_reducers__WEBPACK_IMPORTED_MODULE_3__["setDevice"])(device));
+    }
+
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, [getDeviceFromWidth]);
+  return __jsx("div", {
+    id: "resizeChecker",
+    ref: ref,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 62
+    },
+    __self: undefined
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (DeviceChecker);
+
+/***/ }),
+
 /***/ "./components/ui/Target.js":
 /*!*********************************!*\
   !*** ./components/ui/Target.js ***!
@@ -104,11 +188,13 @@ module.exports =
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/useRedux */ "./lib/useRedux.js");
 var _jsxFileName = "/Users/alexiaperesson/site-aperesso/components/ui/Target.js";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
-const Target = coord => {
+
+const Target = () => {
   const {
     0: {
       x,
@@ -119,6 +205,7 @@ const Target = coord => {
     x: -100,
     y: -100
   });
+  const device = Object(_lib_useRedux__WEBPACK_IMPORTED_MODULE_1__["useSelector"])(state => state.device);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     const mouseMove = event => {
       setCoord(() => ({
@@ -132,11 +219,16 @@ const Target = coord => {
       window.removeEventListener("mousemove", mouseMove);
     };
   }, []);
+
+  if (device !== 'desktop') {
+    return null;
+  }
+
   return __jsx("div", {
     className: "target",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 30
     },
     __self: undefined
   }, __jsx("img", {
@@ -149,7 +241,7 @@ const Target = coord => {
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 31
     },
     __self: undefined
   }));
@@ -181,6 +273,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const initializeStore = (initialState = _reducers_index__WEBPACK_IMPORTED_MODULE_3__["initialState"]) => Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2___default.a)));
+
+/***/ }),
+
+/***/ "./lib/useRedux.js":
+/*!*************************!*\
+  !*** ./lib/useRedux.js ***!
+  \*************************/
+/*! exports provided: useDispatch, useSelector, useDeepSelector */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelector", function() { return useSelector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useDeepSelector", function() { return useDeepSelector; });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "react-redux");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDispatch", function() { return react_redux__WEBPACK_IMPORTED_MODULE_0__["useDispatch"]; });
+
+/* harmony import */ var lodash_isequal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash.isequal */ "lodash.isequal");
+/* harmony import */ var lodash_isequal__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_isequal__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const useSelector = selector => Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["useSelector"])(selector, react_redux__WEBPACK_IMPORTED_MODULE_0__["shallowEqual"]);
+
+const useDeepSelector = selector => Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["useSelector"])(selector, lodash_isequal__WEBPACK_IMPORTED_MODULE_1___default.a);
+
+
 
 /***/ }),
 
@@ -361,6 +481,17 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/keys */ "core
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime-corejs2/core-js/parse-int.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime-corejs2/core-js/parse-int.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/parse-int */ "core-js/library/fn/parse-int");
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js":
 /*!***************************************************************************!*\
   !*** ./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js ***!
@@ -444,12 +575,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _lib_with_redux_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/with-redux-store */ "./lib/with-redux-store.js");
 /* harmony import */ var _components_ui_Target__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ui/Target */ "./components/ui/Target.js");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../scss/index.scss */ "./scss/index.scss");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_scss_index_scss__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ui/DeviceChecker */ "./components/ui/DeviceChecker.js");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../scss/index.scss */ "./scss/index.scss");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_scss_index_scss__WEBPACK_IMPORTED_MODULE_8__);
 
 var _jsxFileName = "/Users/alexiaperesson/site-aperesso/pages/_app.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
 
 
 
@@ -466,26 +599,32 @@ const App = ({
   return __jsx(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, __jsx(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2___default.a, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 17
+      lineNumber: 18
     },
     __self: undefined
   }), __jsx(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
     store: reduxStore,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18
+      lineNumber: 19
     },
     __self: undefined
   }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19
+      lineNumber: 20
     },
     __self: undefined
   })), __jsx(_components_ui_Target__WEBPACK_IMPORTED_MODULE_6__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 20
+      lineNumber: 21
+    },
+    __self: undefined
+  }), __jsx(_components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 22
     },
     __self: undefined
   })));
@@ -499,14 +638,14 @@ const App = ({
 /*!***************************!*\
   !*** ./reducers/index.js ***!
   \***************************/
-/*! exports provided: initialState, loadWebGL, enterWebGl, default */
+/*! exports provided: initialState, enterWebGl, setDevice, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadWebGL", function() { return loadWebGL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enterWebGl", function() { return enterWebGl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDevice", function() { return setDevice; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
@@ -539,24 +678,24 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 const initialState = {
-  webGL: null,
-  enteredWebGL: false
+  enteredWebGL: false,
+  device: ''
 };
-const LOAD_WEBGL = "load::webgl";
 const ENTER_WEBGL = "enter::webgl";
-const loadWebGL = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(LOAD_WEBGL);
+const SET_DEVICE = "set::device";
 const enterWebGl = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(ENTER_WEBGL);
+const setDevice = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(SET_DEVICE);
 const reducer = {
-  [LOAD_WEBGL]: (state, {
-    payload
-  }) => {
-    return _objectSpread({}, state, {
-      webGL: payload
-    });
-  },
   [ENTER_WEBGL]: state => {
     return _objectSpread({}, state, {
       enteredWebGL: true
+    });
+  },
+  [SET_DEVICE]: (state, {
+    payload
+  }) => {
+    return _objectSpread({}, state, {
+      device: payload
     });
   }
 };
@@ -683,6 +822,28 @@ module.exports = require("core-js/library/fn/object/get-own-property-symbols");
 /***/ (function(module, exports) {
 
 module.exports = require("core-js/library/fn/object/keys");
+
+/***/ }),
+
+/***/ "core-js/library/fn/parse-int":
+/*!***********************************************!*\
+  !*** external "core-js/library/fn/parse-int" ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("core-js/library/fn/parse-int");
+
+/***/ }),
+
+/***/ "lodash.isequal":
+/*!*********************************!*\
+  !*** external "lodash.isequal" ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash.isequal");
 
 /***/ }),
 

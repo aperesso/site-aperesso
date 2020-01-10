@@ -15,6 +15,12 @@
         width: 100%;
         height: 100%;
       }
+    
+      @media screen and (max-width: 640px) {
+        position: absolute;
+        top: 0;
+        height: 100vh;
+      }
   }
 
   h1 {
@@ -27,6 +33,13 @@
       font-size: 30px;
       font-weight: bold;
       line-height: 33px;
+
+      @media screen and (max-width: 640px) {
+        left: 40px;
+        padding-right: 40px;
+        font-size: 25px;
+        bottom: 80px;
+      }
   }
 
   .homepage-controllers {
@@ -37,6 +50,12 @@
     align-items: center;
     bottom: 0;
     right: 0;
+
+    @media screen and (max-width: 640px) {
+      width: 100%;
+      justify-content: center;
+      bottom: 16px;
+    }
   }
 
   .homepage--fullsize {

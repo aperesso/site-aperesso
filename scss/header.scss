@@ -11,6 +11,8 @@
   font-size: 15px;
   line-height: 18px;
   letter-spacing: 0.25em;
+  position: relative;
+  z-index: 2;
 
   ul {
     list-style-type: none;
@@ -25,5 +27,13 @@
     color : #fafafa;
     text-transform: uppercase;
     text-decoration: none;
+  }
+
+  @media screen and (max-width: 640px) {
+    ul {
+      a {
+        margin-left: 24px;
+      }
+    }
   }
 }

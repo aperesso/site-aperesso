@@ -9,7 +9,9 @@
   font-weight: bold;
   font-size: 15px;
   line-height: 18px;
-  letter-spacing: 0.25em; }
+  letter-spacing: 0.25em;
+  position: relative;
+  z-index: 2; }
   .header ul {
     list-style-type: none;
     display: flex; }
@@ -19,6 +21,9 @@
     color: #fafafa;
     text-transform: uppercase;
     text-decoration: none; }
+  @media screen and (max-width: 640px) {
+    .header ul a {
+      margin-left: 24px; } }
 
 html, body {
   box-sizing: border-box;
@@ -51,6 +56,22 @@ html, body {
 .target-icon {
   position: absolute;
   width: 40px; }
+
+#resizeChecker {
+  position: absolute;
+  width: 5px;
+  opacity: 0;
+  display: block;
+  pointer-events: none; }
+  @media screen and (max-width: 1199px) {
+    #resizeChecker {
+      width: 4px; } }
+  @media screen and (max-width: 768px) {
+    #resizeChecker {
+      width: 3px; } }
+  @media screen and (max-width: 640px) {
+    #resizeChecker {
+      width: 2px; } }
 
 .loader {
   position: absolute;
@@ -167,6 +188,11 @@ html, body {
     .homepage .webGL-canvas canvas {
       width: 100%;
       height: 100%; }
+    @media screen and (max-width: 640px) {
+      .homepage .webGL-canvas {
+        position: absolute;
+        top: 0;
+        height: 100vh; } }
   .homepage h1 {
     color: #FAFAFA;
     position: absolute;
@@ -177,6 +203,12 @@ html, body {
     font-size: 30px;
     font-weight: bold;
     line-height: 33px; }
+    @media screen and (max-width: 640px) {
+      .homepage h1 {
+        left: 40px;
+        padding-right: 40px;
+        font-size: 25px;
+        bottom: 80px; } }
   .homepage .homepage-controllers {
     display: flex;
     position: absolute;
@@ -185,6 +217,11 @@ html, body {
     align-items: center;
     bottom: 0;
     right: 0; }
+    @media screen and (max-width: 640px) {
+      .homepage .homepage-controllers {
+        width: 100%;
+        justify-content: center;
+        bottom: 16px; } }
   .homepage .homepage--fullsize {
     padding: 8px;
     margin-left: 32px; }

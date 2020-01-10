@@ -25,9 +25,10 @@ const Sphere = function() {
     uLightPosition : { value : SPHERE_SETTINGS.lightPosition }
   }
   
-  this.setUp = async audio => {
+  this.setUp = async (audio, isMobile) => {
     this.audio = audio;
-    const geometry = new THREE.SphereBufferGeometry(SPHERE_SETTINGS.radius, SPHERE_SETTINGS.segments, SPHERE_SETTINGS.segments);
+    const segments = isMobile ? 100 : SPHERE_SETTINGS.segments;
+    const geometry = new THREE.SphereBufferGeometry(SPHERE_SETTINGS.radius, segments, segments);
     BufferGeometryUtils.computeTangents(geometry);
     const material = new THREE.ShaderMaterial({
       uniforms,

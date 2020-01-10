@@ -19259,6 +19259,448 @@ function LensFlare(){console.error('THREE.LensFlare has been moved to /examples/
 
 /***/ }),
 
+/***/ "./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js ***!
+  \*******************************************************************************/
+/*! exports provided: DeviceOrientationControls */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeviceOrientationControls", function() { return DeviceOrientationControls; });
+/* harmony import */ var _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../build/three.module.js */ "./node_modules/three/build/three.module.js");
+/**
+ * @author richt / http://richt.me
+ * @author WestLangley / http://github.com/WestLangley
+ *
+ * W3C Device Orientation control (http://w3c.github.io/deviceorientation/spec-source-orientation.html)
+ */
+
+
+var DeviceOrientationControls = function DeviceOrientationControls(object) {
+  var scope = this;
+  this.object = object;
+  this.object.rotation.reorder('YXZ');
+  this.enabled = true;
+  this.deviceOrientation = {};
+  this.screenOrientation = 0;
+  this.alphaOffset = 0; // radians
+
+  var onDeviceOrientationChangeEvent = function onDeviceOrientationChangeEvent(event) {
+    scope.deviceOrientation = event;
+  };
+
+  var onScreenOrientationChangeEvent = function onScreenOrientationChangeEvent() {
+    scope.screenOrientation = window.orientation || 0;
+  }; // The angles alpha, beta and gamma form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
+
+
+  var setObjectQuaternion = function () {
+    var zee = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 1);
+    var euler = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Euler"]();
+    var q0 = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Quaternion"]();
+    var q1 = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Quaternion"](-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
+
+    return function (quaternion, alpha, beta, gamma, orient) {
+      euler.set(beta, alpha, -gamma, 'YXZ'); // 'ZXY' for the device, but 'YXZ' for us
+
+      quaternion.setFromEuler(euler); // orient the device
+
+      quaternion.multiply(q1); // camera looks out the back of the device, not the top
+
+      quaternion.multiply(q0.setFromAxisAngle(zee, -orient)); // adjust for screen orientation
+    };
+  }();
+
+  this.connect = function () {
+    onScreenOrientationChangeEvent(); // run once on load
+    // iOS 13+
+
+    if (window.DeviceOrientationEvent !== undefined && typeof window.DeviceOrientationEvent.requestPermission === 'function') {
+      window.DeviceOrientationEvent.requestPermission().then(function (response) {
+        if (response == 'granted') {
+          window.addEventListener('orientationchange', onScreenOrientationChangeEvent, false);
+          window.addEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
+        }
+      })["catch"](function (error) {
+        console.error('THREE.DeviceOrientationControls: Unable to use DeviceOrientation API:', error);
+      });
+    } else {
+      window.addEventListener('orientationchange', onScreenOrientationChangeEvent, false);
+      window.addEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
+    }
+
+    scope.enabled = true;
+  };
+
+  this.disconnect = function () {
+    window.removeEventListener('orientationchange', onScreenOrientationChangeEvent, false);
+    window.removeEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
+    scope.enabled = false;
+  };
+
+  this.update = function () {
+    if (scope.enabled === false) return;
+    var device = scope.deviceOrientation;
+
+    if (device) {
+      var alpha = device.alpha ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.alpha) + scope.alphaOffset : 0; // Z
+
+      var beta = device.beta ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.beta) : 0; // X'
+
+      var gamma = device.gamma ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.gamma) : 0; // Y''
+
+      var orient = scope.screenOrientation ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(scope.screenOrientation) : 0; // O
+
+      setObjectQuaternion(scope.object.quaternion, alpha, beta, gamma, orient);
+    }
+  };
+
+  this.dispose = function () {
+    scope.disconnect();
+  };
+
+  this.connect();
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/controls/FirstPersonControls.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/controls/FirstPersonControls.js ***!
+  \*************************************************************************/
+/*! exports provided: FirstPersonControls */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FirstPersonControls", function() { return FirstPersonControls; });
+/* harmony import */ var _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../build/three.module.js */ "./node_modules/three/build/three.module.js");
+/**
+ * @author mrdoob / http://mrdoob.com/
+ * @author alteredq / http://alteredqualia.com/
+ * @author paulirish / http://paulirish.com/
+ */
+
+
+var FirstPersonControls = function FirstPersonControls(object, domElement) {
+  if (domElement === undefined) {
+    console.warn('THREE.FirstPersonControls: The second parameter "domElement" is now mandatory.');
+    domElement = document;
+  }
+
+  this.object = object;
+  this.domElement = domElement; // API
+
+  this.enabled = true;
+  this.movementSpeed = 1.0;
+  this.lookSpeed = 0.005;
+  this.lookVertical = true;
+  this.autoForward = false;
+  this.activeLook = true;
+  this.heightSpeed = false;
+  this.heightCoef = 1.0;
+  this.heightMin = 0.0;
+  this.heightMax = 1.0;
+  this.constrainVertical = false;
+  this.verticalMin = 0;
+  this.verticalMax = Math.PI;
+  this.mouseDragOn = false; // internals
+
+  this.autoSpeedFactor = 0.0;
+  this.mouseX = 0;
+  this.mouseY = 0;
+  this.moveForward = false;
+  this.moveBackward = false;
+  this.moveLeft = false;
+  this.moveRight = false;
+  this.viewHalfX = 0;
+  this.viewHalfY = 0; // private variables
+
+  var lat = 0;
+  var lon = 0;
+  var lookDirection = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+  var spherical = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Spherical"]();
+  var target = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Vector3"](); //
+
+  if (this.domElement !== document) {
+    this.domElement.setAttribute('tabindex', -1);
+  } //
+
+
+  this.handleResize = function () {
+    if (this.domElement === document) {
+      this.viewHalfX = window.innerWidth / 2;
+      this.viewHalfY = window.innerHeight / 2;
+    } else {
+      this.viewHalfX = this.domElement.offsetWidth / 2;
+      this.viewHalfY = this.domElement.offsetHeight / 2;
+    }
+  };
+
+  this.onMouseDown = function (event) {
+    if (this.domElement !== document) {
+      this.domElement.focus();
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.activeLook) {
+      switch (event.button) {
+        case 0:
+          this.moveForward = true;
+          break;
+
+        case 2:
+          this.moveBackward = true;
+          break;
+      }
+    }
+
+    this.mouseDragOn = true;
+  };
+
+  this.onMouseUp = function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.activeLook) {
+      switch (event.button) {
+        case 0:
+          this.moveForward = false;
+          break;
+
+        case 2:
+          this.moveBackward = false;
+          break;
+      }
+    }
+
+    this.mouseDragOn = false;
+  };
+
+  this.onMouseMove = function (event) {
+    if (this.domElement === document) {
+      this.mouseX = event.pageX - this.viewHalfX;
+      this.mouseY = event.pageY - this.viewHalfY;
+    } else {
+      this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+      this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+    }
+  };
+
+  this.onKeyDown = function (event) {
+    //event.preventDefault();
+    switch (event.keyCode) {
+      case 38:
+      /*up*/
+
+      case 87:
+        /*W*/
+        this.moveForward = true;
+        break;
+
+      case 37:
+      /*left*/
+
+      case 65:
+        /*A*/
+        this.moveLeft = true;
+        break;
+
+      case 40:
+      /*down*/
+
+      case 83:
+        /*S*/
+        this.moveBackward = true;
+        break;
+
+      case 39:
+      /*right*/
+
+      case 68:
+        /*D*/
+        this.moveRight = true;
+        break;
+
+      case 82:
+        /*R*/
+        this.moveUp = true;
+        break;
+
+      case 70:
+        /*F*/
+        this.moveDown = true;
+        break;
+    }
+  };
+
+  this.onKeyUp = function (event) {
+    switch (event.keyCode) {
+      case 38:
+      /*up*/
+
+      case 87:
+        /*W*/
+        this.moveForward = false;
+        break;
+
+      case 37:
+      /*left*/
+
+      case 65:
+        /*A*/
+        this.moveLeft = false;
+        break;
+
+      case 40:
+      /*down*/
+
+      case 83:
+        /*S*/
+        this.moveBackward = false;
+        break;
+
+      case 39:
+      /*right*/
+
+      case 68:
+        /*D*/
+        this.moveRight = false;
+        break;
+
+      case 82:
+        /*R*/
+        this.moveUp = false;
+        break;
+
+      case 70:
+        /*F*/
+        this.moveDown = false;
+        break;
+    }
+  };
+
+  this.lookAt = function (x, y, z) {
+    if (x.isVector3) {
+      target.copy(x);
+    } else {
+      target.set(x, y, z);
+    }
+
+    this.object.lookAt(target);
+    setOrientation(this);
+    return this;
+  };
+
+  this.update = function () {
+    var targetPosition = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Vector3"]();
+    return function update(delta) {
+      if (this.enabled === false) return;
+
+      if (this.heightSpeed) {
+        var y = _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].clamp(this.object.position.y, this.heightMin, this.heightMax);
+
+        var heightDelta = y - this.heightMin;
+        this.autoSpeedFactor = delta * (heightDelta * this.heightCoef);
+      } else {
+        this.autoSpeedFactor = 0.0;
+      }
+
+      var actualMoveSpeed = delta * this.movementSpeed;
+      if (this.moveForward || this.autoForward && !this.moveBackward) this.object.translateZ(-(actualMoveSpeed + this.autoSpeedFactor));
+      if (this.moveBackward) this.object.translateZ(actualMoveSpeed);
+      if (this.moveLeft) this.object.translateX(-actualMoveSpeed);
+      if (this.moveRight) this.object.translateX(actualMoveSpeed);
+      if (this.moveUp) this.object.translateY(actualMoveSpeed);
+      if (this.moveDown) this.object.translateY(-actualMoveSpeed);
+      var actualLookSpeed = delta * this.lookSpeed;
+
+      if (!this.activeLook) {
+        actualLookSpeed = 0;
+      }
+
+      var verticalLookRatio = 1;
+
+      if (this.constrainVertical) {
+        verticalLookRatio = Math.PI / (this.verticalMax - this.verticalMin);
+      }
+
+      lon -= this.mouseX * actualLookSpeed;
+      if (this.lookVertical) lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
+      lat = Math.max(-85, Math.min(85, lat));
+
+      var phi = _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(90 - lat);
+
+      var theta = _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(lon);
+
+      if (this.constrainVertical) {
+        phi = _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].mapLinear(phi, 0, Math.PI, this.verticalMin, this.verticalMax);
+      }
+
+      var position = this.object.position;
+      targetPosition.setFromSphericalCoords(1, phi, theta).add(position);
+      this.object.lookAt(targetPosition);
+    };
+  }();
+
+  function contextmenu(event) {
+    event.preventDefault();
+  }
+
+  this.dispose = function () {
+    this.domElement.removeEventListener('contextmenu', contextmenu, false);
+    this.domElement.removeEventListener('mousedown', _onMouseDown, false);
+    this.domElement.removeEventListener('mousemove', _onMouseMove, false);
+    this.domElement.removeEventListener('mouseup', _onMouseUp, false);
+    window.removeEventListener('keydown', _onKeyDown, false);
+    window.removeEventListener('keyup', _onKeyUp, false);
+  };
+
+  var _onMouseMove = bind(this, this.onMouseMove);
+
+  var _onMouseDown = bind(this, this.onMouseDown);
+
+  var _onMouseUp = bind(this, this.onMouseUp);
+
+  var _onKeyDown = bind(this, this.onKeyDown);
+
+  var _onKeyUp = bind(this, this.onKeyUp);
+
+  this.domElement.addEventListener('contextmenu', contextmenu, false);
+  this.domElement.addEventListener('mousemove', _onMouseMove, false);
+  this.domElement.addEventListener('mousedown', _onMouseDown, false);
+  this.domElement.addEventListener('mouseup', _onMouseUp, false);
+  window.addEventListener('keydown', _onKeyDown, false);
+  window.addEventListener('keyup', _onKeyUp, false);
+
+  function bind(scope, fn) {
+    return function () {
+      fn.apply(scope, arguments);
+    };
+  }
+
+  function setOrientation(controls) {
+    var quaternion = controls.object.quaternion;
+    lookDirection.set(0, 0, -1).applyQuaternion(quaternion);
+    spherical.setFromVector3(lookDirection);
+    lat = 90 - _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].radToDeg(spherical.phi);
+    lon = _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].radToDeg(spherical.theta);
+  }
+
+  this.handleResize();
+  setOrientation(this);
+};
+
+
+
+/***/ }),
+
 /***/ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/three/examples/jsm/postprocessing/EffectComposer.js ***!
@@ -20819,6 +21261,10 @@ var Index = function Index() {
       audio = _useState2[0],
       setAudio = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(),
+      onResize = _useState3[0],
+      setOnResize = _useState3[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(function () {
     if (!webGL) {
       var GL = new _webgl__WEBPACK_IMPORTED_MODULE_11__["default"]();
@@ -20827,8 +21273,10 @@ var Index = function Index() {
         setAudio(function () {
           return GL.audio;
         });
-      }).then(function () {
-        return GL.render();
+        setOnResize(function () {
+          return GL.onResize;
+        });
+        GL.render();
       });
     }
 
@@ -20845,6 +21293,14 @@ var Index = function Index() {
       audio.stop();
     }
   }, [audio.isPlaying, audio.stop]);
+  Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(function () {
+    if (!onResize) return;
+    window.addEventListener('resize', onResize);
+    return function () {
+      if (!onResize) return;
+      window.removeEventListener('resize', onResize);
+    };
+  }, [onResize]);
   var onChangeFullscreen = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(function () {
     if (!document.fullscreenElement) {
       if (document.documentElement.requestFullscreen) {
@@ -20881,6 +21337,11 @@ var Index = function Index() {
       });
     });
   }, []);
+  var onAnimationStart = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(function () {
+    onStart();
+    var title = document.getElementById('title');
+    var text = "Hello I am Alexia Peresson \na Freelance Front-End Developer";
+  }, [onStart]);
   var onPause = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(function () {
     setAudio(function (audio) {
       return _objectSpread({}, audio, {
@@ -20892,15 +21353,15 @@ var Index = function Index() {
     page: "homepage",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 95
+      lineNumber: 120
     },
     __self: this
   }, __jsx(_components_ui_Loader__WEBPACK_IMPORTED_MODULE_9__["default"], {
     loading: !webGL,
-    onStart: onStart,
+    onStart: onAnimationStart,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 97
+      lineNumber: 122
     },
     __self: this
   }), __jsx("div", {
@@ -20908,41 +21369,48 @@ var Index = function Index() {
     id: "webGL-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99
+      lineNumber: 124
     },
     __self: this
   }, __jsx("canvas", {
     id: "webGL",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 101
+      lineNumber: 126
     },
     __self: this
   }), __jsx("h1", {
     className: "homepage-title",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103
+      lineNumber: 128
+    },
+    __self: this
+  }, __jsx("span", {
+    id: "title",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 129
     },
     __self: this
   }, "Hello I am Alexia Peresson  ", __jsx("br", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104
+      lineNumber: 130
     },
     __self: this
-  }), "a Freelance Front-End Developer", __jsx("span", {
+  }), "a Freelance Front-End Developer"), __jsx("span", {
     className: "blinking-cursor",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 106
+      lineNumber: 133
     },
     __self: this
   }, "|")), webGL && __jsx("div", {
     className: "homepage-controllers",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110
+      lineNumber: 137
     },
     __self: this
   }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -20951,7 +21419,7 @@ var Index = function Index() {
     onPause: onPause,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111
+      lineNumber: 138
     },
     __self: this
   }), __jsx("button", {
@@ -20959,14 +21427,14 @@ var Index = function Index() {
     onClick: onChangeFullscreen,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 112
+      lineNumber: 139
     },
     __self: this
   }, __jsx("img", {
     src: "/assets/image/expand.svg",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 113
+      lineNumber: 140
     },
     __self: this
   })))));
@@ -20980,14 +21448,14 @@ var Index = function Index() {
 /*!***************************!*\
   !*** ./reducers/index.js ***!
   \***************************/
-/*! exports provided: initialState, loadWebGL, enterWebGl, default */
+/*! exports provided: initialState, enterWebGl, setDevice, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadWebGL", function() { return loadWebGL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enterWebGl", function() { return enterWebGl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDevice", function() { return setDevice; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-property */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/define-properties */ "./node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js");
@@ -21021,21 +21489,21 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 var initialState = {
-  webGL: null,
-  enteredWebGL: false
+  enteredWebGL: false,
+  device: ''
 };
-var LOAD_WEBGL = "load::webgl";
 var ENTER_WEBGL = "enter::webgl";
-var loadWebGL = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(LOAD_WEBGL);
+var SET_DEVICE = "set::device";
 var enterWebGl = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(ENTER_WEBGL);
-var reducer = (_reducer = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(_reducer, LOAD_WEBGL, function (state, _ref) {
-  var payload = _ref.payload;
-  return _objectSpread({}, state, {
-    webGL: payload
-  });
-}), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(_reducer, ENTER_WEBGL, function (state) {
+var setDevice = Object(redux_actions__WEBPACK_IMPORTED_MODULE_8__["createAction"])(SET_DEVICE);
+var reducer = (_reducer = {}, Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(_reducer, ENTER_WEBGL, function (state) {
   return _objectSpread({}, state, {
     enteredWebGL: true
+  });
+}), Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(_reducer, SET_DEVICE, function (state, _ref) {
+  var payload = _ref.payload;
+  return _objectSpread({}, state, {
+    device: payload
   });
 }), _reducer);
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux_create_reducer__WEBPACK_IMPORTED_MODULE_7__["createReducer"])(initialState, reducer));
@@ -21057,11 +21525,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three_examples_jsm_postprocessing_EffectComposer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/postprocessing/EffectComposer */ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js");
 /* harmony import */ var three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/postprocessing/FilmPass */ "./node_modules/three/examples/jsm/postprocessing/FilmPass.js");
 /* harmony import */ var three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
-/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/settings */ "./webgl/utils/settings.js");
-/* harmony import */ var _utils_audio__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/audio */ "./webgl/utils/audio.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
-/* harmony import */ var _scene_sphere__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./scene/sphere */ "./webgl/scene/sphere.js");
-/* harmony import */ var _scene_particles__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./scene/particles */ "./webgl/scene/particles.js");
+/* harmony import */ var three_examples_jsm_controls_FirstPersonControls_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/controls/FirstPersonControls.js */ "./node_modules/three/examples/jsm/controls/FirstPersonControls.js");
+/* harmony import */ var three_examples_jsm_controls_DeviceOrientationControls_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! three/examples/jsm/controls/DeviceOrientationControls.js */ "./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js");
+/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/settings */ "./webgl/utils/settings.js");
+/* harmony import */ var _utils_audio__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/audio */ "./webgl/utils/audio.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
+/* harmony import */ var _scene_sphere__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./scene/sphere */ "./webgl/scene/sphere.js");
+/* harmony import */ var _scene_particles__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./scene/particles */ "./webgl/scene/particles.js");
 
 
 
@@ -21072,19 +21542,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+var WIDTH_MOBILE = 768;
 
 var WebGL = function WebGL() {
   var _this = this;
 
   var canvas = document.getElementById('webGL');
 
-  var _getDimensions = Object(_utils__WEBPACK_IMPORTED_MODULE_7__["getDimensions"])('webGL-wrapper'),
+  var _getDimensions = Object(_utils__WEBPACK_IMPORTED_MODULE_9__["getDimensions"])('webGL-wrapper'),
       width = _getDimensions.width,
       height = _getDimensions.height;
 
+  var isMobile = width < WIDTH_MOBILE;
   var scene = new three__WEBPACK_IMPORTED_MODULE_1__["Scene"]();
-  var camera = new three__WEBPACK_IMPORTED_MODULE_1__["PerspectiveCamera"](_utils_settings__WEBPACK_IMPORTED_MODULE_5__["CAMERA_SETTINGS"].fov, width / height, _utils_settings__WEBPACK_IMPORTED_MODULE_5__["CAMERA_SETTINGS"].near, _utils_settings__WEBPACK_IMPORTED_MODULE_5__["CAMERA_SETTINGS"].far);
-  camera.position.set(0, 0, 20);
+  var camera = new three__WEBPACK_IMPORTED_MODULE_1__["PerspectiveCamera"](_utils_settings__WEBPACK_IMPORTED_MODULE_7__["CAMERA_SETTINGS"].fov, width / height, _utils_settings__WEBPACK_IMPORTED_MODULE_7__["CAMERA_SETTINGS"].near, _utils_settings__WEBPACK_IMPORTED_MODULE_7__["CAMERA_SETTINGS"].far);
+  camera.position.set(0, 0, isMobile ? 30 : 20);
   var renderer = new three__WEBPACK_IMPORTED_MODULE_1__["WebGLRenderer"]({
     canvas: canvas,
     alpha: true
@@ -21095,6 +21569,11 @@ var WebGL = function WebGL() {
   renderer.gammaFactor = 2.2;
   renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_1__["PCFSoftShadowMap"];
   renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_1__["ReinhardToneMapping"];
+  var controls = new three_examples_jsm_controls_FirstPersonControls_js__WEBPACK_IMPORTED_MODULE_5__["FirstPersonControls"](camera, renderer.domElement);
+  controls.lookAt(new three__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0, 0, 0)); // controls.verticalMax = 0;
+
+  controls.lookVertical = false; // controls.constrainVertical = true;
+
   var composer = new three_examples_jsm_postprocessing_EffectComposer__WEBPACK_IMPORTED_MODULE_2__["EffectComposer"](renderer);
   composer.setSize(width, height);
   var renderScene = new three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_4__["RenderPass"](scene, camera);
@@ -21102,9 +21581,9 @@ var WebGL = function WebGL() {
   var filmPass = new three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_3__["FilmPass"](0.35, 0.25, 648, false);
   composer.addPass(filmPass);
   this.loading = true;
-  this.audio = new _utils_audio__WEBPACK_IMPORTED_MODULE_6__["default"]();
-  var sphere = new _scene_sphere__WEBPACK_IMPORTED_MODULE_8__["default"]();
-  var particles = new _scene_particles__WEBPACK_IMPORTED_MODULE_9__["default"]();
+  this.audio = new _utils_audio__WEBPACK_IMPORTED_MODULE_8__["default"]();
+  var sphere = new _scene_sphere__WEBPACK_IMPORTED_MODULE_10__["default"]();
+  var particles = new _scene_particles__WEBPACK_IMPORTED_MODULE_11__["default"]();
 
   this.load = function _callee() {
     return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function _callee$(_context) {
@@ -21115,7 +21594,7 @@ var WebGL = function WebGL() {
             return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(_this.audio.load());
 
           case 2:
-            sphere.setUp(_this.audio);
+            sphere.setUp(_this.audio, isMobile);
             scene.add(sphere.mesh);
             _context.next = 6;
             return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(particles.setUp(_this.audio));
@@ -21133,12 +21612,15 @@ var WebGL = function WebGL() {
   };
 
   this.onResize = function () {
-    var size = Object(_utils__WEBPACK_IMPORTED_MODULE_7__["getDimensions"])('webGL-wrapper');
+    var size = Object(_utils__WEBPACK_IMPORTED_MODULE_9__["getDimensions"])('webGL-wrapper');
     camera.aspect = size.width / size.height;
     camera.updateProjectionMatrix();
+    controls.handleResize();
     renderer.setSize(size.width, size.height);
     composer.setSize(size.width, size.height);
   };
+
+  var clock = new three__WEBPACK_IMPORTED_MODULE_1__["Clock"]();
 
   this.render = function () {
     renderer.setAnimationLoop(function () {
@@ -21146,6 +21628,7 @@ var WebGL = function WebGL() {
 
       sphere.update();
       particles.update();
+      controls.update(clock.getDelta());
       composer.render();
     });
   };
@@ -21327,14 +21810,15 @@ var Sphere = function Sphere() {
     }
   };
 
-  this.setUp = function _callee(audio) {
-    var geometry, material;
+  this.setUp = function _callee(audio, isMobile) {
+    var segments, geometry, material;
     return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _this.audio = audio;
-            geometry = new three__WEBPACK_IMPORTED_MODULE_1__["SphereBufferGeometry"](_utils_settings__WEBPACK_IMPORTED_MODULE_4__["SPHERE_SETTINGS"].radius, _utils_settings__WEBPACK_IMPORTED_MODULE_4__["SPHERE_SETTINGS"].segments, _utils_settings__WEBPACK_IMPORTED_MODULE_4__["SPHERE_SETTINGS"].segments);
+            segments = isMobile ? 100 : _utils_settings__WEBPACK_IMPORTED_MODULE_4__["SPHERE_SETTINGS"].segments;
+            geometry = new three__WEBPACK_IMPORTED_MODULE_1__["SphereBufferGeometry"](_utils_settings__WEBPACK_IMPORTED_MODULE_4__["SPHERE_SETTINGS"].radius, segments, segments);
             three_examples_jsm_utils_BufferGeometryUtils_js__WEBPACK_IMPORTED_MODULE_2__["BufferGeometryUtils"].computeTangents(geometry);
             material = new three__WEBPACK_IMPORTED_MODULE_1__["ShaderMaterial"]({
               uniforms: uniforms,
@@ -21343,7 +21827,7 @@ var Sphere = function Sphere() {
             });
             _this.mesh = new three__WEBPACK_IMPORTED_MODULE_1__["Mesh"](geometry, material);
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }
