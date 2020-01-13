@@ -6,8 +6,9 @@ import AudioController from '../components/ui/AudioController';
 import WebGL from '../webgl';
 import { loadWebGL } from '../reducers';
 import { useSelector, useDispatch } from "../lib/useRedux";
-
+import lexicon from '../lexicon';
 import '../scss/homepage.scss';
+import TypingTitle from "../components/ui/TypingTitle";
 
 
 
@@ -16,6 +17,7 @@ const Index = () => {
   const [webGL, setWebGL] = useState(false);
   const [audio, setAudio] = useState({});
   const [onResize, setOnResize] = useState();
+  const [animateTyping, setAnimateTyping] = useState(false);
 
   useEffect(
     () => {
@@ -98,11 +100,10 @@ const Index = () => {
     } , []
   )
 
+
   const onAnimationStart = useCallback(() => {
     onStart();
-    const title = document.getElementById('title');
-    const text  = "Hello I am Alexia Peresson \na Freelance Front-End Developer"
-    
+    setAnimateTyping(true);
     
   }, [onStart])
 
@@ -115,24 +116,13 @@ const Index = () => {
     } , []
   )
 
-
   return(
     <Layout page='homepage'>
-      {
-        <Loader loading={!webGL} onStart={onAnimationStart}/>
-      }
+      <Loader loading={!webGL} onStart={onAnimationStart}/>
       <div className='webGL-canvas' id="webGL-wrapper">
-        {
-          <canvas id='webGL'/>
-        }
-        <h1 className='homepage-title'>
-          <span id="title">
-            Hello I am Alexia Peresson  <br/>
-            a Freelance Front-End Developer
-          </span>
-          <span className="blinking-cursor">|</span>
-        </h1>
-       { 
+        <canvas id='webGL'/>
+        <TypingTitle title={lexicon.title} typing={animateTyping}/>
+        { 
           webGL && (
             <div className="homepage-controllers">
               <AudioController isPlaying={audio.isPlaying} onStart={onStart} onPause={onPause}/>

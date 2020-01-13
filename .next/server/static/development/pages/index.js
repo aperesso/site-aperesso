@@ -466,6 +466,123 @@ const Loader = ({
 
 /***/ }),
 
+/***/ "./components/ui/TypingTitle.js":
+/*!**************************************!*\
+  !*** ./components/ui/TypingTitle.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../scss/ui/typingtitle.scss */ "./scss/ui/typingtitle.scss");
+/* harmony import */ var _scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1__);
+var _jsxFileName = "/Users/alexiaperesson/site-aperesso/components/ui/TypingTitle.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+const SPEED = 75;
+
+const TypingTitle = ({
+  title,
+  typing
+}) => {
+  const {
+    0: blinkingIndex,
+    1: setBlinkingIndex
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(() => {
+    if (typing) return 0;
+    return (title || "").split('\n').length - 1;
+  });
+  const {
+    0: audio,
+    1: setAudio
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    if (typing) setBlinkingIndex(0);
+  }, [typing]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    const sounds = new Array(5).fill(null).map((_, i) => new Audio(`/assets/audio/keystroke/keystroke_${i}.wav`));
+    setAudio(() => sounds);
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    if (!typing) return;
+    if (blinkingIndex > title.split("\n").length - 1) return;
+    const el = document.getElementById("blinking-index");
+    const text = el.textContent;
+    el.textContent = "";
+
+    for (let i = 0; i < text.length; i++) {
+      setTimeout(() => {
+        el.textContent += text[i];
+
+        if (audio) {
+          const key = Math.floor(Math.random() * (audio.length - 1));
+          audio[key].play();
+        }
+
+        if (i === text.length - 1) {
+          if (blinkingIndex !== title.split("\n").length - 1) {
+            setBlinkingIndex(i => i + 1);
+          }
+        }
+      }, SPEED * (i + Math.random()));
+    }
+  }, [title, blinkingIndex, typing]);
+  const titles = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    return title.split('\n').slice(0, blinkingIndex + 1).map((t, i) => __jsx("span", {
+      key: i,
+      className: i === blinkingIndex ? "blinking" : "",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 74
+      },
+      __self: undefined
+    }, i !== 0 && __jsx("br", {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 77
+      },
+      __self: undefined
+    }), __jsx("span", {
+      id: i === blinkingIndex ? "blinking-index" : "",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 78
+      },
+      __self: undefined
+    }, t)));
+  }, [title, blinkingIndex]);
+  return __jsx("h1", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 88
+    },
+    __self: undefined
+  }, titles);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(TypingTitle));
+
+/***/ }),
+
+/***/ "./lexicon/index.js":
+/*!**************************!*\
+  !*** ./lexicon/index.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  title: `Hello I'm Alexia Peresson\nA creative front end freelancer`
+});
+
+/***/ }),
+
 /***/ "./lib/useRedux.js":
 /*!*************************!*\
   !*** ./lib/useRedux.js ***!
@@ -11718,8 +11835,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
 /* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../reducers */ "./reducers/index.js");
 /* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lib/useRedux */ "./lib/useRedux.js");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _lexicon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lexicon */ "./lexicon/index.js");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/ui/TypingTitle */ "./components/ui/TypingTitle.js");
 
 
 
@@ -11744,6 +11863,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+
+
 const Index = () => {
   const {
     0: webGL,
@@ -11757,6 +11878,10 @@ const Index = () => {
     0: onResize,
     1: setOnResize
   } = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])();
+  const {
+    0: animateTyping,
+    1: setAnimateTyping
+  } = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(false);
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
     if (!webGL) {
       const GL = new _webgl__WEBPACK_IMPORTED_MODULE_11__["default"]();
@@ -11825,8 +11950,7 @@ const Index = () => {
   }, []);
   const onAnimationStart = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(() => {
     onStart();
-    const title = document.getElementById('title');
-    const text = "Hello I am Alexia Peresson \na Freelance Front-End Developer";
+    setAnimateTyping(true);
   }, [onStart]);
   const onPause = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(() => {
     setAudio(audio => _objectSpread({}, audio, {
@@ -11845,7 +11969,7 @@ const Index = () => {
     onStart: onAnimationStart,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 122
+      lineNumber: 121
     },
     __self: undefined
   }), __jsx("div", {
@@ -11853,48 +11977,29 @@ const Index = () => {
     id: "webGL-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 124
+      lineNumber: 122
     },
     __self: undefined
   }, __jsx("canvas", {
     id: "webGL",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 126
+      lineNumber: 123
     },
     __self: undefined
-  }), __jsx("h1", {
-    className: "homepage-title",
+  }), __jsx(_components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    title: _lexicon__WEBPACK_IMPORTED_MODULE_14__["default"].title,
+    typing: animateTyping,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 128
+      lineNumber: 124
     },
     __self: undefined
-  }, __jsx("span", {
-    id: "title",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 129
-    },
-    __self: undefined
-  }, "Hello I am Alexia Peresson  ", __jsx("br", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 130
-    },
-    __self: undefined
-  }), "a Freelance Front-End Developer"), __jsx("span", {
-    className: "blinking-cursor",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 133
-    },
-    __self: undefined
-  }, "|")), webGL && __jsx("div", {
+  }), webGL && __jsx("div", {
     className: "homepage-controllers",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 137
+      lineNumber: 127
     },
     __self: undefined
   }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -11903,7 +12008,7 @@ const Index = () => {
     onPause: onPause,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 138
+      lineNumber: 128
     },
     __self: undefined
   }), __jsx("button", {
@@ -11911,14 +12016,14 @@ const Index = () => {
     onClick: onChangeFullscreen,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 139
+      lineNumber: 129
     },
     __self: undefined
   }, __jsx("img", {
     src: "/assets/image/expand.svg",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 140
+      lineNumber: 130
     },
     __self: undefined
   })))));
@@ -12045,6 +12150,17 @@ const reducer = {
 /*!*****************************!*\
   !*** ./scss/ui/loader.scss ***!
   \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./scss/ui/typingtitle.scss":
+/*!**********************************!*\
+  !*** ./scss/ui/typingtitle.scss ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

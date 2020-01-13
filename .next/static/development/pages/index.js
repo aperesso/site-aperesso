@@ -398,6 +398,135 @@ var Loader = function Loader(_ref) {
 
 /***/ }),
 
+/***/ "./components/ui/TypingTitle.js":
+/*!**************************************!*\
+  !*** ./components/ui/TypingTitle.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../scss/ui/typingtitle.scss */ "./scss/ui/typingtitle.scss");
+/* harmony import */ var _scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_scss_ui_typingtitle_scss__WEBPACK_IMPORTED_MODULE_1__);
+var _jsxFileName = "/Users/alexiaperesson/site-aperesso/components/ui/TypingTitle.js";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+var SPEED = 75;
+
+var TypingTitle = function TypingTitle(_ref) {
+  var title = _ref.title,
+      typing = _ref.typing;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(function () {
+    if (typing) return 0;
+    return (title || "").split('\n').length - 1;
+  }),
+      blinkingIndex = _useState[0],
+      setBlinkingIndex = _useState[1];
+
+  var _useState2 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      audio = _useState2[0],
+      setAudio = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (typing) setBlinkingIndex(0);
+  }, [typing]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var sounds = new Array(5).fill(null).map(function (_, i) {
+      return new Audio("/assets/audio/keystroke/keystroke_".concat(i, ".wav"));
+    });
+    setAudio(function () {
+      return sounds;
+    });
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (!typing) return;
+    if (blinkingIndex > title.split("\n").length - 1) return;
+    var el = document.getElementById("blinking-index");
+    var text = el.textContent;
+    el.textContent = "";
+
+    var _loop = function _loop(i) {
+      setTimeout(function () {
+        el.textContent += text[i];
+
+        if (audio) {
+          var key = Math.floor(Math.random() * (audio.length - 1));
+          audio[key].play();
+        }
+
+        if (i === text.length - 1) {
+          if (blinkingIndex !== title.split("\n").length - 1) {
+            setBlinkingIndex(function (i) {
+              return i + 1;
+            });
+          }
+        }
+      }, SPEED * (i + Math.random()));
+    };
+
+    for (var i = 0; i < text.length; i++) {
+      _loop(i);
+    }
+  }, [title, blinkingIndex, typing]);
+  var titles = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(function () {
+    return title.split('\n').slice(0, blinkingIndex + 1).map(function (t, i) {
+      return __jsx("span", {
+        key: i,
+        className: i === blinkingIndex ? "blinking" : "",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 74
+        },
+        __self: this
+      }, i !== 0 && __jsx("br", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 77
+        },
+        __self: this
+      }), __jsx("span", {
+        id: i === blinkingIndex ? "blinking-index" : "",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 78
+        },
+        __self: this
+      }, t));
+    });
+  }, [title, blinkingIndex]);
+  return __jsx("h1", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 88
+    },
+    __self: this
+  }, titles);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(TypingTitle));
+
+/***/ }),
+
+/***/ "./lexicon/index.js":
+/*!**************************!*\
+  !*** ./lexicon/index.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  title: "Hello I'm Alexia Peresson\nA creative front end freelancer"
+});
+
+/***/ }),
+
 /***/ "./lib/useRedux.js":
 /*!*************************!*\
   !*** ./lib/useRedux.js ***!
@@ -21226,8 +21355,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
 /* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../reducers */ "./reducers/index.js");
 /* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lib/useRedux */ "./lib/useRedux.js");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _lexicon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lexicon */ "./lexicon/index.js");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/ui/TypingTitle */ "./components/ui/TypingTitle.js");
 
 
 
@@ -21252,6 +21383,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+
+
 var Index = function Index() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(false),
       webGL = _useState[0],
@@ -21264,6 +21397,10 @@ var Index = function Index() {
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(),
       onResize = _useState3[0],
       setOnResize = _useState3[1];
+
+  var _useState4 = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(false),
+      animateTyping = _useState4[0],
+      setAnimateTyping = _useState4[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(function () {
     if (!webGL) {
@@ -21339,8 +21476,7 @@ var Index = function Index() {
   }, []);
   var onAnimationStart = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(function () {
     onStart();
-    var title = document.getElementById('title');
-    var text = "Hello I am Alexia Peresson \na Freelance Front-End Developer";
+    setAnimateTyping(true);
   }, [onStart]);
   var onPause = Object(react__WEBPACK_IMPORTED_MODULE_7__["useCallback"])(function () {
     setAudio(function (audio) {
@@ -21361,7 +21497,7 @@ var Index = function Index() {
     onStart: onAnimationStart,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 122
+      lineNumber: 121
     },
     __self: this
   }), __jsx("div", {
@@ -21369,48 +21505,29 @@ var Index = function Index() {
     id: "webGL-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 124
+      lineNumber: 122
     },
     __self: this
   }, __jsx("canvas", {
     id: "webGL",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 126
+      lineNumber: 123
     },
     __self: this
-  }), __jsx("h1", {
-    className: "homepage-title",
+  }), __jsx(_components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    title: _lexicon__WEBPACK_IMPORTED_MODULE_14__["default"].title,
+    typing: animateTyping,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 128
+      lineNumber: 124
     },
     __self: this
-  }, __jsx("span", {
-    id: "title",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 129
-    },
-    __self: this
-  }, "Hello I am Alexia Peresson  ", __jsx("br", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 130
-    },
-    __self: this
-  }), "a Freelance Front-End Developer"), __jsx("span", {
-    className: "blinking-cursor",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 133
-    },
-    __self: this
-  }, "|")), webGL && __jsx("div", {
+  }), webGL && __jsx("div", {
     className: "homepage-controllers",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 137
+      lineNumber: 127
     },
     __self: this
   }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -21419,7 +21536,7 @@ var Index = function Index() {
     onPause: onPause,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 138
+      lineNumber: 128
     },
     __self: this
   }), __jsx("button", {
@@ -21427,14 +21544,14 @@ var Index = function Index() {
     onClick: onChangeFullscreen,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 139
+      lineNumber: 129
     },
     __self: this
   }, __jsx("img", {
     src: "/assets/image/expand.svg",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 140
+      lineNumber: 130
     },
     __self: this
   })))));
