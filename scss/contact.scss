@@ -1,0 +1,48 @@
+.contact {
+    margin-left: 40px;
+    margin-right: 40px;
+    position: relative;
+    color: white;
+
+    h1 {
+        font-size: 48px;
+        margin: 0;
+        margin-bottom: 48px;
+    }
+
+    .form {
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    textarea {
+        color: white;
+    }
+
+    .contact-input {
+        color: white;
+        margin-top: 12px;
+        margin-bottom: 36px;
+        min-width: 100%;
+        max-width: 100%;
+
+    }
+    
+    .cta {
+        border: #fafafa 1px solid;
+        padding-left: 32px;
+        padding-right: 32px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        margin-top: 36px;
+        opacity: 0.8;
+
+        transition: opacity 0.2s linear;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

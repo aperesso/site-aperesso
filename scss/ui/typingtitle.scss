@@ -1,4 +1,4 @@
-h1 {
+.typing-title {
     color: #FAFAFA;
     position: absolute;
     bottom: 48px;
@@ -8,6 +8,7 @@ h1 {
     font-size: 30px;
     font-weight: bold;
     line-height: 33px;
+    font-family: 'Roboto Mono', monospace;
 
     @media screen and (max-width: 640px) {
         left: 40px;
@@ -19,6 +20,7 @@ h1 {
     .blinking:after {
         content: "|";
         margin-left: 8px;
+        font-family: 'Roboto Mono', monospace;
         -webkit-animation: 1s blink step-end infinite;
         -moz-animation: 1s blink step-end infinite;
         -ms-animation: 1s blink step-end infinite;

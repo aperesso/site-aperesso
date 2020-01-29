@@ -1,14 +1,12 @@
 .homepage {
-    height: 100vh;
+    position: relative;
+    height: calc(100vh - 120px);
     width: 100vw;
-    overflow: hidden;
-    background: #050505;
 
   .webGL-canvas {
       height: calc(100vh - 240px);
       position: relative;
       background: #050505;
-      // background: pink;
       width: 100vw;
 
       canvas {

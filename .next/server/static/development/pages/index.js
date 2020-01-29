@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -556,6 +556,7 @@ const TypingTitle = ({
     }, t)));
   }, [title, blinkingIndex]);
   return __jsx("h1", {
+    className: "typing-title",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 88
@@ -10112,115 +10113,6 @@ function LensFlare(){console.error('THREE.LensFlare has been moved to /examples/
 
 /***/ }),
 
-/***/ "./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js":
-/*!*******************************************************************************!*\
-  !*** ./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js ***!
-  \*******************************************************************************/
-/*! exports provided: DeviceOrientationControls */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeviceOrientationControls", function() { return DeviceOrientationControls; });
-/* harmony import */ var _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../build/three.module.js */ "./node_modules/three/build/three.module.js");
-/**
- * @author richt / http://richt.me
- * @author WestLangley / http://github.com/WestLangley
- *
- * W3C Device Orientation control (http://w3c.github.io/deviceorientation/spec-source-orientation.html)
- */
-
-
-var DeviceOrientationControls = function (object) {
-  var scope = this;
-  this.object = object;
-  this.object.rotation.reorder('YXZ');
-  this.enabled = true;
-  this.deviceOrientation = {};
-  this.screenOrientation = 0;
-  this.alphaOffset = 0; // radians
-
-  var onDeviceOrientationChangeEvent = function (event) {
-    scope.deviceOrientation = event;
-  };
-
-  var onScreenOrientationChangeEvent = function () {
-    scope.screenOrientation = window.orientation || 0;
-  }; // The angles alpha, beta and gamma form a set of intrinsic Tait-Bryan angles of type Z-X'-Y''
-
-
-  var setObjectQuaternion = function () {
-    var zee = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 1);
-    var euler = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Euler"]();
-    var q0 = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Quaternion"]();
-    var q1 = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Quaternion"](-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5)); // - PI/2 around the x-axis
-
-    return function (quaternion, alpha, beta, gamma, orient) {
-      euler.set(beta, alpha, -gamma, 'YXZ'); // 'ZXY' for the device, but 'YXZ' for us
-
-      quaternion.setFromEuler(euler); // orient the device
-
-      quaternion.multiply(q1); // camera looks out the back of the device, not the top
-
-      quaternion.multiply(q0.setFromAxisAngle(zee, -orient)); // adjust for screen orientation
-    };
-  }();
-
-  this.connect = function () {
-    onScreenOrientationChangeEvent(); // run once on load
-    // iOS 13+
-
-    if (window.DeviceOrientationEvent !== undefined && typeof window.DeviceOrientationEvent.requestPermission === 'function') {
-      window.DeviceOrientationEvent.requestPermission().then(function (response) {
-        if (response == 'granted') {
-          window.addEventListener('orientationchange', onScreenOrientationChangeEvent, false);
-          window.addEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
-        }
-      }).catch(function (error) {
-        console.error('THREE.DeviceOrientationControls: Unable to use DeviceOrientation API:', error);
-      });
-    } else {
-      window.addEventListener('orientationchange', onScreenOrientationChangeEvent, false);
-      window.addEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
-    }
-
-    scope.enabled = true;
-  };
-
-  this.disconnect = function () {
-    window.removeEventListener('orientationchange', onScreenOrientationChangeEvent, false);
-    window.removeEventListener('deviceorientation', onDeviceOrientationChangeEvent, false);
-    scope.enabled = false;
-  };
-
-  this.update = function () {
-    if (scope.enabled === false) return;
-    var device = scope.deviceOrientation;
-
-    if (device) {
-      var alpha = device.alpha ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.alpha) + scope.alphaOffset : 0; // Z
-
-      var beta = device.beta ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.beta) : 0; // X'
-
-      var gamma = device.gamma ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(device.gamma) : 0; // Y''
-
-      var orient = scope.screenOrientation ? _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Math"].degToRad(scope.screenOrientation) : 0; // O
-
-      setObjectQuaternion(scope.object.quaternion, alpha, beta, gamma, orient);
-    }
-  };
-
-  this.dispose = function () {
-    scope.disconnect();
-  };
-
-  this.connect();
-};
-
-
-
-/***/ }),
-
 /***/ "./node_modules/three/examples/jsm/controls/FirstPersonControls.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/three/examples/jsm/controls/FirstPersonControls.js ***!
@@ -11168,6 +11060,360 @@ ShaderPass.prototype = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "./node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js ***!
+  \***************************************************************************/
+/*! exports provided: UnrealBloomPass */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UnrealBloomPass", function() { return UnrealBloomPass; });
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/create */ "./node_modules/@babel/runtime-corejs2/core-js/object/create.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/object/assign */ "./node_modules/@babel/runtime-corejs2/core-js/object/assign.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../build/three.module.js */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var _postprocessing_Pass_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../postprocessing/Pass.js */ "./node_modules/three/examples/jsm/postprocessing/Pass.js");
+/* harmony import */ var _shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shaders/CopyShader.js */ "./node_modules/three/examples/jsm/shaders/CopyShader.js");
+/* harmony import */ var _shaders_LuminosityHighPassShader_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../shaders/LuminosityHighPassShader.js */ "./node_modules/three/examples/jsm/shaders/LuminosityHighPassShader.js");
+
+
+
+/**
+ * @author spidersharma / http://eduperiment.com/
+ */
+
+
+
+
+/**
+ * UnrealBloomPass is inspired by the bloom pass of Unreal Engine. It creates a
+ * mip map chain of bloom textures and blurs them with different radii. Because
+ * of the weighted combination of mips, and because larger blurs are done on
+ * higher mips, this effect provides good quality and performance.
+ *
+ * Reference:
+ * - https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/Bloom/
+ */
+
+var UnrealBloomPass = function (resolution, strength, radius, threshold) {
+  _postprocessing_Pass_js__WEBPACK_IMPORTED_MODULE_3__["Pass"].call(this);
+  this.strength = strength !== undefined ? strength : 1;
+  this.radius = radius;
+  this.threshold = threshold;
+  this.resolution = resolution !== undefined ? new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](resolution.x, resolution.y) : new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](256, 256); // create color only once here, reuse it later inside the render function
+
+  this.clearColor = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Color"](0, 0, 0); // render targets
+
+  var pars = {
+    minFilter: _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["LinearFilter"],
+    magFilter: _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["LinearFilter"],
+    format: _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["RGBAFormat"]
+  };
+  this.renderTargetsHorizontal = [];
+  this.renderTargetsVertical = [];
+  this.nMips = 5;
+  var resx = Math.round(this.resolution.x / 2);
+  var resy = Math.round(this.resolution.y / 2);
+  this.renderTargetBright = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["WebGLRenderTarget"](resx, resy, pars);
+  this.renderTargetBright.texture.name = "UnrealBloomPass.bright";
+  this.renderTargetBright.texture.generateMipmaps = false;
+
+  for (var i = 0; i < this.nMips; i++) {
+    var renderTargetHorizonal = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["WebGLRenderTarget"](resx, resy, pars);
+    renderTargetHorizonal.texture.name = "UnrealBloomPass.h" + i;
+    renderTargetHorizonal.texture.generateMipmaps = false;
+    this.renderTargetsHorizontal.push(renderTargetHorizonal);
+    var renderTargetVertical = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["WebGLRenderTarget"](resx, resy, pars);
+    renderTargetVertical.texture.name = "UnrealBloomPass.v" + i;
+    renderTargetVertical.texture.generateMipmaps = false;
+    this.renderTargetsVertical.push(renderTargetVertical);
+    resx = Math.round(resx / 2);
+    resy = Math.round(resy / 2);
+  } // luminosity high pass material
+
+
+  if (_shaders_LuminosityHighPassShader_js__WEBPACK_IMPORTED_MODULE_5__["LuminosityHighPassShader"] === undefined) console.error("UnrealBloomPass relies on LuminosityHighPassShader");
+  var highPassShader = _shaders_LuminosityHighPassShader_js__WEBPACK_IMPORTED_MODULE_5__["LuminosityHighPassShader"];
+  this.highPassUniforms = _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["UniformsUtils"].clone(highPassShader.uniforms);
+  this.highPassUniforms["luminosityThreshold"].value = threshold;
+  this.highPassUniforms["smoothWidth"].value = 0.01;
+  this.materialHighPassFilter = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["ShaderMaterial"]({
+    uniforms: this.highPassUniforms,
+    vertexShader: highPassShader.vertexShader,
+    fragmentShader: highPassShader.fragmentShader,
+    defines: {}
+  }); // Gaussian Blur Materials
+
+  this.separableBlurMaterials = [];
+  var kernelSizeArray = [3, 5, 7, 9, 11];
+  var resx = Math.round(this.resolution.x / 2);
+  var resy = Math.round(this.resolution.y / 2);
+
+  for (var i = 0; i < this.nMips; i++) {
+    this.separableBlurMaterials.push(this.getSeperableBlurMaterial(kernelSizeArray[i]));
+    this.separableBlurMaterials[i].uniforms["texSize"].value = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](resx, resy);
+    resx = Math.round(resx / 2);
+    resy = Math.round(resy / 2);
+  } // Composite material
+
+
+  this.compositeMaterial = this.getCompositeMaterial(this.nMips);
+  this.compositeMaterial.uniforms["blurTexture1"].value = this.renderTargetsVertical[0].texture;
+  this.compositeMaterial.uniforms["blurTexture2"].value = this.renderTargetsVertical[1].texture;
+  this.compositeMaterial.uniforms["blurTexture3"].value = this.renderTargetsVertical[2].texture;
+  this.compositeMaterial.uniforms["blurTexture4"].value = this.renderTargetsVertical[3].texture;
+  this.compositeMaterial.uniforms["blurTexture5"].value = this.renderTargetsVertical[4].texture;
+  this.compositeMaterial.uniforms["bloomStrength"].value = strength;
+  this.compositeMaterial.uniforms["bloomRadius"].value = 0.1;
+  this.compositeMaterial.needsUpdate = true;
+  var bloomFactors = [1.0, 0.8, 0.6, 0.4, 0.2];
+  this.compositeMaterial.uniforms["bloomFactors"].value = bloomFactors;
+  this.bloomTintColors = [new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1, 1, 1), new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1, 1, 1), new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1, 1, 1), new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1, 1, 1), new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector3"](1, 1, 1)];
+  this.compositeMaterial.uniforms["bloomTintColors"].value = this.bloomTintColors; // copy material
+
+  if (_shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_4__["CopyShader"] === undefined) {
+    console.error("UnrealBloomPass relies on CopyShader");
+  }
+
+  var copyShader = _shaders_CopyShader_js__WEBPACK_IMPORTED_MODULE_4__["CopyShader"];
+  this.copyUniforms = _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["UniformsUtils"].clone(copyShader.uniforms);
+  this.copyUniforms["opacity"].value = 1.0;
+  this.materialCopy = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["ShaderMaterial"]({
+    uniforms: this.copyUniforms,
+    vertexShader: copyShader.vertexShader,
+    fragmentShader: copyShader.fragmentShader,
+    blending: _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["AdditiveBlending"],
+    depthTest: false,
+    depthWrite: false,
+    transparent: true
+  });
+  this.enabled = true;
+  this.needsSwap = false;
+  this.oldClearColor = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Color"]();
+  this.oldClearAlpha = 1;
+  this.basic = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["MeshBasicMaterial"]();
+  this.fsQuad = new _postprocessing_Pass_js__WEBPACK_IMPORTED_MODULE_3__["Pass"].FullScreenQuad(null);
+};
+
+UnrealBloomPass.prototype = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()(_babel_runtime_corejs2_core_js_object_create__WEBPACK_IMPORTED_MODULE_0___default()(_postprocessing_Pass_js__WEBPACK_IMPORTED_MODULE_3__["Pass"].prototype), {
+  constructor: UnrealBloomPass,
+  dispose: function () {
+    for (var i = 0; i < this.renderTargetsHorizontal.length; i++) {
+      this.renderTargetsHorizontal[i].dispose();
+    }
+
+    for (var i = 0; i < this.renderTargetsVertical.length; i++) {
+      this.renderTargetsVertical[i].dispose();
+    }
+
+    this.renderTargetBright.dispose();
+  },
+  setSize: function (width, height) {
+    var resx = Math.round(width / 2);
+    var resy = Math.round(height / 2);
+    this.renderTargetBright.setSize(resx, resy);
+
+    for (var i = 0; i < this.nMips; i++) {
+      this.renderTargetsHorizontal[i].setSize(resx, resy);
+      this.renderTargetsVertical[i].setSize(resx, resy);
+      this.separableBlurMaterials[i].uniforms["texSize"].value = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](resx, resy);
+      resx = Math.round(resx / 2);
+      resy = Math.round(resy / 2);
+    }
+  },
+  render: function (renderer, writeBuffer, readBuffer, deltaTime, maskActive) {
+    this.oldClearColor.copy(renderer.getClearColor());
+    this.oldClearAlpha = renderer.getClearAlpha();
+    var oldAutoClear = renderer.autoClear;
+    renderer.autoClear = false;
+    renderer.setClearColor(this.clearColor, 0);
+    if (maskActive) renderer.state.buffers.stencil.setTest(false); // Render input to screen
+
+    if (this.renderToScreen) {
+      this.fsQuad.material = this.basic;
+      this.basic.map = readBuffer.texture;
+      renderer.setRenderTarget(null);
+      renderer.clear();
+      this.fsQuad.render(renderer);
+    } // 1. Extract Bright Areas
+
+
+    this.highPassUniforms["tDiffuse"].value = readBuffer.texture;
+    this.highPassUniforms["luminosityThreshold"].value = this.threshold;
+    this.fsQuad.material = this.materialHighPassFilter;
+    renderer.setRenderTarget(this.renderTargetBright);
+    renderer.clear();
+    this.fsQuad.render(renderer); // 2. Blur All the mips progressively
+
+    var inputRenderTarget = this.renderTargetBright;
+
+    for (var i = 0; i < this.nMips; i++) {
+      this.fsQuad.material = this.separableBlurMaterials[i];
+      this.separableBlurMaterials[i].uniforms["colorTexture"].value = inputRenderTarget.texture;
+      this.separableBlurMaterials[i].uniforms["direction"].value = UnrealBloomPass.BlurDirectionX;
+      renderer.setRenderTarget(this.renderTargetsHorizontal[i]);
+      renderer.clear();
+      this.fsQuad.render(renderer);
+      this.separableBlurMaterials[i].uniforms["colorTexture"].value = this.renderTargetsHorizontal[i].texture;
+      this.separableBlurMaterials[i].uniforms["direction"].value = UnrealBloomPass.BlurDirectionY;
+      renderer.setRenderTarget(this.renderTargetsVertical[i]);
+      renderer.clear();
+      this.fsQuad.render(renderer);
+      inputRenderTarget = this.renderTargetsVertical[i];
+    } // Composite All the mips
+
+
+    this.fsQuad.material = this.compositeMaterial;
+    this.compositeMaterial.uniforms["bloomStrength"].value = this.strength;
+    this.compositeMaterial.uniforms["bloomRadius"].value = this.radius;
+    this.compositeMaterial.uniforms["bloomTintColors"].value = this.bloomTintColors;
+    renderer.setRenderTarget(this.renderTargetsHorizontal[0]);
+    renderer.clear();
+    this.fsQuad.render(renderer); // Blend it additively over the input texture
+
+    this.fsQuad.material = this.materialCopy;
+    this.copyUniforms["tDiffuse"].value = this.renderTargetsHorizontal[0].texture;
+    if (maskActive) renderer.state.buffers.stencil.setTest(true);
+
+    if (this.renderToScreen) {
+      renderer.setRenderTarget(null);
+      this.fsQuad.render(renderer);
+    } else {
+      renderer.setRenderTarget(readBuffer);
+      this.fsQuad.render(renderer);
+    } // Restore renderer settings
+
+
+    renderer.setClearColor(this.oldClearColor, this.oldClearAlpha);
+    renderer.autoClear = oldAutoClear;
+  },
+  getSeperableBlurMaterial: function (kernelRadius) {
+    return new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["ShaderMaterial"]({
+      defines: {
+        "KERNEL_RADIUS": kernelRadius,
+        "SIGMA": kernelRadius
+      },
+      uniforms: {
+        "colorTexture": {
+          value: null
+        },
+        "texSize": {
+          value: new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](0.5, 0.5)
+        },
+        "direction": {
+          value: new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](0.5, 0.5)
+        }
+      },
+      vertexShader: "varying vec2 vUv;\n\
+				void main() {\n\
+					vUv = uv;\n\
+					gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\
+				}",
+      fragmentShader: "#include <common>\
+				varying vec2 vUv;\n\
+				uniform sampler2D colorTexture;\n\
+				uniform vec2 texSize;\
+				uniform vec2 direction;\
+				\
+				float gaussianPdf(in float x, in float sigma) {\
+					return 0.39894 * exp( -0.5 * x * x/( sigma * sigma))/sigma;\
+				}\
+				void main() {\n\
+					vec2 invSize = 1.0 / texSize;\
+					float fSigma = float(SIGMA);\
+					float weightSum = gaussianPdf(0.0, fSigma);\
+					vec3 diffuseSum = texture2D( colorTexture, vUv).rgb * weightSum;\
+					for( int i = 1; i < KERNEL_RADIUS; i ++ ) {\
+						float x = float(i);\
+						float w = gaussianPdf(x, fSigma);\
+						vec2 uvOffset = direction * invSize * x;\
+						vec3 sample1 = texture2D( colorTexture, vUv + uvOffset).rgb;\
+						vec3 sample2 = texture2D( colorTexture, vUv - uvOffset).rgb;\
+						diffuseSum += (sample1 + sample2) * w;\
+						weightSum += 2.0 * w;\
+					}\
+					gl_FragColor = vec4(diffuseSum/weightSum, 1.0);\n\
+				}"
+    });
+  },
+  getCompositeMaterial: function (nMips) {
+    return new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["ShaderMaterial"]({
+      defines: {
+        "NUM_MIPS": nMips
+      },
+      uniforms: {
+        "blurTexture1": {
+          value: null
+        },
+        "blurTexture2": {
+          value: null
+        },
+        "blurTexture3": {
+          value: null
+        },
+        "blurTexture4": {
+          value: null
+        },
+        "blurTexture5": {
+          value: null
+        },
+        "dirtTexture": {
+          value: null
+        },
+        "bloomStrength": {
+          value: 1.0
+        },
+        "bloomFactors": {
+          value: null
+        },
+        "bloomTintColors": {
+          value: null
+        },
+        "bloomRadius": {
+          value: 0.0
+        }
+      },
+      vertexShader: "varying vec2 vUv;\n\
+				void main() {\n\
+					vUv = uv;\n\
+					gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\
+				}",
+      fragmentShader: "varying vec2 vUv;\
+				uniform sampler2D blurTexture1;\
+				uniform sampler2D blurTexture2;\
+				uniform sampler2D blurTexture3;\
+				uniform sampler2D blurTexture4;\
+				uniform sampler2D blurTexture5;\
+				uniform sampler2D dirtTexture;\
+				uniform float bloomStrength;\
+				uniform float bloomRadius;\
+				uniform float bloomFactors[NUM_MIPS];\
+				uniform vec3 bloomTintColors[NUM_MIPS];\
+				\
+				float lerpBloomFactor(const in float factor) { \
+					float mirrorFactor = 1.2 - factor;\
+					return mix(factor, mirrorFactor, bloomRadius);\
+				}\
+				\
+				void main() {\
+					gl_FragColor = bloomStrength * ( lerpBloomFactor(bloomFactors[0]) * vec4(bloomTintColors[0], 1.0) * texture2D(blurTexture1, vUv) + \
+													 lerpBloomFactor(bloomFactors[1]) * vec4(bloomTintColors[1], 1.0) * texture2D(blurTexture2, vUv) + \
+													 lerpBloomFactor(bloomFactors[2]) * vec4(bloomTintColors[2], 1.0) * texture2D(blurTexture3, vUv) + \
+													 lerpBloomFactor(bloomFactors[3]) * vec4(bloomTintColors[3], 1.0) * texture2D(blurTexture4, vUv) + \
+													 lerpBloomFactor(bloomFactors[4]) * vec4(bloomTintColors[4], 1.0) * texture2D(blurTexture5, vUv) );\
+				}"
+    });
+  }
+});
+UnrealBloomPass.BlurDirectionX = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](1.0, 0.0);
+UnrealBloomPass.BlurDirectionY = new _build_three_module_js__WEBPACK_IMPORTED_MODULE_2__["Vector2"](0.0, 1.0);
+
+
+/***/ }),
+
 /***/ "./node_modules/three/examples/jsm/shaders/CopyShader.js":
 /*!***************************************************************!*\
   !*** ./node_modules/three/examples/jsm/shaders/CopyShader.js ***!
@@ -11264,6 +11510,50 @@ var FilmShader = {
   "	cResult += cTextureScreen.rgb * vec3( sc.x, sc.y, sc.x ) * sIntensity;", // interpolate between source and result by intensity
   "	cResult = cTextureScreen.rgb + clamp( nIntensity, 0.0,1.0 ) * ( cResult - cTextureScreen.rgb );", // convert to grayscale if desired
   "	if( grayscale ) {", "		cResult = vec3( cResult.r * 0.3 + cResult.g * 0.59 + cResult.b * 0.11 );", "	}", "	gl_FragColor =  vec4( cResult, cTextureScreen.a );", "}"].join("\n")
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/three/examples/jsm/shaders/LuminosityHighPassShader.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/shaders/LuminosityHighPassShader.js ***!
+  \*****************************************************************************/
+/*! exports provided: LuminosityHighPassShader */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LuminosityHighPassShader", function() { return LuminosityHighPassShader; });
+/* harmony import */ var _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../build/three.module.js */ "./node_modules/three/build/three.module.js");
+/**
+ * @author bhouston / http://clara.io/
+ *
+ * Luminosity
+ * http://en.wikipedia.org/wiki/Luminosity
+ */
+
+var LuminosityHighPassShader = {
+  shaderID: "luminosityHighPass",
+  uniforms: {
+    "tDiffuse": {
+      value: null
+    },
+    "luminosityThreshold": {
+      value: 1.0
+    },
+    "smoothWidth": {
+      value: 1.0
+    },
+    "defaultColor": {
+      value: new _build_three_module_js__WEBPACK_IMPORTED_MODULE_0__["Color"](0x000000)
+    },
+    "defaultOpacity": {
+      value: 0.0
+    }
+  },
+  vertexShader: ["varying vec2 vUv;", "void main() {", "	vUv = uv;", "	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );", "}"].join("\n"),
+  fragmentShader: ["uniform sampler2D tDiffuse;", "uniform vec3 defaultColor;", "uniform float defaultOpacity;", "uniform float luminosityThreshold;", "uniform float smoothWidth;", "varying vec2 vUv;", "void main() {", "	vec4 texel = texture2D( tDiffuse, vUv );", "	vec3 luma = vec3( 0.299, 0.587, 0.114 );", "	float v = dot( texel.xyz, luma );", "	vec4 outputColor = vec4( defaultColor.rgb, defaultOpacity );", "	float alpha = smoothstep( luminosityThreshold, luminosityThreshold + smoothWidth, v );", "	gl_FragColor = mix( outputColor, texel, alpha );", "}"].join("\n")
 };
 
 
@@ -11832,13 +12122,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.js");
 /* harmony import */ var _components_ui_Loader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/ui/Loader */ "./components/ui/Loader.js");
 /* harmony import */ var _components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/ui/AudioController */ "./components/ui/AudioController.js");
-/* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../reducers */ "./reducers/index.js");
-/* harmony import */ var _lib_useRedux__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lib/useRedux */ "./lib/useRedux.js");
-/* harmony import */ var _lexicon__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lexicon */ "./lexicon/index.js");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
-/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var _components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../components/ui/TypingTitle */ "./components/ui/TypingTitle.js");
+/* harmony import */ var _components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/ui/TypingTitle */ "./components/ui/TypingTitle.js");
+/* harmony import */ var _webgl__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../webgl */ "./webgl/index.js");
+/* harmony import */ var _lexicon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../lexicon */ "./lexicon/index.js");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../scss/homepage.scss */ "./scss/homepage.scss");
+/* harmony import */ var _scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_scss_homepage_scss__WEBPACK_IMPORTED_MODULE_14__);
 
 
 
@@ -11853,8 +12141,6 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement;
 function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__["default"])(target, key, source[key]); }); } else if (_babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default.a) { _babel_runtime_corejs2_core_js_object_define_properties__WEBPACK_IMPORTED_MODULE_1___default()(target, _babel_runtime_corejs2_core_js_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_2___default()(source)); } else { ownKeys(Object(source)).forEach(function (key) { _babel_runtime_corejs2_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(target, key, _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(source, key)); }); } } return target; }
-
-
 
 
 
@@ -11884,7 +12170,7 @@ const Index = () => {
   } = Object(react__WEBPACK_IMPORTED_MODULE_7__["useState"])(false);
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
     if (!webGL) {
-      const GL = new _webgl__WEBPACK_IMPORTED_MODULE_11__["default"]();
+      const GL = new _webgl__WEBPACK_IMPORTED_MODULE_12__["default"]('pulse');
       GL.load().then(() => {
         setWebGL(true);
         setAudio(() => GL.audio);
@@ -11894,17 +12180,11 @@ const Index = () => {
     }
 
     return () => {
-      if (webGL && audio.stop) {
-        audio.stop();
-      }
+      if (webGL && audio.stop) audio.stop();
     };
   }, [webGL, audio]);
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
-    if (audio.isPlaying) {
-      audio.play();
-    } else if (audio.stop) {
-      audio.stop();
-    }
+    if (audio.isPlaying) audio.play();else if (audio.stop) audio.stop();
   }, [audio.isPlaying, audio.stop]);
   Object(react__WEBPACK_IMPORTED_MODULE_7__["useEffect"])(() => {
     if (!onResize) return;
@@ -11961,7 +12241,7 @@ const Index = () => {
     page: "homepage",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 120
+      lineNumber: 118
     },
     __self: undefined
   }, __jsx(_components_ui_Loader__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -11969,7 +12249,7 @@ const Index = () => {
     onStart: onAnimationStart,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 121
+      lineNumber: 119
     },
     __self: undefined
   }), __jsx("div", {
@@ -11977,29 +12257,29 @@ const Index = () => {
     id: "webGL-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 122
+      lineNumber: 120
     },
     __self: undefined
   }, __jsx("canvas", {
     id: "webGL",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123
+      lineNumber: 121
     },
     __self: undefined
-  }), __jsx(_components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_16__["default"], {
-    title: _lexicon__WEBPACK_IMPORTED_MODULE_14__["default"].title,
+  }), __jsx(_components_ui_TypingTitle__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    title: _lexicon__WEBPACK_IMPORTED_MODULE_13__["default"].title,
     typing: animateTyping,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 124
+      lineNumber: 122
     },
     __self: undefined
   }), webGL && __jsx("div", {
     className: "homepage-controllers",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 127
+      lineNumber: 125
     },
     __self: undefined
   }, __jsx(_components_ui_AudioController__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -12008,7 +12288,7 @@ const Index = () => {
     onPause: onPause,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 128
+      lineNumber: 126
     },
     __self: undefined
   }), __jsx("button", {
@@ -12016,14 +12296,14 @@ const Index = () => {
     onClick: onChangeFullscreen,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 129
+      lineNumber: 127
     },
     __self: undefined
   }, __jsx("img", {
     src: "/assets/image/expand.svg",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 130
+      lineNumber: 128
     },
     __self: undefined
   })))));
@@ -12168,6 +12448,78 @@ const reducer = {
 
 /***/ }),
 
+/***/ "./webgl/about.js":
+/*!************************!*\
+  !*** ./webgl/about.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three_examples_jsm_postprocessing_UnrealBloomPass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/postprocessing/UnrealBloomPass */ "./node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js");
+/* harmony import */ var _program__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./program */ "./webgl/program.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
+
+
+
+
+
+const About = function () {
+  const program = new _program__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  program.setUp(({
+    camera,
+    renderer
+  }) => {
+    camera.position.set(0, 0, 2.5);
+    camera.lookAt(new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 0));
+    renderer.outputEncoding = three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"];
+  });
+  const geo = new three__WEBPACK_IMPORTED_MODULE_0__["TorusBufferGeometry"](2, 1.8, 50, 50);
+  const mat = new three__WEBPACK_IMPORTED_MODULE_0__["MeshBasicMaterial"]({
+    transparent: true
+  });
+  const torusA = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geo, mat);
+  const torusB = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geo, mat);
+  torusB.position.set(1.8, 0, 0);
+  torusB.rotation.x -= Math.PI / 2;
+
+  this.load = async () => {
+    const texture = await Object(_utils__WEBPACK_IMPORTED_MODULE_3__["loadTexture"])('about.png');
+    texture.wrapS = three__WEBPACK_IMPORTED_MODULE_0__["RepeatWrapping"];
+    texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__["RepeatWrapping"];
+    texture.repeat.set(9, 59);
+    texture.encoding = three__WEBPACK_IMPORTED_MODULE_0__["sRGBEncoding"];
+    mat.map = texture;
+    mat.needsUpdate = true;
+    program.addToScene([torusA]);
+  };
+
+  program.setUpComposer(({
+    composer,
+    size
+  }) => {
+    const bloomPass = new three_examples_jsm_postprocessing_UnrealBloomPass__WEBPACK_IMPORTED_MODULE_1__["UnrealBloomPass"](size, .7, .9, .8);
+    composer.addPass(bloomPass);
+  });
+  let t = 0;
+
+  this.render = () => program.update(() => {
+    t += 0.001;
+    mat.map.offset.y += 0.05;
+    torusA.rotation.x = +0.1 + Math.cos(t) * .2;
+    torusA.rotation.y = Math.sin(t) * .4;
+  });
+
+  this.onResize = () => program.onResize();
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (About);
+
+/***/ }),
+
 /***/ "./webgl/index.js":
 /*!************************!*\
   !*** ./webgl/index.js ***!
@@ -12177,22 +12529,131 @@ const reducer = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _pulse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pulse */ "./webgl/pulse.js");
+/* harmony import */ var _about__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./about */ "./webgl/about.js");
+
+
+
+const WebGL = function (programName) {
+  if (programName === 'pulse') return new _pulse__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  if (programName === 'about') return new _about__WEBPACK_IMPORTED_MODULE_1__["default"]();
+  return null;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (WebGL);
+
+/***/ }),
+
+/***/ "./webgl/program.js":
+/*!**************************!*\
+  !*** ./webgl/program.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.js");
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var three_examples_jsm_postprocessing_EffectComposer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/postprocessing/EffectComposer */ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js");
-/* harmony import */ var three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/postprocessing/FilmPass */ "./node_modules/three/examples/jsm/postprocessing/FilmPass.js");
-/* harmony import */ var three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
-/* harmony import */ var three_examples_jsm_controls_FirstPersonControls_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/controls/FirstPersonControls.js */ "./node_modules/three/examples/jsm/controls/FirstPersonControls.js");
-/* harmony import */ var three_examples_jsm_controls_DeviceOrientationControls_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/controls/DeviceOrientationControls.js */ "./node_modules/three/examples/jsm/controls/DeviceOrientationControls.js");
-/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/settings */ "./webgl/utils/settings.js");
-/* harmony import */ var _utils_audio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/audio */ "./webgl/utils/audio.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
-/* harmony import */ var _scene_sphere__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./scene/sphere */ "./webgl/scene/sphere.js");
-/* harmony import */ var _scene_particles__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./scene/particles */ "./webgl/scene/particles.js");
+/* harmony import */ var three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
+/* harmony import */ var three_examples_jsm_controls_FirstPersonControls__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/controls/FirstPersonControls */ "./node_modules/three/examples/jsm/controls/FirstPersonControls.js");
+/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/settings */ "./webgl/utils/settings.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
 
 
 
 
+
+
+
+const Program = function () {
+  const canvas = document.getElementById('webGL');
+  const {
+    width,
+    height
+  } = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getDimensions"])('webGL-wrapper');
+  const scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
+  const camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](_utils_settings__WEBPACK_IMPORTED_MODULE_4__["CAMERA_SETTINGS"].fov, width / height, _utils_settings__WEBPACK_IMPORTED_MODULE_4__["CAMERA_SETTINGS"].near, _utils_settings__WEBPACK_IMPORTED_MODULE_4__["CAMERA_SETTINGS"].far);
+  const renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
+    canvas,
+    antialias: true
+  });
+  const composer = new three_examples_jsm_postprocessing_EffectComposer__WEBPACK_IMPORTED_MODULE_1__["EffectComposer"](renderer);
+  const controls = new three_examples_jsm_controls_FirstPersonControls__WEBPACK_IMPORTED_MODULE_3__["FirstPersonControls"](camera, renderer.domElement);
+  this.useComposer = false;
+  this.useControls = false;
+  renderer.setSize(width, height);
+  renderer.gammaFactor = 2.2;
+
+  this.setUp = setUp => setUp({
+    camera,
+    renderer
+  });
+
+  this.setUpComposer = setUpComposer => {
+    this.useComposer = true;
+    const renderScene = new three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_2__["RenderPass"](scene, camera);
+    composer.setSize(width, height);
+    composer.addPass(renderScene);
+    setUpComposer({
+      composer,
+      size: new three__WEBPACK_IMPORTED_MODULE_0__["Vector2"](width, height)
+    });
+  };
+
+  this.setUpControls = setUpControls => {
+    this.useControls = true;
+    setUpControls(controls);
+  };
+
+  this.addToScene = meshes => meshes.forEach(mesh => scene.add(mesh));
+
+  const clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
+
+  this.update = update => {
+    renderer.setAnimationLoop(() => {
+      if (update) update();
+      if (this.useControls) controls.update(clock.getDelta());
+      if (this.useComposer) composer.render();else renderer.render(scene, camera);
+    });
+  };
+
+  this.onResize = onResize => {
+    const {
+      width,
+      height
+    } = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getDimensions"])('webGL-wrapper');
+    if (onResize) onResize();
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    if (this.useControls) controls.handleResize();
+    if (this.useComposer) composer.setSize(width, height);
+    renderer.setSize(width, height);
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Program);
+
+/***/ }),
+
+/***/ "./webgl/pulse.js":
+/*!************************!*\
+  !*** ./webgl/pulse.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/postprocessing/FilmPass */ "./node_modules/three/examples/jsm/postprocessing/FilmPass.js");
+/* harmony import */ var _scene_sphere__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scene/sphere */ "./webgl/scene/sphere.js");
+/* harmony import */ var _scene_particles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scene/particles */ "./webgl/scene/particles.js");
+/* harmony import */ var _utils_audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./utils/audio */ "./webgl/utils/audio.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./webgl/utils/index.js");
+/* harmony import */ var _program__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./program */ "./webgl/program.js");
 
 
 
@@ -12202,74 +12663,53 @@ __webpack_require__.r(__webpack_exports__);
 
 const WIDTH_MOBILE = 768;
 
-const WebGL = function () {
-  const canvas = document.getElementById('webGL');
+const Pulse = function () {
+  const program = new _program__WEBPACK_IMPORTED_MODULE_6__["default"]();
   const {
-    width,
-    height
-  } = Object(_utils__WEBPACK_IMPORTED_MODULE_8__["getDimensions"])('webGL-wrapper');
+    width
+  } = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getDimensions"])('webGL-wrapper');
   const isMobile = width < WIDTH_MOBILE;
-  const scene = new three__WEBPACK_IMPORTED_MODULE_0__["Scene"]();
-  const camera = new three__WEBPACK_IMPORTED_MODULE_0__["PerspectiveCamera"](_utils_settings__WEBPACK_IMPORTED_MODULE_6__["CAMERA_SETTINGS"].fov, width / height, _utils_settings__WEBPACK_IMPORTED_MODULE_6__["CAMERA_SETTINGS"].near, _utils_settings__WEBPACK_IMPORTED_MODULE_6__["CAMERA_SETTINGS"].far);
-  camera.position.set(0, 0, isMobile ? 30 : 20);
-  const renderer = new three__WEBPACK_IMPORTED_MODULE_0__["WebGLRenderer"]({
-    canvas,
-    alpha: true
+  this.audio = new _utils_audio__WEBPACK_IMPORTED_MODULE_4__["default"]();
+  const sphere = new _scene_sphere__WEBPACK_IMPORTED_MODULE_2__["default"]();
+  const particles = new _scene_particles__WEBPACK_IMPORTED_MODULE_3__["default"]();
+  program.setUp(({
+    camera,
+    renderer
+  }) => {
+    camera.position.set(0, 0, isMobile ? 30 : 20);
+    renderer.setClearColor(new three__WEBPACK_IMPORTED_MODULE_0__["Color"]('#010101'), 1.);
+    renderer.shadowMap.enabled = true;
+    renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_0__["ReinhardToneMapping"];
+    renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"];
   });
-  renderer.setSize(width, height);
-  renderer.setClearColor(new three__WEBPACK_IMPORTED_MODULE_0__["Color"]('#010101'), 1.);
-  renderer.shadowMap.enabled = true;
-  renderer.gammaFactor = 2.2;
-  renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"];
-  renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_0__["ReinhardToneMapping"];
-  const controls = new three_examples_jsm_controls_FirstPersonControls_js__WEBPACK_IMPORTED_MODULE_4__["FirstPersonControls"](camera, renderer.domElement);
-  controls.lookAt(new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 0)); // controls.verticalMax = 0;
-
-  controls.lookVertical = false; // controls.constrainVertical = true;
-
-  const composer = new three_examples_jsm_postprocessing_EffectComposer__WEBPACK_IMPORTED_MODULE_1__["EffectComposer"](renderer);
-  composer.setSize(width, height);
-  const renderScene = new three_examples_jsm_postprocessing_RenderPass__WEBPACK_IMPORTED_MODULE_3__["RenderPass"](scene, camera);
-  composer.addPass(renderScene);
-  const filmPass = new three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_2__["FilmPass"](0.35, 0.25, 648, false);
-  composer.addPass(filmPass);
-  this.loading = true;
-  this.audio = new _utils_audio__WEBPACK_IMPORTED_MODULE_7__["default"]();
-  const sphere = new _scene_sphere__WEBPACK_IMPORTED_MODULE_9__["default"]();
-  const particles = new _scene_particles__WEBPACK_IMPORTED_MODULE_10__["default"]();
+  program.setUpComposer(({
+    composer
+  }) => {
+    const filmPass = new three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_1__["FilmPass"](0.35, 0.25, 648, false);
+    composer.addPass(filmPass);
+  });
+  program.setUpControls(controls => {
+    controls.lookAt(new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 0));
+    controls.lookVertical = false;
+  });
 
   this.load = async () => {
     await this.audio.load();
-    sphere.setUp(this.audio, isMobile);
-    scene.add(sphere.mesh);
+    await sphere.setUp(this.audio, this.mobile);
     await particles.setUp(this.audio);
-    scene.add(particles.points);
-    this.loading = false;
+    program.addToScene([sphere.mesh, particles.points]);
   };
 
-  this.onResize = () => {
-    const size = Object(_utils__WEBPACK_IMPORTED_MODULE_8__["getDimensions"])('webGL-wrapper');
-    camera.aspect = size.width / size.height;
-    camera.updateProjectionMatrix();
-    controls.handleResize();
-    renderer.setSize(size.width, size.height);
-    composer.setSize(size.width, size.height);
-  };
+  this.render = () => program.update(() => {
+    this.audio.update();
+    sphere.update();
+    particles.update();
+  });
 
-  const clock = new three__WEBPACK_IMPORTED_MODULE_0__["Clock"]();
-
-  this.render = () => {
-    renderer.setAnimationLoop(() => {
-      this.audio.update();
-      sphere.update();
-      particles.update();
-      controls.update(clock.getDelta());
-      composer.render();
-    });
-  };
+  this.onResize = () => program.onResize();
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (WebGL);
+/* harmony default export */ __webpack_exports__["default"] = (Pulse);
 
 /***/ }),
 
@@ -13000,7 +13440,7 @@ const GUI_SPHERE_SETTINGS = {
 
 /***/ }),
 
-/***/ 3:
+/***/ 5:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

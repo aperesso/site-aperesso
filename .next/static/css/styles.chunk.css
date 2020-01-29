@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap);
 .header {
   height: 120px;
   padding-left: 40px;
@@ -11,7 +12,8 @@
   line-height: 18px;
   letter-spacing: 0.25em;
   position: relative;
-  z-index: 2; }
+  z-index: 2;
+  font-family: 'Roboto Mono', monospace; }
   .header ul {
     list-style-type: none;
     display: flex; }
@@ -28,7 +30,6 @@
 html, body {
   box-sizing: border-box;
   background: #050505;
-  overflow: hidden;
   color: #fafafa; }
 
 .no-btn {
@@ -41,7 +42,8 @@ html, body {
   outline: inherit; }
 
 .layout {
-  background: #050505; }
+  background: #050505;
+  font-family: 'Roboto Mono', monospace; }
 
 .target {
   position: absolute;
@@ -83,7 +85,8 @@ html, body {
   background: black;
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  transform: translateY(-120px); }
   .loader .loader-wrapper {
     position: relative; }
   .loader .loader-loading {
@@ -175,44 +178,7 @@ html, body {
       animation-name: bar-scale-sm;
       animation-duration: .9s; }
 
-.homepage {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  background: #050505; }
-  .homepage .webGL-canvas {
-    height: calc(100vh - 240px);
-    position: relative;
-    background: #050505;
-    width: 100vw; }
-    .homepage .webGL-canvas canvas {
-      width: 100%;
-      height: 100%; }
-    @media screen and (max-width: 640px) {
-      .homepage .webGL-canvas {
-        position: absolute;
-        top: 0;
-        height: 100vh; } }
-  .homepage .homepage-controllers {
-    display: flex;
-    position: absolute;
-    padding-left: 40px;
-    padding-right: 40px;
-    align-items: center;
-    bottom: 0;
-    right: 0; }
-    @media screen and (max-width: 640px) {
-      .homepage .homepage-controllers {
-        width: 100%;
-        justify-content: center;
-        bottom: 16px; } }
-  .homepage .homepage--fullsize {
-    padding: 8px;
-    margin-left: 32px; }
-    .homepage .homepage--fullsize img {
-      width: 16px; }
-
-h1 {
+.typing-title {
   color: #FAFAFA;
   position: absolute;
   bottom: 48px;
@@ -221,16 +187,18 @@ h1 {
   text-transform: uppercase;
   font-size: 30px;
   font-weight: bold;
-  line-height: 33px; }
+  line-height: 33px;
+  font-family: 'Roboto Mono', monospace; }
   @media screen and (max-width: 640px) {
-    h1 {
+    .typing-title {
       left: 40px;
       padding-right: 40px;
       font-size: 25px;
       bottom: 80px; } }
-  h1 .blinking:after {
+  .typing-title .blinking:after {
     content: "|";
     margin-left: 8px;
+    font-family: 'Roboto Mono', monospace;
     -webkit-animation: 1s blink step-end infinite;
     -moz-animation: 1s blink step-end infinite;
     -ms-animation: 1s blink step-end infinite;
@@ -266,6 +234,76 @@ h1 {
     color: transparent; }
   50% {
     color: #fafafa; } }
+
+.homepage {
+  position: relative;
+  height: calc(100vh - 120px);
+  width: 100vw; }
+  .homepage .webGL-canvas {
+    height: calc(100vh - 240px);
+    position: relative;
+    background: #050505;
+    width: 100vw; }
+    .homepage .webGL-canvas canvas {
+      width: 100%;
+      height: 100%; }
+    @media screen and (max-width: 640px) {
+      .homepage .webGL-canvas {
+        position: absolute;
+        top: 0;
+        height: 100vh; } }
+  .homepage .homepage-controllers {
+    display: flex;
+    position: absolute;
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+    bottom: 0;
+    right: 0; }
+    @media screen and (max-width: 640px) {
+      .homepage .homepage-controllers {
+        width: 100%;
+        justify-content: center;
+        bottom: 16px; } }
+  .homepage .homepage--fullsize {
+    padding: 8px;
+    margin-left: 32px; }
+    .homepage .homepage--fullsize img {
+      width: 16px; }
+
+.contact {
+  margin-left: 40px;
+  margin-right: 40px;
+  position: relative;
+  color: white; }
+  .contact h1 {
+    font-size: 48px;
+    margin: 0;
+    margin-bottom: 48px; }
+  .contact .form {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .contact textarea {
+    color: white; }
+  .contact .contact-input {
+    color: white;
+    margin-top: 12px;
+    margin-bottom: 36px;
+    min-width: 100%;
+    max-width: 100%; }
+  .contact .cta {
+    border: #fafafa 1px solid;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-top: 36px;
+    opacity: 0.8;
+    transition: opacity 0.2s linear; }
+    .contact .cta:hover {
+      opacity: 1; }
 
 
 /*# sourceMappingURL=styles.chunk.css.map*/

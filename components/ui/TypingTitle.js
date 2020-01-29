@@ -85,7 +85,7 @@ const TypingTitle = ({title, typing}) => {
     )
 
     return(
-        <h1>
+        <h1 className="typing-title">
             {titles}
         </h1>
     )

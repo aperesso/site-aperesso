@@ -565,23 +565,28 @@ function _extends() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/helpers/esm/extends */ "./node_modules/@babel/runtime-corejs2/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/CssBaseline */ "@material-ui/core/CssBaseline");
-/* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "react-redux");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/polyfill */ "@babel/polyfill");
-/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _lib_with_redux_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/with-redux-store */ "./lib/with-redux-store.js");
-/* harmony import */ var _components_ui_Target__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/ui/Target */ "./components/ui/Target.js");
-/* harmony import */ var _components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/ui/DeviceChecker */ "./components/ui/DeviceChecker.js");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../scss/index.scss */ "./scss/index.scss");
-/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_scss_index_scss__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-jsx/style */ "styled-jsx/style");
+/* harmony import */ var styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/CssBaseline */ "@material-ui/core/CssBaseline");
+/* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "react-redux");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_redux__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var next_page_transitions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next-page-transitions */ "next-page-transitions");
+/* harmony import */ var next_page_transitions__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_page_transitions__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/polyfill */ "@babel/polyfill");
+/* harmony import */ var _babel_polyfill__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_polyfill__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _lib_with_redux_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/with-redux-store */ "./lib/with-redux-store.js");
+/* harmony import */ var _components_ui_Target__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/ui/Target */ "./components/ui/Target.js");
+/* harmony import */ var _components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/ui/DeviceChecker */ "./components/ui/DeviceChecker.js");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../scss/index.scss */ "./scss/index.scss");
+/* harmony import */ var _scss_index_scss__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_scss_index_scss__WEBPACK_IMPORTED_MODULE_10__);
 
 var _jsxFileName = "/Users/alexiaperesson/site-aperesso/pages/_app.js";
 
-var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
 
 
@@ -590,47 +595,64 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
+
+const TIMEOUT = 400;
 
 const App = ({
   Component,
   pageProps,
   reduxStore
 }) => {
-  return __jsx(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, __jsx(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 18
-    },
-    __self: undefined
-  }), __jsx(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
-    store: reduxStore,
+  return __jsx(react__WEBPACK_IMPORTED_MODULE_2___default.a.Fragment, null, __jsx(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_3___default.a, {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 19
     },
     __self: undefined
-  }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
+  }), __jsx(react_redux__WEBPACK_IMPORTED_MODULE_4__["Provider"], {
+    store: reduxStore,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 20
     },
     __self: undefined
-  })), __jsx(_components_ui_Target__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 21
-    },
-    __self: undefined
-  }), __jsx(_components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, __jsx(next_page_transitions__WEBPACK_IMPORTED_MODULE_5__["PageTransition"], {
+    classNames: "page-transition",
+    loadingDelay: 800,
+    timeout: TIMEOUT,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 22
     },
     __self: undefined
-  })));
+  }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
+    className: "jsx-453654719" + " " + (pageProps && pageProps.className != null && pageProps.className || ""),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 29
+    },
+    __self: undefined
+  }))), __jsx(_components_ui_Target__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 31
+    },
+    __self: undefined
+  }), __jsx(_components_ui_DeviceChecker__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 32
+    },
+    __self: undefined
+  }), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
+    id: "453654719",
+    __self: undefined
+  }, `.page-transition-enter{opacity:0;-webkit-transform:translate3d(0,40px,10);-ms-transform:translate3d(0,40px,10);transform:translate3d(0,40px,10);}.page-transition-enter-active{opacity:1;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-transition:opacity ${TIMEOUT}ms,-webkit-transform ${TIMEOUT}ms;-webkit-transition:opacity ${TIMEOUT}ms,transform ${TIMEOUT}ms;transition:opacity ${TIMEOUT}ms,transform ${TIMEOUT}ms;}.page-transition-exit{opacity:1;}.page-transition-exit-active{opacity:0;-webkit-transition:opacity ${TIMEOUT}ms;transition:opacity ${TIMEOUT}ms;}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9hbGV4aWFwZXJlc3Nvbi9zaXRlLWFwZXJlc3NvL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBZ0M2QixBQUl5QixBQUlBLEFBS0EsQUFHQSxVQVh5QixBQUlKLEFBS2pDLEFBR29ELG1HQVAwQyxTQVE5RixHQVpBLDZSQUtBIiwiZmlsZSI6Ii9Vc2Vycy9hbGV4aWFwZXJlc3Nvbi9zaXRlLWFwZXJlc3NvL3BhZ2VzL19hcHAuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZmZlY3QgLCB1c2VSZWZ9IGZyb20gJ3JlYWN0JztcbmltcG9ydCBDc3NCYXNlbGluZSBmcm9tIFwiQG1hdGVyaWFsLXVpL2NvcmUvQ3NzQmFzZWxpbmVcIjtcbmltcG9ydCB7IFByb3ZpZGVyIH0gZnJvbSBcInJlYWN0LXJlZHV4XCI7XG5pbXBvcnQgeyBQYWdlVHJhbnNpdGlvbiB9IGZyb20gJ25leHQtcGFnZS10cmFuc2l0aW9ucydcbmltcG9ydCBcIkBiYWJlbC9wb2x5ZmlsbFwiO1xuXG5pbXBvcnQgd2l0aFJlZHV4U3RvcmUgZnJvbSBcIi4uL2xpYi93aXRoLXJlZHV4LXN0b3JlXCI7XG5cbmltcG9ydCBUYXJnZXQgZnJvbSAnLi4vY29tcG9uZW50cy91aS9UYXJnZXQnO1xuaW1wb3J0IERldmljZUNoZWNrZXIgZnJvbSAnLi4vY29tcG9uZW50cy91aS9EZXZpY2VDaGVja2VyJztcblxuaW1wb3J0ICcuLi9zY3NzL2luZGV4LnNjc3MnO1xuY29uc3QgVElNRU9VVCA9IDQwMFxuXG5jb25zdCBBcHAgPSAoe0NvbXBvbmVudCwgcGFnZVByb3BzLCByZWR1eFN0b3JlIH0pID0+IHsgXG5cbiAgcmV0dXJuIChcbiAgICA8PlxuICAgICAgPENzc0Jhc2VsaW5lLz5cbiAgICAgIDxQcm92aWRlciBzdG9yZT17cmVkdXhTdG9yZX0+XG5cbiAgICAgIDxQYWdlVHJhbnNpdGlvblxuXG4gICAgICAgICAgY2xhc3NOYW1lcz1cInBhZ2UtdHJhbnNpdGlvblwiXG4gICAgICAgICAgbG9hZGluZ0RlbGF5PXs4MDB9XG4gICAgICAgICAgdGltZW91dD17VElNRU9VVH1cblxuICAgICAgICA+XG4gICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfS8+XG4gICAgICAgIDwvUGFnZVRyYW5zaXRpb24+XG4gICAgICAgICAgPFRhcmdldC8+XG4gICAgICAgICAgPERldmljZUNoZWNrZXIvPlxuICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG5cbiAgICAgICAgICAgIC5wYWdlLXRyYW5zaXRpb24tZW50ZXIge1xuICAgICAgICAgICAgICBvcGFjaXR5OiAwO1xuICAgICAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIDQwcHgsIDEwKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIC5wYWdlLXRyYW5zaXRpb24tZW50ZXItYWN0aXZlIHtcbiAgICAgICAgICAgICAgb3BhY2l0eTogMTtcbiAgICAgICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAwLCAwKTtcbiAgICAgICAgICAgICAgdHJhbnNpdGlvbjogb3BhY2l0eSAke1RJTUVPVVR9bXMsIHRyYW5zZm9ybSAke1RJTUVPVVR9bXM7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAucGFnZS10cmFuc2l0aW9uLWV4aXQge1xuICAgICAgICAgICAgICBvcGFjaXR5OiAxO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgLnBhZ2UtdHJhbnNpdGlvbi1leGl0LWFjdGl2ZSB7XG4gICAgICAgICAgICAgIG9wYWNpdHk6IDA7XG4gICAgICAgICAgICAgIHRyYW5zaXRpb246IG9wYWNpdHkgJHtUSU1FT1VUfW1zO1xuICAgICAgICAgICAgfVxuICAgICAgICAgIGB9XG4gICAgICAgIDwvc3R5bGU+XG4gICAgICA8L1Byb3ZpZGVyPlxuICAgIDwvPlxuICApXG59XG5cbmV4cG9ydCBkZWZhdWx0IHdpdGhSZWR1eFN0b3JlKEFwcCk7Il19 */
+/*@ sourceURL=/Users/alexiaperesson/site-aperesso/pages/_app.js */`)));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_lib_with_redux_store__WEBPACK_IMPORTED_MODULE_5__["default"])(App));
+/* harmony default export */ __webpack_exports__["default"] = (Object(_lib_with_redux_store__WEBPACK_IMPORTED_MODULE_7__["default"])(App));
 
 /***/ }),
 
@@ -847,6 +869,17 @@ module.exports = require("lodash.isequal");
 
 /***/ }),
 
+/***/ "next-page-transitions":
+/*!****************************************!*\
+  !*** external "next-page-transitions" ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("next-page-transitions");
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "react" ***!
@@ -921,6 +954,17 @@ module.exports = require("redux-devtools-extension");
 /***/ (function(module, exports) {
 
 module.exports = require("redux-thunk");
+
+/***/ }),
+
+/***/ "styled-jsx/style":
+/*!***********************************!*\
+  !*** external "styled-jsx/style" ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("styled-jsx/style");
 
 /***/ })
 

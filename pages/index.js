@@ -1,15 +1,14 @@
-import { useEffect , useState , useCallback , useMemo } from "react";
+import { useEffect , useState , useCallback } from "react";
 
 import Layout from '../components/Layout';
 import Loader from '../components/ui/Loader';
 import AudioController from '../components/ui/AudioController';
-import WebGL from '../webgl';
-import { loadWebGL } from '../reducers';
-import { useSelector, useDispatch } from "../lib/useRedux";
-import lexicon from '../lexicon';
-import '../scss/homepage.scss';
 import TypingTitle from "../components/ui/TypingTitle";
 
+import WebGL from '../webgl';
+import lexicon from '../lexicon';
+
+import '../scss/homepage.scss';
 
 
 const Index = () => {
@@ -23,32 +22,31 @@ const Index = () => {
     () => {
 
       if (!webGL) {
-          const GL = new WebGL();
-          GL.load().then(() => {
-            setWebGL(true);
-            setAudio(() => GL.audio);
-            setOnResize(() => GL.onResize);
-            GL.render()
-          })
+          const GL = new WebGL('pulse');
+          GL.load()
+            .then(
+              () => {
+                setWebGL(true);
+                setAudio(() => GL.audio);
+                setOnResize(() => GL.onResize);
+                GL.render();
+              }
+            )
       }
-        return (
-          () => {
-            if (webGL && audio.stop) {
-              audio.stop();
-            }
-          }
-        )
+
+      return (
+        () => {
+          if (webGL && audio.stop) audio.stop();
+        }
+      )
     } , 
     [webGL, audio]
   )
 
   useEffect(
     () => {
-      if (audio.isPlaying) {
-        audio.play()
-      } else if (audio.stop) {
-        audio.stop()
-      }
+      if (audio.isPlaying)  audio.play()
+      else if (audio.stop)  audio.stop()
     } , [audio.isPlaying, audio.stop]
   )
 

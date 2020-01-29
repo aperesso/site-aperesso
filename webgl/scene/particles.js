@@ -29,8 +29,6 @@ const Particles = function() {
   geo.setAttribute( 'longitude', new THREE.InstancedBufferAttribute( longitude, 1 ) );
   geo.setAttribute( 'indice', new THREE.InstancedBufferAttribute( indice, 1 ) );
 
-
-
   this.setUp = async audio => {
     this.audio = audio;
     const texture = await loadTexture('smoke.png');
