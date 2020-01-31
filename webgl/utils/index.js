@@ -6,9 +6,9 @@ const getDimensions = containerId => {
   return { width , height };
 }
 
-const loadTexture = async file => {
+const loadTexture = file => {
   const loader = new THREE.TextureLoader();
-  const texture = await new Promise((resolve, reject) => {
+  const texture = new Promise((resolve, reject) => {
       loader.load(`/assets/texture/${file}`, texture => {
           resolve(texture)
       })

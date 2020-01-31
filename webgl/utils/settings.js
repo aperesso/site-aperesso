@@ -13,7 +13,7 @@ const AUDIO_SETTINGS = {
 }
 const SPHERE_SETTINGS = {
   radius : 8,
-  segments : 200,
+  segments : 150,
   noiseScale : 1.0,
   noiseFrequency : 0.224,
   noiseOffset : new THREE.Vector3(0.2, 0.2, 0.2),

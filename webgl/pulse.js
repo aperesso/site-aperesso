@@ -25,6 +25,11 @@ const Pulse = function() {
             camera.position.set(0,0, isMobile ? 30 : 20);
 
             renderer.setClearColor(new THREE.Color('#010101'), 1.);
+
+            const light = new THREE.DirectionalLight(0xffffff, 0.8);
+            light.position.z = 5;
+            
+            program.addToScene([light])
             
             renderer.shadowMap.enabled = true;
             renderer.toneMapping = THREE.ReinhardToneMapping;
@@ -34,8 +39,8 @@ const Pulse = function() {
 
     program.setUpComposer(
         ({composer}) => {
-            const filmPass = new FilmPass(0.35,0.25, 648, false);
-            composer.addPass(filmPass); 
+            // const filmPass = new FilmPass(0.35,0.25, 648, false);
+            // composer.addPass(filmPass); 
         }
     )
 

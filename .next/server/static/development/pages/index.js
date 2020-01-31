@@ -420,14 +420,14 @@ const Loader = ({
     onAnimationEnd: onAnimationEnd,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78
+      lineNumber: 73
     },
     __self: undefined
   }, __jsx("div", {
     className: "loader-wrapper",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 81
+      lineNumber: 76
     },
     __self: undefined
   }, renderState));
@@ -12649,15 +12649,17 @@ const Pulse = function () {
   }) => {
     camera.position.set(0, 0, isMobile ? 30 : 20);
     renderer.setClearColor(new three__WEBPACK_IMPORTED_MODULE_0__["Color"]('#010101'), 1.);
+    const light = new three__WEBPACK_IMPORTED_MODULE_0__["DirectionalLight"](0xffffff, 0.8);
+    light.position.z = 5;
+    program.addToScene([light]);
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = three__WEBPACK_IMPORTED_MODULE_0__["ReinhardToneMapping"];
     renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__["PCFSoftShadowMap"];
   });
   program.setUpComposer(({
     composer
-  }) => {
-    const filmPass = new three_examples_jsm_postprocessing_FilmPass__WEBPACK_IMPORTED_MODULE_1__["FilmPass"](0.35, 0.25, 648, false);
-    composer.addPass(filmPass);
+  }) => {// const filmPass = new FilmPass(0.35,0.25, 648, false);
+    // composer.addPass(filmPass); 
   });
   program.setUpControls(controls => {
     controls.lookAt(new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0, 0, 0));
@@ -12770,91 +12772,173 @@ const Particles = function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var three_examples_jsm_utils_BufferGeometryUtils_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/utils/BufferGeometryUtils.js */ "./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js");
-/* harmony import */ var _shaders_sphere__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shaders/sphere */ "./webgl/shaders/sphere.js");
-/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/settings */ "./webgl/utils/settings.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/promise */ "./node_modules/@babel/runtime-corejs2/core-js/promise.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var three_examples_jsm_utils_BufferGeometryUtils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/utils/BufferGeometryUtils.js */ "./node_modules/three/examples/jsm/utils/BufferGeometryUtils.js");
+/* harmony import */ var _shaders_sphere__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shaders/sphere */ "./webgl/shaders/sphere.js");
+/* harmony import */ var _shaders_noise__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shaders/noise */ "./webgl/shaders/noise.js");
+/* harmony import */ var _utils_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/settings */ "./webgl/utils/settings.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils */ "./webgl/utils/index.js");
+
+
+
 
 
 
 
 
 const Sphere = function () {
-  const uniforms = {
-    uAudioBandsBuffer: {
-      value: new Array(8).fill(0)
-    },
-    uNoiseScale: {
-      value: _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].noiseScale
-    },
-    uNoiseFrequency: {
-      value: _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].noiseFrequency
-    },
-    uNoiseOffset: {
-      value: _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].noiseOffset
-    },
-    uTime: {
-      value: 1.0
-    },
-    uMaterialAmbientA: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialAmbientA)
-    },
-    uMaterialAmbientB: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialAmbientB)
-    },
-    uMaterialSpecularA: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialSpecularA)
-    },
-    uMaterialSpecularB: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialSpecularB)
-    },
-    uMaterialDiffuseA: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialDiffuseA)
-    },
-    uMaterialDiffuseB: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialDiffuseB)
-    },
-    uMaterialShininess: {
-      value: _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].materialShininess
-    },
-    uLightAmbient: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].lightAmbient)
-    },
-    uLightDiffuse: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].lightDiffuse)
-    },
-    uLightSpecular: {
-      value: new three__WEBPACK_IMPORTED_MODULE_0__["Color"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].lightSpecular)
-    },
-    uLightPosition: {
-      value: _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].lightPosition
-    }
-  };
+  this.materialShader = false;
 
   this.setUp = async (audio, isMobile) => {
     this.audio = audio;
-    const segments = isMobile ? 100 : _utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].segments;
-    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__["SphereBufferGeometry"](_utils_settings__WEBPACK_IMPORTED_MODULE_3__["SPHERE_SETTINGS"].radius, segments, segments);
-    three_examples_jsm_utils_BufferGeometryUtils_js__WEBPACK_IMPORTED_MODULE_1__["BufferGeometryUtils"].computeTangents(geometry);
-    const material = new three__WEBPACK_IMPORTED_MODULE_0__["ShaderMaterial"]({
-      uniforms,
-      fragmentShader: _shaders_sphere__WEBPACK_IMPORTED_MODULE_2__["fragmentShader"],
-      vertexShader: _shaders_sphere__WEBPACK_IMPORTED_MODULE_2__["vertexShader"]
+    const segments = isMobile ? 100 : _utils_settings__WEBPACK_IMPORTED_MODULE_5__["SPHERE_SETTINGS"].segments;
+    const geometry = new three__WEBPACK_IMPORTED_MODULE_1__["SphereBufferGeometry"](_utils_settings__WEBPACK_IMPORTED_MODULE_5__["SPHERE_SETTINGS"].radius, segments, segments);
+    three_examples_jsm_utils_BufferGeometryUtils_js__WEBPACK_IMPORTED_MODULE_2__["BufferGeometryUtils"].computeTangents(geometry);
+    const textures = ['envmap.jpg', 'metal/Metal03_col.jpg', 'metal/Metal03_disp.jpg', 'metal/Metal03_met.jpg', 'metal/Metal03_nrm.jpg', 'metal/Metal03_rgh.jpg'].map(_utils__WEBPACK_IMPORTED_MODULE_6__["loadTexture"]);
+    const [envMap, map, displacementMap, metalnessMap, normalMap, roughnessMap] = await _babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0___default.a.all(textures);
+    const st = new three__WEBPACK_IMPORTED_MODULE_1__["MeshStandardMaterial"]({
+      envMap,
+      map,
+      displacementMap,
+      metalnessMap,
+      normalMap,
+      roughnessMap
     });
-    this.mesh = new three__WEBPACK_IMPORTED_MODULE_0__["Mesh"](geometry, material);
+
+    st.onBeforeCompile = shader => {
+      shader.uniforms.uTime = {
+        value: 0
+      };
+      shader.uniforms.uAudioBandsBuffer = {
+        value: new Array(8).fill(0)
+      };
+      shader.uniforms.uNoiseOffset = {
+        value: new three__WEBPACK_IMPORTED_MODULE_1__["Vector3"](0.2, 0.2, 0.2)
+      };
+      shader.vertexShader = `
+        ${_shaders_noise__WEBPACK_IMPORTED_MODULE_4__["default"]}
+        uniform float uTime;
+        uniform float uAudioBandsBuffer[8];
+        uniform vec3 uNoiseOffset;
+        attribute vec3 tangent;
+
+        varying float averageAudio;
+        ${shader.vertexShader}
+      `.replace("#include <begin_vertex>", _shaders_sphere__WEBPACK_IMPORTED_MODULE_3__["vertexShader"]);
+      shader.fragmentShader = `
+        uniform float uTime;
+        varying float averageAudio;
+        ${shader.fragmentShader}
+      `.replace('vec4 diffuseColor = vec4( diffuse, opacity );', _shaders_sphere__WEBPACK_IMPORTED_MODULE_3__["fragmentShader"]);
+      this.materialShader = shader;
+    };
+
+    this.mesh = new three__WEBPACK_IMPORTED_MODULE_1__["Mesh"](geometry, st);
   };
 
   this.update = () => {
-    this.mesh.material.uniforms["uTime"].value += 0.001;
-    this.mesh.material.uniforms["uNoiseOffset"].value.x += 0.02;
-    this.mesh.material.uniforms["uNoiseOffset"].value.y += 0.02;
-    this.mesh.material.uniforms["uNoiseOffset"].value.z += 0.02;
-    this.mesh.material.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();
+    if (!this.materialShader) return;
+    this.materialShader.uniforms["uTime"].value += 0.1;
+    this.materialShader.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();
+    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.02;
+    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.02;
+    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.02;
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Sphere);
+
+/***/ }),
+
+/***/ "./webgl/shaders/noise.js":
+/*!********************************!*\
+  !*** ./webgl/shaders/noise.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const noiseShader = `
+//	Simplex 3D Noise 
+//	by Ian McEwan, Ashima Arts
+//
+vec4 permute(vec4 x) { return mod(((x*34.0)+1.0)*x, 289.0);}
+vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r;}
+
+float snoise(vec3 v) { 
+  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+
+// First corner
+  vec3 i  = floor(v + dot(v, C.yyy) );
+  vec3 x0 =   v - i + dot(i, C.xxx) ;
+
+// Other corners
+  vec3 g = step(x0.yzx, x0.xyz);
+  vec3 l = 1.0 - g;
+  vec3 i1 = min( g.xyz, l.zxy );
+  vec3 i2 = max( g.xyz, l.zxy );
+
+  //  x0 = x0 - 0. + 0.0 * C 
+  vec3 x1 = x0 - i1 + 1.0 * C.xxx;
+  vec3 x2 = x0 - i2 + 2.0 * C.xxx;
+  vec3 x3 = x0 - 1. + 3.0 * C.xxx;
+
+// Permutations
+  i = mod(i, 289.0 ); 
+  vec4 p = permute( permute( permute( 
+             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+           + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+
+// Gradients
+// ( N*N points uniformly over a square, mapped onto an octahedron.)
+  float n_ = 1.0/7.0; // N=7
+  vec3  ns = n_ * D.wyz - D.xzx;
+
+  vec4 j = p - 49.0 * floor(p * ns.z *ns.z);  //  mod(p,N*N)
+
+  vec4 x_ = floor(j * ns.z);
+  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
+
+  vec4 x = x_ *ns.x + ns.yyyy;
+  vec4 y = y_ *ns.x + ns.yyyy;
+  vec4 h = 1.0 - abs(x) - abs(y);
+
+  vec4 b0 = vec4( x.xy, y.xy );
+  vec4 b1 = vec4( x.zw, y.zw );
+
+  vec4 s0 = floor(b0)*2.0 + 1.0;
+  vec4 s1 = floor(b1)*2.0 + 1.0;
+  vec4 sh = -step(h, vec4(0.0));
+
+  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+
+  vec3 p0 = vec3(a0.xy,h.x);
+  vec3 p1 = vec3(a0.zw,h.y);
+  vec3 p2 = vec3(a1.xy,h.z);
+  vec3 p3 = vec3(a1.zw,h.w);
+
+//Normalise gradients
+  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+  p0 *= norm.x;
+  p1 *= norm.y;
+  p2 *= norm.z;
+  p3 *= norm.w;
+
+// Mix final noise value
+  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+  m = m * m;
+  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                dot(p2,x2), dot(p3,x3) ) );
+}
+`;
+/* harmony default export */ __webpack_exports__["default"] = (noiseShader);
 
 /***/ }),
 
@@ -12991,170 +13075,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "vertexShader", function() { return vertexShader; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fragmentShader", function() { return fragmentShader; });
 const vertexShader = `
-//	Simplex 3D Noise 
-//	by Ian McEwan, Ashima Arts
-//
-vec4 permute(vec4 x) { return mod(((x*34.0)+1.0)*x, 289.0);}
-vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r;}
-
-float snoise(vec3 v) { 
-  const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
-  const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
-
-// First corner
-  vec3 i  = floor(v + dot(v, C.yyy) );
-  vec3 x0 =   v - i + dot(i, C.xxx) ;
-
-// Other corners
-  vec3 g = step(x0.yzx, x0.xyz);
-  vec3 l = 1.0 - g;
-  vec3 i1 = min( g.xyz, l.zxy );
-  vec3 i2 = max( g.xyz, l.zxy );
-
-  //  x0 = x0 - 0. + 0.0 * C 
-  vec3 x1 = x0 - i1 + 1.0 * C.xxx;
-  vec3 x2 = x0 - i2 + 2.0 * C.xxx;
-  vec3 x3 = x0 - 1. + 3.0 * C.xxx;
-
-// Permutations
-  i = mod(i, 289.0 ); 
-  vec4 p = permute( permute( permute( 
-             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-           + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
-           + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
-
-// Gradients
-// ( N*N points uniformly over a square, mapped onto an octahedron.)
-  float n_ = 1.0/7.0; // N=7
-  vec3  ns = n_ * D.wyz - D.xzx;
-
-  vec4 j = p - 49.0 * floor(p * ns.z *ns.z);  //  mod(p,N*N)
-
-  vec4 x_ = floor(j * ns.z);
-  vec4 y_ = floor(j - 7.0 * x_ );    // mod(j,N)
-
-  vec4 x = x_ *ns.x + ns.yyyy;
-  vec4 y = y_ *ns.x + ns.yyyy;
-  vec4 h = 1.0 - abs(x) - abs(y);
-
-  vec4 b0 = vec4( x.xy, y.xy );
-  vec4 b1 = vec4( x.zw, y.zw );
-
-  vec4 s0 = floor(b0)*2.0 + 1.0;
-  vec4 s1 = floor(b1)*2.0 + 1.0;
-  vec4 sh = -step(h, vec4(0.0));
-
-  vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
-  vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
-
-  vec3 p0 = vec3(a0.xy,h.x);
-  vec3 p1 = vec3(a0.zw,h.y);
-  vec3 p2 = vec3(a1.xy,h.z);
-  vec3 p3 = vec3(a1.zw,h.w);
-
-//Normalise gradients
-  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
-  p0 *= norm.x;
-  p1 *= norm.y;
-  p2 *= norm.z;
-  p3 *= norm.w;
-
-// Mix final noise value
-  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-  m = m * m;
-  return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
-                                dot(p2,x2), dot(p3,x3) ) );
-}
-
-varying vec3 vNormal;
-varying vec3 vPos;
-
-attribute vec3 tangent;
-
-uniform vec3 uNoiseOffset;
-uniform float uNoiseScale;
-uniform float uNoiseFrequency;
-uniform float uTime;
-uniform float uAudioBandsBuffer[8];
-
-varying float average;
-
-void main() {
-
   vec3 v0 = position;
+
   vec3 bitangent = cross(normal, tangent);
   vec3 v1 = v0 + (tangent * 0.01);
   vec3 v2 = v0 + (bitangent * 0.01);
 
- 
-  average = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] + uAudioBandsBuffer[3] +
+  averageAudio = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] + uAudioBandsBuffer[3] +
     uAudioBandsBuffer[4] + uAudioBandsBuffer[5] + uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 8.0;
 
-  float noiseSc =    3.0 * average;
-  float noiseFreq =  0.5 * average ;
-  
+  float noiseScale = 2.0 * averageAudio;
+  float noiseFrequency = 0.5 * averageAudio;
 
-  float ns0 =  noiseSc *  snoise(vec3(v0.x + uNoiseOffset.x, v0.y + uNoiseOffset.y, v0.z + uNoiseOffset.z) * noiseFreq );
+  float ns0 =  noiseScale *  snoise(vec3(v0.x + uNoiseOffset.x, v0.y + uNoiseOffset.y, v0.z + uNoiseOffset.z) * noiseFrequency );
   v0 += ((ns0 - 1.)/2.) * normal;
 
-  float ns1 = noiseSc *  snoise(vec3(v1.x + uNoiseOffset.x, v1.y + uNoiseOffset.y, v1.z + uNoiseOffset.z) * noiseFreq );
+  float ns1 = noiseScale *  snoise(vec3(v1.x + uNoiseOffset.x, v1.y + uNoiseOffset.y, v1.z + uNoiseOffset.z) * noiseFrequency );
   v1 += ((ns1 - 1.)/2.) * normal;
 
-  float ns2 =  noiseSc * snoise(vec3(v2.x + uNoiseOffset.x, v2.y + uNoiseOffset.y, v2.z + uNoiseOffset.z) * noiseFreq );
+  float ns2 =  noiseScale * snoise(vec3(v2.x + uNoiseOffset.x, v2.y + uNoiseOffset.y, v2.z + uNoiseOffset.z) * noiseFrequency );
   v2+= ((ns2 - 1.)/2.) * normal;
 
   vec3 vn = cross(v2- v0, v1 - v0);
   vNormal = normalize(-vn);
 
-  vec4 modelViewPosition = modelViewMatrix * vec4( v0 , 1.0);
-  vPos = vec3(modelMatrix * vec4(v0, 1.0));
- 
-  gl_Position = projectionMatrix * modelViewPosition;
-}
+  vec3 transformed = vec3(v0);
 `;
 const fragmentShader = `
-varying vec3    vPos;
-varying vec3    vNormal;
-
-uniform vec3    uLightPosition;
-uniform vec3    uLightDiffuse;
-uniform vec3    uLightAmbient;
-uniform vec3    uLightSpecular;
-
-uniform vec3    uMaterialAmbientA;
-uniform vec3    uMaterialAmbientB;
-uniform vec3    uMaterialDiffuseA;
-uniform vec3    uMaterialDiffuseB;
-uniform vec3    uMaterialSpecularA;
-uniform vec3    uMaterialSpecularB;
-uniform float   uMaterialShininess;
-uniform float   uTime;
-
-uniform float uAudioBandsBuffer[8];
-
-varying float average;
-
-void main() {
-    float testcol = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7] + uAudioBandsBuffer[5] ) / 3.0;
-    vec3  colorAmbient = vec3(testcol * uMaterialAmbientA);
-
-    vec3    ambient =  uLightAmbient * colorAmbient;
-
-    vec3 colorDiffuse = vec3(testcol * uMaterialDiffuseA);
-
-    vec3    lightDirection = normalize(uLightPosition - vPos);
-    float   diffuseIntensity =  max(dot(vNormal, lightDirection), 0.0);
-    vec3    diffuse = uLightDiffuse * (diffuseIntensity * colorDiffuse);
-
-    vec3    colorSpecular = mix(uMaterialSpecularA, uMaterialSpecularB, max(average, 0.2));
-    vec3    viewDirection = normalize(cameraPosition - vPos);
-    vec3    reflectDirection = reflect(-lightDirection, vNormal);
-    float   specularIntensity = pow(max(dot(viewDirection, reflectDirection), 0.0), uMaterialShininess);
-    vec3    specular = uLightSpecular * (specularIntensity * colorSpecular);
-
-    vec3 color = ambient + diffuse + specular;
-    gl_FragColor = vec4(color, 1.);
-}
+  vec3 newDiffuse = max(averageAudio , 0.2)  * diffuse;
+  vec4 diffuseColor = vec4( newDiffuse, opacity );
 `;
 
 
@@ -13300,9 +13249,9 @@ const getDimensions = containerId => {
   };
 };
 
-const loadTexture = async file => {
+const loadTexture = file => {
   const loader = new three__WEBPACK_IMPORTED_MODULE_1__["TextureLoader"]();
-  const texture = await new _babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0___default.a((resolve, reject) => {
+  const texture = new _babel_runtime_corejs2_core_js_promise__WEBPACK_IMPORTED_MODULE_0___default.a((resolve, reject) => {
     loader.load(`/assets/texture/${file}`, texture => {
       resolve(texture);
     });
@@ -13342,7 +13291,7 @@ const AUDIO_SETTINGS = {
 };
 const SPHERE_SETTINGS = {
   radius: 8,
-  segments: 200,
+  segments: 150,
   noiseScale: 1.0,
   noiseFrequency: 0.224,
   noiseOffset: new three__WEBPACK_IMPORTED_MODULE_0__["Vector3"](0.2, 0.2, 0.2),

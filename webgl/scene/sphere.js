@@ -2,48 +2,91 @@ import * as THREE from "three";
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 import { fragmentShader, vertexShader } from '../shaders/sphere';
+import noiseShader from '../shaders/noise';
 import { SPHERE_SETTINGS  } from '../utils/settings';
+import { loadTexture } from '../utils';
 
 const Sphere = function() {
 
-  const uniforms = {
-    uAudioBandsBuffer : { value : new Array(8).fill(0) },
-    uNoiseScale : { value : SPHERE_SETTINGS.noiseScale },
-    uNoiseFrequency : { value : SPHERE_SETTINGS.noiseFrequency },
-    uNoiseOffset : { value : SPHERE_SETTINGS.noiseOffset },
-    uTime : { value : 1.0 },
-    uMaterialAmbientA : { value : new THREE.Color(SPHERE_SETTINGS.materialAmbientA)},
-    uMaterialAmbientB : { value : new THREE.Color(SPHERE_SETTINGS.materialAmbientB)},
-    uMaterialSpecularA : { value : new THREE.Color(SPHERE_SETTINGS.materialSpecularA) },
-    uMaterialSpecularB : { value : new THREE.Color(SPHERE_SETTINGS.materialSpecularB) },
-    uMaterialDiffuseA : { value : new THREE.Color(SPHERE_SETTINGS.materialDiffuseA)},
-    uMaterialDiffuseB : { value : new THREE.Color(SPHERE_SETTINGS.materialDiffuseB)},
-    uMaterialShininess : { value : SPHERE_SETTINGS.materialShininess },
-    uLightAmbient : { value : new THREE.Color(SPHERE_SETTINGS.lightAmbient) },
-    uLightDiffuse : { value : new THREE.Color(SPHERE_SETTINGS.lightDiffuse) },
-    uLightSpecular : { value : new THREE.Color(SPHERE_SETTINGS.lightSpecular) },
-    uLightPosition : { value : SPHERE_SETTINGS.lightPosition }
-  }
+  this.materialShader = false; 
   
   this.setUp = async (audio, isMobile) => {
     this.audio = audio;
     const segments = isMobile ? 100 : SPHERE_SETTINGS.segments;
+
     const geometry = new THREE.SphereBufferGeometry(SPHERE_SETTINGS.radius, segments, segments);
     BufferGeometryUtils.computeTangents(geometry);
-    const material = new THREE.ShaderMaterial({
-      uniforms,
-      fragmentShader,
-      vertexShader
+
+    const textures = [
+      'envmap.jpg', 
+      'metal/Metal03_col.jpg',
+      'metal/Metal03_disp.jpg',
+      'metal/Metal03_met.jpg',
+      'metal/Metal03_nrm.jpg',
+      'metal/Metal03_rgh.jpg'
+    ].map(loadTexture);
+    
+    const [
+      envMap,
+      map, 
+      displacementMap, 
+      metalnessMap, 
+      normalMap, 
+      roughnessMap 
+    ] = await Promise.all(textures);
+
+
+    const st = new THREE.MeshStandardMaterial({
+      envMap,
+      map,
+      displacementMap,
+      metalnessMap,
+      normalMap,
+      roughnessMap,
     });
-    this.mesh = new THREE.Mesh(geometry, material);
+
+    st.onBeforeCompile = shader => {
+      
+      shader.uniforms.uTime = { value : 0 }
+      shader.uniforms.uAudioBandsBuffer = { value : new Array(8).fill(0) } 
+      shader.uniforms.uNoiseOffset = { value : new THREE.Vector3(0.2, 0.2, 0.2) }
+
+      shader.vertexShader = `
+        ${noiseShader}
+        uniform float uTime;
+        uniform float uAudioBandsBuffer[8];
+        uniform vec3 uNoiseOffset;
+        attribute vec3 tangent;
+
+        varying float averageAudio;
+        ${shader.vertexShader}
+      `.replace(
+        "#include <begin_vertex>", 
+        vertexShader
+      )
+
+      shader.fragmentShader = `
+        uniform float uTime;
+        varying float averageAudio;
+        ${shader.fragmentShader}
+      `.replace(
+          'vec4 diffuseColor = vec4( diffuse, opacity );',
+          fragmentShader
+      )
+
+      this.materialShader = shader;
+    }
+
+    this.mesh = new THREE.Mesh(geometry, st);
   }
 
   this.update = () => {
-    this.mesh.material.uniforms["uTime"].value += 0.001;
-    this.mesh.material.uniforms["uNoiseOffset"].value.x += 0.02;
-    this.mesh.material.uniforms["uNoiseOffset"].value.y += 0.02;
-    this.mesh.material.uniforms["uNoiseOffset"].value.z += 0.02;
-    this.mesh.material.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();    
+    if (!this.materialShader) return;
+    this.materialShader.uniforms["uTime"].value += 0.1;
+    this.materialShader.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();
+    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.02;
+    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.02;
+    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.02;
   }
 }
 
