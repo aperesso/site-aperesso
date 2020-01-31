@@ -21,6 +21,28 @@
 
     .loader-waiting {
         width : 80px;
+        color: #fafafa;
+        font-size: 32px;
+        font-family: 'Roboto Mono', monospace;
+        line-height: 34px;
+        opacity: 0.6;
+        transition: opacity 0.2s linear;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &:after {
+            content: "_";
+            font-family: 'Roboto Mono', monospace;
+            line-height: 34px;
+            margin-left: 4px;
+            -webkit-animation: 1s blink step-end infinite;
+            -moz-animation: 1s blink step-end infinite;
+            -ms-animation: 1s blink step-end infinite;
+            -o-animation: 1s blink step-end infinite;
+            animation: 1s blink step-end infinite;
+          }
     }
 }
 
