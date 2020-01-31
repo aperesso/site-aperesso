@@ -1,0 +1,32 @@
+.social-networks {
+
+
+    margin-top: 32px;
+    margin-bottom: 8px;
+
+    img { 
+        height: 24px;
+    }
+
+    ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+    }
+
+    li { 
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    a {
+        opacity: 0.6;
+        transition: opacity 0.2s linear;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

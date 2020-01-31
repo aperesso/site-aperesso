@@ -2121,10 +2121,11 @@ var light = {
     // The color of an active action like an icon button.
     active: 'rgba(0, 0, 0, 0.54)',
     // The color of an hovered action.
-    hover: 'rgba(0, 0, 0, 0.08)',
-    hoverOpacity: 0.08,
+    hover: 'rgba(0, 0, 0, 0.04)',
+    hoverOpacity: 0.04,
     // The color of a selected action.
-    selected: 'rgba(0, 0, 0, 0.14)',
+    selected: 'rgba(0, 0, 0, 0.08)',
+    selectedOpacity: 0.08,
     // The color of a disabled action.
     disabled: 'rgba(0, 0, 0, 0.26)',
     // The background color of a disabled action.
@@ -2146,9 +2147,10 @@ var dark = {
   },
   action: {
     active: _colors_common__WEBPACK_IMPORTED_MODULE_3__["default"].white,
-    hover: 'rgba(255, 255, 255, 0.1)',
-    hoverOpacity: 0.1,
-    selected: 'rgba(255, 255, 255, 0.2)',
+    hover: 'rgba(255, 255, 255, 0.08)',
+    hoverOpacity: 0.08,
+    selected: 'rgba(255, 255, 255, 0.16)',
+    selectedOpacity: 0.16,
     disabled: 'rgba(255, 255, 255, 0.3)',
     disabledBackground: 'rgba(255, 255, 255, 0.12)'
   }
@@ -2591,16 +2593,13 @@ var shape = {
 /*!******************************************************************!*\
   !*** ./node_modules/@material-ui/core/esm/styles/transitions.js ***!
   \******************************************************************/
-/*! exports provided: easing, duration, formatMs, isString, isNumber, default */
+/*! exports provided: easing, duration, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "easing", function() { return easing; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "duration", function() { return duration; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatMs", function() { return formatMs; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isString", function() { return isString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumber", function() { return isNumber; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
 
 // Follow https://material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves
@@ -2631,15 +2630,10 @@ var duration = {
   // recommended when something is leaving screen
   leavingScreen: 195
 };
-var formatMs = function formatMs(milliseconds) {
+
+function formatMs(milliseconds) {
   return "".concat(Math.round(milliseconds), "ms");
-};
-var isString = function isString(value) {
-  return typeof value === 'string';
-};
-var isNumber = function isNumber(value) {
-  return !isNaN(parseFloat(value));
-};
+}
 /**
  * @param {string|Array} props
  * @param {object} param
@@ -2648,6 +2642,7 @@ var isNumber = function isNumber(value) {
  * @param {string} param.easing
  * @param {number} param.delay
  */
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   easing: easing,
@@ -2665,6 +2660,14 @@ var isNumber = function isNumber(value) {
         other = Object(_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__["default"])(options, ["duration", "easing", "delay"]);
 
     if (true) {
+      var isString = function isString(value) {
+        return typeof value === 'string';
+      };
+
+      var isNumber = function isNumber(value) {
+        return !isNaN(parseFloat(value));
+      };
+
       if (!isString(props) && !Array.isArray(props)) {
         console.error('Material-UI: argument "props" must be a string or Array.');
       }
@@ -3475,7 +3478,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withThemeCreator", function() { return _withTheme__WEBPACK_IMPORTED_MODULE_13__["withThemeCreator"]; });
 
-/** @license Material-UI v4.8.2
+/** @license Material-UI v4.9.0
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19778,7 +19781,7 @@ var Jss =
 function () {
   function Jss(options) {
     this.id = instanceCounter++;
-    this.version = "10.0.3";
+    this.version = "10.0.4";
     this.plugins = new PluginsRegistry();
     this.options = {
       id: {
@@ -30000,7 +30003,7 @@ var App = function App(_ref) {
     },
     __self: this
   }, __jsx(Component, Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, pageProps, {
-    className: "jsx-453654719" + " " + (pageProps && pageProps.className != null && pageProps.className || ""),
+    className: "jsx-2101231574" + " " + (pageProps && pageProps.className != null && pageProps.className || ""),
     __source: {
       fileName: _jsxFileName,
       lineNumber: 29
@@ -30019,9 +30022,9 @@ var App = function App(_ref) {
     },
     __self: this
   }), __jsx(styled_jsx_style__WEBPACK_IMPORTED_MODULE_1___default.a, {
-    id: "453654719",
+    id: "2101231574",
     __self: this
-  }, ".page-transition-enter{opacity:0;-webkit-transform:translate3d(0,40px,10);-ms-transform:translate3d(0,40px,10);transform:translate3d(0,40px,10);}.page-transition-enter-active{opacity:1;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-transition:opacity ".concat(TIMEOUT, "ms,-webkit-transform ").concat(TIMEOUT, "ms;-webkit-transition:opacity ").concat(TIMEOUT, "ms,transform ").concat(TIMEOUT, "ms;transition:opacity ").concat(TIMEOUT, "ms,transform ").concat(TIMEOUT, "ms;}.page-transition-exit{opacity:1;}.page-transition-exit-active{opacity:0;-webkit-transition:opacity ").concat(TIMEOUT, "ms;transition:opacity ").concat(TIMEOUT, "ms;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9hbGV4aWFwZXJlc3Nvbi9zaXRlLWFwZXJlc3NvL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBZ0M2QixBQUl5QixBQUlBLEFBS0EsQUFHQSxVQVh5QixBQUlKLEFBS2pDLEFBR29ELG1HQVAwQyxTQVE5RixHQVpBLDZSQUtBIiwiZmlsZSI6Ii9Vc2Vycy9hbGV4aWFwZXJlc3Nvbi9zaXRlLWFwZXJlc3NvL3BhZ2VzL19hcHAuanMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VFZmZlY3QgLCB1c2VSZWZ9IGZyb20gJ3JlYWN0JztcbmltcG9ydCBDc3NCYXNlbGluZSBmcm9tIFwiQG1hdGVyaWFsLXVpL2NvcmUvQ3NzQmFzZWxpbmVcIjtcbmltcG9ydCB7IFByb3ZpZGVyIH0gZnJvbSBcInJlYWN0LXJlZHV4XCI7XG5pbXBvcnQgeyBQYWdlVHJhbnNpdGlvbiB9IGZyb20gJ25leHQtcGFnZS10cmFuc2l0aW9ucydcbmltcG9ydCBcIkBiYWJlbC9wb2x5ZmlsbFwiO1xuXG5pbXBvcnQgd2l0aFJlZHV4U3RvcmUgZnJvbSBcIi4uL2xpYi93aXRoLXJlZHV4LXN0b3JlXCI7XG5cbmltcG9ydCBUYXJnZXQgZnJvbSAnLi4vY29tcG9uZW50cy91aS9UYXJnZXQnO1xuaW1wb3J0IERldmljZUNoZWNrZXIgZnJvbSAnLi4vY29tcG9uZW50cy91aS9EZXZpY2VDaGVja2VyJztcblxuaW1wb3J0ICcuLi9zY3NzL2luZGV4LnNjc3MnO1xuY29uc3QgVElNRU9VVCA9IDQwMFxuXG5jb25zdCBBcHAgPSAoe0NvbXBvbmVudCwgcGFnZVByb3BzLCByZWR1eFN0b3JlIH0pID0+IHsgXG5cbiAgcmV0dXJuIChcbiAgICA8PlxuICAgICAgPENzc0Jhc2VsaW5lLz5cbiAgICAgIDxQcm92aWRlciBzdG9yZT17cmVkdXhTdG9yZX0+XG5cbiAgICAgIDxQYWdlVHJhbnNpdGlvblxuXG4gICAgICAgICAgY2xhc3NOYW1lcz1cInBhZ2UtdHJhbnNpdGlvblwiXG4gICAgICAgICAgbG9hZGluZ0RlbGF5PXs4MDB9XG4gICAgICAgICAgdGltZW91dD17VElNRU9VVH1cblxuICAgICAgICA+XG4gICAgICAgICAgPENvbXBvbmVudCB7Li4ucGFnZVByb3BzfS8+XG4gICAgICAgIDwvUGFnZVRyYW5zaXRpb24+XG4gICAgICAgICAgPFRhcmdldC8+XG4gICAgICAgICAgPERldmljZUNoZWNrZXIvPlxuICAgICAgICAgIDxzdHlsZSBqc3ggZ2xvYmFsPntgXG5cbiAgICAgICAgICAgIC5wYWdlLXRyYW5zaXRpb24tZW50ZXIge1xuICAgICAgICAgICAgICBvcGFjaXR5OiAwO1xuICAgICAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIDQwcHgsIDEwKTtcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIC5wYWdlLXRyYW5zaXRpb24tZW50ZXItYWN0aXZlIHtcbiAgICAgICAgICAgICAgb3BhY2l0eTogMTtcbiAgICAgICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAwLCAwKTtcbiAgICAgICAgICAgICAgdHJhbnNpdGlvbjogb3BhY2l0eSAke1RJTUVPVVR9bXMsIHRyYW5zZm9ybSAke1RJTUVPVVR9bXM7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAucGFnZS10cmFuc2l0aW9uLWV4aXQge1xuICAgICAgICAgICAgICBvcGFjaXR5OiAxO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgLnBhZ2UtdHJhbnNpdGlvbi1leGl0LWFjdGl2ZSB7XG4gICAgICAgICAgICAgIG9wYWNpdHk6IDA7XG4gICAgICAgICAgICAgIHRyYW5zaXRpb246IG9wYWNpdHkgJHtUSU1FT1VUfW1zO1xuICAgICAgICAgICAgfVxuICAgICAgICAgIGB9XG4gICAgICAgIDwvc3R5bGU+XG4gICAgICA8L1Byb3ZpZGVyPlxuICAgIDwvPlxuICApXG59XG5cbmV4cG9ydCBkZWZhdWx0IHdpdGhSZWR1eFN0b3JlKEFwcCk7Il19 */\n/*@ sourceURL=/Users/alexiaperesson/site-aperesso/pages/_app.js */"))));
+  }, ".page-transition{height:100vh;background:pink;}.page-transition-enter{-webkit-transform:translate3d(0,10px,0);-ms-transform:translate3d(0,10px,0);transform:translate3d(0,10px,0);}.page-transition-enter-active{opacity:1;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);-webkit-transition:opacity ".concat(TIMEOUT, "ms,-webkit-transform ").concat(TIMEOUT, "ms;-webkit-transition:opacity ").concat(TIMEOUT, "ms,transform ").concat(TIMEOUT, "ms;transition:opacity ").concat(TIMEOUT, "ms,transform ").concat(TIMEOUT, "ms;}.page-transition-exit{opacity:1;}.page-transition-exit-active{-webkit-transition:opacity ").concat(TIMEOUT, "ms;transition:opacity ").concat(TIMEOUT, "ms;}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9hbGV4aWFwZXJlc3Nvbi9zaXRlLWFwZXJlc3NvL3BhZ2VzL19hcHAuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBZ0M2QixBQUc0QixBQUtxQixBQUd4QixBQUtBLEFBSXdDLFVBUm5CLEFBS2pDLEdBYmtCLGdCQUNsQiwrRUFJQSxBQVlBLENBUjhGLHlTQUM5RiIsImZpbGUiOiIvVXNlcnMvYWxleGlhcGVyZXNzb24vc2l0ZS1hcGVyZXNzby9wYWdlcy9fYXBwLmpzIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlRWZmZWN0ICwgdXNlUmVmfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgQ3NzQmFzZWxpbmUgZnJvbSBcIkBtYXRlcmlhbC11aS9jb3JlL0Nzc0Jhc2VsaW5lXCI7XG5pbXBvcnQgeyBQcm92aWRlciB9IGZyb20gXCJyZWFjdC1yZWR1eFwiO1xuaW1wb3J0IHsgUGFnZVRyYW5zaXRpb24gfSBmcm9tICduZXh0LXBhZ2UtdHJhbnNpdGlvbnMnXG5pbXBvcnQgXCJAYmFiZWwvcG9seWZpbGxcIjtcblxuaW1wb3J0IHdpdGhSZWR1eFN0b3JlIGZyb20gXCIuLi9saWIvd2l0aC1yZWR1eC1zdG9yZVwiO1xuXG5pbXBvcnQgVGFyZ2V0IGZyb20gJy4uL2NvbXBvbmVudHMvdWkvVGFyZ2V0JztcbmltcG9ydCBEZXZpY2VDaGVja2VyIGZyb20gJy4uL2NvbXBvbmVudHMvdWkvRGV2aWNlQ2hlY2tlcic7XG5cbmltcG9ydCAnLi4vc2Nzcy9pbmRleC5zY3NzJztcbmNvbnN0IFRJTUVPVVQgPSA0MDBcblxuY29uc3QgQXBwID0gKHtDb21wb25lbnQsIHBhZ2VQcm9wcywgcmVkdXhTdG9yZSB9KSA9PiB7IFxuXG4gIHJldHVybiAoXG4gICAgPD5cbiAgICAgIDxDc3NCYXNlbGluZS8+XG4gICAgICA8UHJvdmlkZXIgc3RvcmU9e3JlZHV4U3RvcmV9PlxuXG4gICAgICA8UGFnZVRyYW5zaXRpb25cblxuICAgICAgICAgIGNsYXNzTmFtZXM9XCJwYWdlLXRyYW5zaXRpb25cIlxuICAgICAgICAgIGxvYWRpbmdEZWxheT17ODAwfVxuICAgICAgICAgIHRpbWVvdXQ9e1RJTUVPVVR9XG5cbiAgICAgICAgPlxuICAgICAgICAgIDxDb21wb25lbnQgey4uLnBhZ2VQcm9wc30vPlxuICAgICAgICA8L1BhZ2VUcmFuc2l0aW9uPlxuICAgICAgICAgIDxUYXJnZXQvPlxuICAgICAgICAgIDxEZXZpY2VDaGVja2VyLz5cbiAgICAgICAgICA8c3R5bGUganN4IGdsb2JhbD57YFxuICAgICAgICAgICAgLnBhZ2UtdHJhbnNpdGlvbiB7XG4gICAgICAgICAgICAgIGhlaWdodDogMTAwdmg7XG4gICAgICAgICAgICAgIGJhY2tncm91bmQ6IHBpbms7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAucGFnZS10cmFuc2l0aW9uLWVudGVyIHtcbiAgICAgICAgICAgICAgLy8gb3BhY2l0eTogMC41O1xuICAgICAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIDEwcHgsIDApO1xuICAgICAgICAgICAgfVxuICAgICAgICAgICAgLnBhZ2UtdHJhbnNpdGlvbi1lbnRlci1hY3RpdmUge1xuICAgICAgICAgICAgICBvcGFjaXR5OiAxO1xuICAgICAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIDAsIDApO1xuICAgICAgICAgICAgICB0cmFuc2l0aW9uOiBvcGFjaXR5ICR7VElNRU9VVH1tcywgdHJhbnNmb3JtICR7VElNRU9VVH1tcztcbiAgICAgICAgICAgIH1cbiAgICAgICAgICAgIC5wYWdlLXRyYW5zaXRpb24tZXhpdCB7XG4gICAgICAgICAgICAgIG9wYWNpdHk6IDE7XG4gICAgICAgICAgICB9XG4gICAgICAgICAgICAucGFnZS10cmFuc2l0aW9uLWV4aXQtYWN0aXZlIHtcbiAgICAgICAgICAgICAgLy8gb3BhY2l0eTogMC41O1xuICAgICAgICAgICAgICB0cmFuc2l0aW9uOiBvcGFjaXR5ICR7VElNRU9VVH1tcztcbiAgICAgICAgICAgIH1cbiAgICAgICAgICBgfVxuICAgICAgICA8L3N0eWxlPlxuICAgICAgPC9Qcm92aWRlcj5cbiAgICA8Lz5cbiAgKVxufVxuXG5leHBvcnQgZGVmYXVsdCB3aXRoUmVkdXhTdG9yZShBcHApOyJdfQ== */\n/*@ sourceURL=/Users/alexiaperesson/site-aperesso/pages/_app.js */"))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(_lib_with_redux_store__WEBPACK_IMPORTED_MODULE_7__["default"])(App));

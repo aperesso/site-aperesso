@@ -60,3 +60,19 @@ html, body {
 
 }
 
+.cta {
+  border: #fafafa 1px solid;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-top: 36px;
+  opacity: 0.8;
+
+  transition: opacity 0.2s linear;
+
+  &:hover {
+      opacity: 1;
+  }
+}
+

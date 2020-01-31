@@ -1,0 +1,35 @@
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 32px;
+    // background: pink;
+    flex: 1;
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
+
+    textarea {
+        color: white;
+    }
+    
+    .contact-input {
+        color: white;
+        margin-top: 12px;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .MuiInput-underline:after {
+        border-color: #fafafa;
+    }
+
+}
+
+
+
+

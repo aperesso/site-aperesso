@@ -31,10 +31,13 @@ const App = ({Component, pageProps, reduxStore }) => {
           <Target/>
           <DeviceChecker/>
           <style jsx global>{`
-
+            .page-transition {
+              height: 100vh;
+              background: pink;
+            }
             .page-transition-enter {
-              opacity: 0;
-              transform: translate3d(0, 40px, 10);
+              // opacity: 0.5;
+              transform: translate3d(0, 10px, 0);
             }
             .page-transition-enter-active {
               opacity: 1;
@@ -45,7 +48,7 @@ const App = ({Component, pageProps, reduxStore }) => {
               opacity: 1;
             }
             .page-transition-exit-active {
-              opacity: 0;
+              // opacity: 0.5;
               transition: opacity ${TIMEOUT}ms;
             }
           `}

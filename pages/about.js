@@ -1,5 +1,7 @@
 import { useEffect , useState , useCallback } from 'react';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import anime from 'animejs';
 
 import Layout from '../components/Layout';
 import WebGL from '../webgl';
@@ -26,10 +28,23 @@ const About = () => {
                             setOnResize(() => GL.onResize);
                             setWebGL(() => GL)
                         }
+                    ).then(
+                        () => {
+                            const canvas = document.getElementById('webGL')
+                            const p = document.querySelector('.presentation').children
+                            anime({
+                                targets: [canvas, p],
+                                opacity: 1,
+                                translateY: 0,
+                                delay: anime.stagger(100)
+                              });
+                        }
                     )
             }
         } , [webGL]
     )
+
+
 
     const getSize = useCallback(
         () => {
@@ -107,7 +122,7 @@ const About = () => {
                             </span> is a very particular year for me so far. I have decided to quit my job for the sake of following my dreams of freelancing. My position as a software developer in a Parisian tech startup company helped me learn a ton about what is the correct way to handle large schemes and architectures.  I would not be the developer I am today without the knowledge I inherited from some of the very gifted souls working there. I could not be more excited to use those skills for you now!</p>
                         <p>
                             If you want to know more or you are interested in working together,
-                             make sure to drop a line. <span 
+                             make sure to <Link href='/contact'><a>drop a line</a></Link>. <span 
                                 onMouseEnter={onExcitedEnter} 
                                 onMouseLeave={onMouseLeave}
                                 onTouchStart={onExcitedEnter}
@@ -118,11 +133,6 @@ const About = () => {
                         </p>   
                     </div>
                 </div>
-            </div>
-            <div className="pixi-text-wrapper">
-                <button>
-                    DROP A LINE
-                </button>  
             </div>
         </Layout>
     )

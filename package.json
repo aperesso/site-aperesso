@@ -9,6 +9,7 @@
     "@material-ui/core": "^4.9.0",
     "@pixi/filter-glitch": "^3.0.3",
     "@zeit/next-sass": "^1.0.1",
+    "animejs": "^3.1.0",
     "dat.gui": "^0.7.6",
     "email-validator": "^2.0.4",
     "immutability-helper": "^3.0.1",
