@@ -92,61 +92,6 @@ html, body {
 canvas:focus {
   outline: none; }
 
-.about {
-  color: #fafafa;
-  margin-left: 40px;
-  position: relative;
-  font-size: 20px;
-  line-height: 28px;
-  font-family: 'Roboto Mono', monospace;
-  margin-right: 40px; }
-  .about .flex-wrapper {
-    display: flex; }
-    @media screen and (max-width: 1024px) {
-      .about .flex-wrapper {
-        flex-direction: column; } }
-  .about .presentation-wrapper {
-    position: relative; }
-  .about .presentation {
-    text-align: justify;
-    position: relative; }
-    .about .presentation h1 {
-      margin-top: 0;
-      opacity: 0;
-      transform: translateY(-20px);
-      will-change: opacity; }
-      .about .presentation h1 span {
-        text-decoration: line-through; }
-    .about .presentation p {
-      opacity: 0;
-      will-change: opacity;
-      transform: translateY(-20px); }
-      .about .presentation p span {
-        font-style: italic;
-        opacity: 0.9;
-        transition: opacity ease-out 0.2s; }
-        .about .presentation p span:hover {
-          opacity: 1; }
-  .about .webGL-canvas {
-    height: calc(100vh - 200px);
-    position: relative;
-    background: #050505;
-    min-width: 600px;
-    max-width: 600px;
-    margin-right: 120px; }
-    .about .webGL-canvas canvas {
-      min-width: 100%;
-      max-width: 100%;
-      height: 100%; }
-    @media screen and (max-width: 1024px) {
-      .about .webGL-canvas {
-        height: 400px;
-        margin-bottom: 48px;
-        min-width: 100%;
-        max-width: 100%; } }
-  .about a {
-    color: #fafafa; }
-
 .loader {
   position: absolute;
   z-index: 1000;
@@ -157,11 +102,15 @@ canvas:focus {
   background: black;
   display: flex;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  transform: translateY(-120px); }
   .loader .loader-wrapper {
     position: relative; }
   .loader .loader-loading {
     width: 40px; }
+  @media screen and (max-width: 640px) {
+    .loader {
+      transform: translateY(0px); } }
   .loader .loader-waiting {
     width: 80px;
     color: #fafafa;
@@ -362,25 +311,6 @@ canvas:focus {
     margin-left: 32px; }
     .homepage .homepage--fullsize img {
       width: 16px; }
-
-.stage {
-  position: absolute;
-  top: 0;
-  left: 0; }
-  .stage .stage-canvas {
-    position: absolute; }
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1; }
-  100% {
-    opacity: 0; } }
 
 
 /*# sourceMappingURL=styles.chunk.css.map*/

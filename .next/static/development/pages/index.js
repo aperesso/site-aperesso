@@ -22753,7 +22753,7 @@ var GUI_SPHERE_SETTINGS = {
 
 /***/ }),
 
-/***/ 8:
+/***/ 2:
 /*!*****************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2FUsers%2Falexiaperesson%2Fsite-aperesso%2Fpages%2Findex.js ***!
   \*****************************************************************************************************************************/
@@ -22776,5 +22776,5 @@ module.exports = dll_5f137288facb1107b491;
 
 /***/ })
 
-},[[8,"static/runtime/webpack.js","styles"]]]);
+},[[2,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=index.js.map
