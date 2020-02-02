@@ -11,11 +11,9 @@
         min-width: calc(50% - 40px);
         max-width: calc(50% - 40px);
         height: calc(100vh - 160px);
-
-        canvas {
-            border: 1px solid white;
-        }
-
+        border: 1px solid white;
+        overflow: hidden;
+        
         @media screen and (max-width: 1199px) {
             display: none;
           }

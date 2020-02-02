@@ -90,4 +90,4 @@ const Sphere = function() {
   }
 }
 
-export default Sphere;
+export default Sphere

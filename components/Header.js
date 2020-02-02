@@ -15,7 +15,8 @@ const Header = () => {
     }, [])
     
     const onMouseEnter = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             audio.play();
         }
         , [audio]

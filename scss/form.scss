@@ -18,16 +18,23 @@
     }
     
     .contact-input {
-        color: white;
+        // color: white;
         margin-top: 12px;
         min-width: 100%;
         max-width: 100%;
+    }
+
+    .MuiInputBase-input {
+        color: #fafafa;
     }
 
     .MuiInput-underline:after {
         border-color: #fafafa;
     }
 
+    .MuiInputBase-root.Mui-disabled {
+        color: rgba(255, 255, 255, 0.18)
+    }
 }
 
 

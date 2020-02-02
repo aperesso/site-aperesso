@@ -3,22 +3,28 @@
     height: calc(100vh - 120px);
     width: 100vw;
 
+
+    @media screen and (max-width: 640px) {
+      position: absolute;
+      top: 0;
+      height: 100vh;
+    }
+
   .webGL-canvas {
       height: calc(100vh - 240px);
       position: relative;
       background: #050505;
       width: 100vw;
 
+      @media screen and (max-width: 640px) {
+        height: 100%;
+      }
+
       canvas {
         width: 100%;
         height: 100%;
       }
     
-      @media screen and (max-width: 640px) {
-        position: absolute;
-        top: 0;
-        height: 100vh;
-      }
   }
 
   .homepage-controllers {

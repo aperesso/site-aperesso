@@ -3,6 +3,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Provider } from "react-redux";
 import { PageTransition } from 'next-page-transitions'
 import "@babel/polyfill";
+import Head from 'next/head';
 
 import withReduxStore from "../lib/with-redux-store";
 
@@ -12,10 +13,18 @@ import DeviceChecker from '../components/ui/DeviceChecker';
 import '../scss/index.scss';
 const TIMEOUT = 400
 
-const App = ({Component, pageProps, reduxStore }) => { 
-
-  return (
+const App = ({Component, pageProps, reduxStore, router }) => { 
+  return ( 
     <>
+      <Head>
+        <title>Alexia Peresson</title>
+        <meta name="theme-color" content="#050505"/>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+          key="viewport"
+        />
+      </Head>
       <CssBaseline/>
       <Provider store={reduxStore}>
 
@@ -26,7 +35,7 @@ const App = ({Component, pageProps, reduxStore }) => {
           timeout={TIMEOUT}
 
         >
-          <Component {...pageProps}/>
+          <Component {...pageProps} key={router.route}/>
         </PageTransition>
           <Target/>
           <DeviceChecker/>

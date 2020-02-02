@@ -6,7 +6,7 @@ import MUITextField from '@material-ui/core/TextField';
 import '../scss/form.scss';
 
 const Field = memo(
-    ({label, value, error, onChange, isTextArea}) => {
+    ({label, value, error, onChange, isTextArea, disabled}) => {
 
         const onChangeField = useCallback(({target : { value }}) => onChange(label, {value}), [onChange])
         if (isTextArea) {
@@ -19,6 +19,7 @@ const Field = memo(
                     onChange={onChangeField}
                     multiline
                     rows={8}
+                    disabled={disabled}
               />
             )
         }
@@ -29,13 +30,14 @@ const Field = memo(
                 placeholder={label}
                 error={error ? true : false }
                 onChange={onChangeField}
+                disabled={disabled}
             />
         )
     }
 )
 
 
-const Form = () => {
+const Form = ({onSubmit : submit}) => {
 
     const [form, setForm] = useState({
         name : {
@@ -51,6 +53,8 @@ const Form = () => {
             error : ''
         }
     })
+
+    const [isSubmitted, setIsSubmittedForm] = useState(false)
 
     const [displayError, setDisplayedError ] = useState(false)
 
@@ -79,23 +83,21 @@ const Form = () => {
      
     const getError = useCallback(({field, value}) => {
         if (value.trim() === '') return 'empty';
-        if (field === "email" && !emailValidator.validate(value)) return 'invalidEmail';
+        if (field === "email" && !emailValidator.validate(value.trim())) return 'invalidEmail';
         return ''
     }, [])
 
     const verifyForm = useCallback(
-        () => {
-            let hasError = false ;
-            setForm(
+        async () => {
+            let hasError = 0 ;
+            await setForm(
                 form => {
                     const verifiedForm = Object.keys(form)
                         .reduce((obj, field) => {
 
                             const { [ field ] :  { value } } = form;
                             const error = getError({field, value});
-
-                            if (!hasError && error ) hasError = true;
-
+                            if (error) hasError++ ;
                             return {
                                 ...obj,
                                 [field] : {
@@ -115,10 +117,13 @@ const Form = () => {
 
    
     const onSubmit = useCallback(
-        () => {
-            const hasError = verifyForm();
+        async () => {
+            if (isSubmitted) return ;
+
+            const hasError = await verifyForm();
+
             setDisplayedError(true);
-            if (hasError) return ;
+            if (hasError !== 0) return ;
             
             fetch(
                 '/api/contact' , {
@@ -131,10 +136,12 @@ const Form = () => {
                 }
             )
 
+            submit()
+            setIsSubmittedForm(true)
         }
-        , [verifyForm, form, setDisplayedError]
+        , [verifyForm, form, setDisplayedError, submit, setIsSubmittedForm, isSubmitted],
     )
-
+    
     return (
         <div className="form">
             {
@@ -148,13 +155,14 @@ const Form = () => {
                                 error={form[key].error}
                                 onChange={onChangeField}
                                 isTextArea={key === 'message'}
+                                disabled={isSubmitted}
                             />
                         )
                     )
             }
 
             <button className="no-btn cta" onClick={onSubmit}>
-                Send a message
+                {isSubmitted ? 'Thank you ♡' : 'Send a message' }
             </button>
         </div>
     )

@@ -86,7 +86,7 @@ const Audio = function() {
     updateFrequencyBands(samples);
     updateFrequencyBandsBuffer();
     updateAudioBands()
-  }
+   }
 
   this.getAudioBandsBuffer = () => audioBandsBuffer;
 

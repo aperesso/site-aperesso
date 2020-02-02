@@ -17,7 +17,6 @@ const SteeringText = ({text}) => {
 
     const setup = useCallback((p5, canvasParentRef) => {
         ref.current = canvasParentRef.parentNode;
-
         const { width , height } = ref.current.getBoundingClientRect(); 
         p5.createCanvas(width, height).parent(canvasParentRef);
 
@@ -109,7 +108,7 @@ const SteeringText = ({text}) => {
         )
 
         setPoints(vehicles);
-    }, [font, points]);
+    }, [font, points, text]);
     
     const draw = useCallback(p5 => {
         p5.background(5);
@@ -142,7 +141,7 @@ const SteeringText = ({text}) => {
 
 
     return (
-       <Sketch preload={preload} setup={setup} draw={draw} windowResized={onResize} />
+       <Sketch preload={preload} setup={setup} draw={draw} windowResized={onResize} key={text}/>
     )
 
 }

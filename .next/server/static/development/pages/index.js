@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -125,27 +125,28 @@ const Header = () => {
     _audio.volume = 1;
     setAudio(() => _audio);
   }, []);
-  const onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+  const onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(e => {
+    e.preventDefault();
     audio.play();
   }, [audio]);
   return __jsx("header", {
     className: "header",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 26
     },
     __self: undefined
   }, __jsx("span", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26
+      lineNumber: 27
     },
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 28
     },
     __self: undefined
   }, __jsx("a", {
@@ -153,26 +154,26 @@ const Header = () => {
     title: "alexiaperesson",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 29
     },
     __self: undefined
   }, " AP "))), __jsx("ul", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 32
     },
     __self: undefined
   }, __jsx("li", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 32
+      lineNumber: 33
     },
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/about",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 34
     },
     __self: undefined
   }, __jsx("a", {
@@ -180,20 +181,20 @@ const Header = () => {
     title: "about",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34
+      lineNumber: 35
     },
     __self: undefined
   }, " About "))), __jsx("li", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 37
+      lineNumber: 38
     },
     __self: undefined
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/contact",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 39
     },
     __self: undefined
   }, __jsx("a", {
@@ -201,7 +202,7 @@ const Header = () => {
     title: "contact",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 40
     },
     __self: undefined
   }, " Contact \uD83D\uDC4B ")))));
@@ -13360,7 +13361,7 @@ const GUI_SPHERE_SETTINGS = {
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!******************************!*\
   !*** multi ./pages/index.js ***!
   \******************************/

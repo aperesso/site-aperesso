@@ -34,27 +34,28 @@ var Header = function Header() {
       return _audio;
     });
   }, []);
-  var onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function () {
+  var onMouseEnter = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (e) {
+    e.preventDefault();
     audio.play();
   }, [audio]);
   return __jsx("header", {
     className: "header",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 26
     },
     __self: this
   }, __jsx("span", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26
+      lineNumber: 27
     },
     __self: this
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 28
     },
     __self: this
   }, __jsx("a", {
@@ -62,26 +63,26 @@ var Header = function Header() {
     title: "alexiaperesson",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 29
     },
     __self: this
   }, " AP "))), __jsx("ul", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 32
     },
     __self: this
   }, __jsx("li", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 32
+      lineNumber: 33
     },
     __self: this
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/about",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 34
     },
     __self: this
   }, __jsx("a", {
@@ -89,20 +90,20 @@ var Header = function Header() {
     title: "about",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34
+      lineNumber: 35
     },
     __self: this
   }, " About "))), __jsx("li", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 37
+      lineNumber: 38
     },
     __self: this
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
     href: "/contact",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 39
     },
     __self: this
   }, __jsx("a", {
@@ -110,7 +111,7 @@ var Header = function Header() {
     title: "contact",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 40
     },
     __self: this
   }, " Contact \uD83D\uDC4B ")))));
@@ -22752,7 +22753,7 @@ var GUI_SPHERE_SETTINGS = {
 
 /***/ }),
 
-/***/ 2:
+/***/ 8:
 /*!*****************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2FUsers%2Falexiaperesson%2Fsite-aperesso%2Fpages%2Findex.js ***!
   \*****************************************************************************************************************************/
@@ -22775,5 +22776,5 @@ module.exports = dll_5f137288facb1107b491;
 
 /***/ })
 
-},[[2,"static/runtime/webpack.js","styles"]]]);
+},[[8,"static/runtime/webpack.js","styles"]]]);
 //# sourceMappingURL=index.js.map
