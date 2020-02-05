@@ -49,8 +49,8 @@ const Pulse = function() {
 
     program.setUpControls(
         controls => {
-            // controls.lookAt(new THREE.Vector3(0,0,0));
-            // controls.lookVertical = false;
+            controls.lookAt(new THREE.Vector3(0,0,0));
+            controls.lookVertical = false;
         }
     )
     
