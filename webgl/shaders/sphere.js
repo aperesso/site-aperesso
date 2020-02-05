@@ -9,8 +9,10 @@ const vertexShader = `
   averageAudio = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] + uAudioBandsBuffer[3] +
     uAudioBandsBuffer[4] + uAudioBandsBuffer[5] + uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 8.0;
 
-  float noiseScale = 2.0 * averageAudio;
-  float noiseFrequency = 0.5 * averageAudio;
+
+  float scale = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1]) / 2.0 ;
+  float noiseScale = 4.0 * averageAudio ;
+  float noiseFrequency = 0.3 * averageAudio;
 
   float ns0 =  noiseScale *  snoise(vec3(v0.x + uNoiseOffset.x, v0.y + uNoiseOffset.y, v0.z + uNoiseOffset.z) * noiseFrequency );
   v0 += ((ns0 - 1.)/2.) * normal;
@@ -28,8 +30,23 @@ const vertexShader = `
 `
 
 const fragmentShader = `
-  vec3 newDiffuse = max(averageAudio , 0.2)  * diffuse;
-  vec4 diffuseColor = vec4( newDiffuse, opacity );
+  float basses = uAudioBandsBuffer[6] + uAudioBandsBuffer[7];
+
+  float a = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2]) / 3.;
+  float b = (uAudioBandsBuffer[3] + uAudioBandsBuffer[4] + uAudioBandsBuffer[5]) / 3.;
+  float c = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.;
+
+  vec3 diffuse = 0.05 + 0.1 * vec3(a,b,c);
+
+  // if (a > b && a > c) {
+  //   diffuse.r = 0.3;
+  // } else if ( b > a && b > c) {
+  //   diffuse.g = 0.3;
+  // } else {
+  //   diffuse.b = 0.3;
+  // }
+  vec3 newDiffuse = max(a / 3., 0.1)  * diffuse;
+  vec4 diffuseColor = vec4( diffuse, opacity );
 `
 
 export {

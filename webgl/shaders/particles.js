@@ -97,11 +97,19 @@ uniform sampler2D texture;
 varying vec2 vUv;
 varying float vScale;
 varying vec3 vColor;
+uniform float uAudioBandsBuffer[8];
+
 
 void main() {
 
+    float a = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2]) / 3.;
+    float b = (uAudioBandsBuffer[3] + uAudioBandsBuffer[4] + uAudioBandsBuffer[5]) / 3.;
+    float c = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.;
+  
+    vec3 diffuse = vec3(0.8) +  0.5 * vec3(a,b,c);
+
     vec4 tex = texture2D(texture, vUv);
-    vec3 color = mix(tex.rgb, vColor, 0.5);
+    vec3 color = mix(tex.rgb, diffuse, 0.5);
     gl_FragColor = .2 * vec4(color, tex.a);
 }
 `

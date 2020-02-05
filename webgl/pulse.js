@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { FilmPass } from 'three/examples/jsm/postprocessing/FilmPass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 import Sphere from './scene/sphere';
 import Particles from './scene/particles';
@@ -13,7 +14,7 @@ const Pulse = function() {
  
     const program = new Program();
 
-    const { width } = getDimensions('webGL-wrapper');
+    const { width  } = getDimensions('webGL-wrapper');
     const isMobile = width < WIDTH_MOBILE;
 
     this.audio = new Audio();
@@ -26,7 +27,7 @@ const Pulse = function() {
 
             renderer.setClearColor(new THREE.Color('#010101'), 1.);
 
-            const light = new THREE.DirectionalLight(0xffffff, 0.8);
+            const light = new THREE.DirectionalLight(0xffffff, 0.4);
             light.position.z = 5;
             
             program.addToScene([light])
@@ -38,18 +39,20 @@ const Pulse = function() {
     )
 
     program.setUpComposer(
-        ({composer}) => {
-            // const filmPass = new FilmPass(0.35,0.25, 648, false);
-            // composer.addPass(filmPass); 
+        ({composer, size}) => {
+            // const bloomPass = new UnrealBloomPass(size, 1.3, .9, .8);
+            // composer.addPass(bloomPass);
+            const filmPass = new FilmPass(0.35,0.25, 648, false);
+            composer.addPass(filmPass); 
         }
     )
 
-    program.setUpControls(
-        controls => {
-            controls.lookAt(new THREE.Vector3(0,0,0));
-            controls.lookVertical = false;
-        }
-    )
+    // program.setUpControls(
+    //     controls => {
+    //         // controls.lookAt(new THREE.Vector3(0,0,0));
+    //         // controls.lookVertical = false;
+    //     }
+    // )
     
     this.load = async () => {
         await this.audio.load();

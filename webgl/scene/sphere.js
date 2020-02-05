@@ -25,6 +25,15 @@ const Sphere = function() {
       'metal/Metal03_nrm.jpg',
       'metal/Metal03_rgh.jpg'
     ].map(loadTexture);
+
+    const ttextures = [
+      'envmap.jpg', 
+      'pmetal/Patterned_metal_01_3K_Base_Color.png',
+      'pmetal/Patterned_metal_01_3K_Height.png',
+      'pmetal/Patterned_metal_01_3K_Metallic.png',
+      'pmetal/Patterned_metal_01_3K_Normal.png',
+      'pmetal/Patterned_metal_01_3K_Roughness.png',
+    ].map(loadTexture);
     
     const [
       envMap,
@@ -67,6 +76,7 @@ const Sphere = function() {
 
       shader.fragmentShader = `
         uniform float uTime;
+        uniform float uAudioBandsBuffer[8];
         varying float averageAudio;
         ${shader.fragmentShader}
       `.replace(
@@ -84,9 +94,9 @@ const Sphere = function() {
     if (!this.materialShader) return;
     this.materialShader.uniforms["uTime"].value += 0.1;
     this.materialShader.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();
-    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.02;
-    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.02;
-    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.02;
+    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.2;
+    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.2;
+    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.2;
   }
 }
 
