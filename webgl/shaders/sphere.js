@@ -36,7 +36,7 @@ const fragmentShader = `
   float b = (uAudioBandsBuffer[3] + uAudioBandsBuffer[4] + uAudioBandsBuffer[5]) / 3.;
   float c = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.;
 
-  vec3 diffuse = 0.05 + 0.1 * vec3(a,b,c);
+  vec3 diffuse = 0.3 + 0.1 * vec3(a,b,c);
 
   // if (a > b && a > c) {
   //   diffuse.r = 0.3;
@@ -45,7 +45,7 @@ const fragmentShader = `
   // } else {
   //   diffuse.b = 0.3;
   // }
-  vec3 newDiffuse = max(a / 3., 0.1)  * diffuse;
+  vec3 newDiffuse = max(a / 3., 0.3)  * diffuse;
   vec4 diffuseColor = vec4( diffuse, opacity );
 `
 

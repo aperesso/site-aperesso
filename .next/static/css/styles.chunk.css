@@ -168,5 +168,225 @@ canvas:focus {
     opacity: 0;
     transform: translateY(24px); }
 
+.loader {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-120px); }
+  .loader .loader-wrapper {
+    position: relative; }
+  .loader .loader-loading {
+    width: 40px; }
+  @media screen and (max-width: 640px) {
+    .loader {
+      transform: translateY(0px); } }
+  .loader .loader-waiting {
+    width: 80px;
+    color: #fafafa;
+    font-size: 32px;
+    font-family: 'Roboto Mono', monospace;
+    line-height: 34px;
+    opacity: 0.6;
+    transition: opacity 0.2s linear; }
+    .loader .loader-waiting:hover {
+      opacity: 1; }
+    .loader .loader-waiting:after {
+      content: "_";
+      font-family: 'Roboto Mono', monospace;
+      line-height: 34px;
+      margin-left: 4px;
+      -webkit-animation: 1s blink step-end infinite;
+      -moz-animation: 1s blink step-end infinite;
+      -ms-animation: 1s blink step-end infinite;
+      -o-animation: 1s blink step-end infinite;
+      animation: 1s blink step-end infinite; }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+.audio-controller {
+  padding: 8px; }
+  .audio-controller .sound-wave {
+    display: flex; }
+  .audio-controller .sound-bar {
+    width: 2px;
+    height: 2px;
+    background-color: #fafafa;
+    margin-right: 2px;
+    transform: scaleY(1);
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1); }
+    .audio-controller .sound-bar:nth-child(4n) {
+      animation-name: bar-scale-xl;
+      animation-duration: 1s; }
+    .audio-controller .sound-bar:nth-child(4) {
+      animation-duration: 1.15s; }
+    .audio-controller .sound-bar:nth-child(3) {
+      animation-name: bar-scale-lg;
+      animation-duration: 0.8s; }
+    .audio-controller .sound-bar:nth-child(6) {
+      animation-name: bar-scale-md;
+      animation-duration: 0.85s; }
+    .audio-controller .sound-bar:nth-child(2), .audio-controller .sound-bar:nth-child(5), .audio-controller .sound-bar:nth-child(7), .audio-controller .sound-bar:nth-child(9) {
+      animation-name: bar-scale-sm;
+      animation-duration: .9s; }
+
+@keyframes bar-scale-sm {
+  0%, 50% {
+    transform: scaleY(1); }
+  25% {
+    transform: scaleY(6); }
+  75% {
+    transform: scaleY(4); } }
+
+@keyframes bar-scale-md {
+  0%, 50% {
+    transform: scaleY(2); }
+  25% {
+    transform: scaleY(6); }
+  75% {
+    transform: scaleY(5); } }
+
+@keyframes bar-scale-lg {
+  0%, 50% {
+    transform: scaleY(8); }
+  25% {
+    transform: scaleY(4); }
+  75% {
+    transform: scaleY(6); } }
+
+@keyframes bar-scale-xl {
+  0%, 50% {
+    transform: scaleY(1); }
+  25% {
+    transform: scaleY(7); }
+  75% {
+    transform: scaleY(11); } }
+  .audio-controller .sound-bar--still {
+    animation: none; }
+    .audio-controller .sound-bar--still:nth-child(4n) {
+      transform: scaleY(7); }
+    .audio-controller .sound-bar--still:nth-child(3) {
+      transform: scaleY(4); }
+    .audio-controller .sound-bar--still:nth-child(6) {
+      transform: scaleY(6); }
+    .audio-controller .sound-bar--still:nth-child(2), .audio-controller .sound-bar--still:nth-child(5), .audio-controller .sound-bar--still:nth-child(7), .audio-controller .sound-bar--still:nth-child(9) {
+      animation-name: bar-scale-sm;
+      animation-duration: .9s; }
+
+.typing-title {
+  color: #FAFAFA;
+  position: absolute;
+  bottom: 48px;
+  left: 80px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 33px;
+  font-family: 'Roboto Mono', monospace; }
+  @media screen and (max-width: 640px) {
+    .typing-title {
+      left: 40px;
+      padding-right: 40px;
+      font-size: 25px;
+      bottom: 80px; } }
+  .typing-title .blinking:after {
+    content: "|";
+    margin-left: 8px;
+    font-family: 'Roboto Mono', monospace;
+    -webkit-animation: 1s blink step-end infinite;
+    -moz-animation: 1s blink step-end infinite;
+    -ms-animation: 1s blink step-end infinite;
+    -o-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite; }
+
+@keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent; }
+  50% {
+    color: #fafafa; } }
+
+.homepage {
+  position: relative;
+  height: calc(100vh - 120px);
+  width: 100vw; }
+  @media screen and (max-width: 640px) {
+    .homepage {
+      position: absolute;
+      top: 0;
+      height: 100vh; } }
+  .homepage .webGL-canvas {
+    height: calc(100vh - 240px);
+    position: relative;
+    background: #050505;
+    width: 100vw; }
+    @media screen and (max-width: 640px) {
+      .homepage .webGL-canvas {
+        height: 100%; } }
+    .homepage .webGL-canvas canvas {
+      width: 100%;
+      height: 100%; }
+  .homepage .homepage-controllers {
+    display: flex;
+    position: absolute;
+    padding-left: 40px;
+    padding-right: 40px;
+    align-items: center;
+    bottom: 0;
+    right: 0; }
+    @media screen and (max-width: 640px) {
+      .homepage .homepage-controllers {
+        width: 100%;
+        justify-content: center;
+        bottom: 16px; } }
+  .homepage .homepage--fullsize {
+    padding: 8px;
+    margin-left: 32px; }
+    .homepage .homepage--fullsize img {
+      width: 16px; }
+
 
 /*# sourceMappingURL=styles.chunk.css.map*/
