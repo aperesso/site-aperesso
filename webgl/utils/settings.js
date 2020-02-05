@@ -8,7 +8,7 @@ const CAMERA_SETTINGS = {
 
 const AUDIO_SETTINGS = {
   volume : 1,
-  file : 'A243.mp3',
+  file : 'ghost.mp3',
   ftSize :  1024
 }
 const SPHERE_SETTINGS = {

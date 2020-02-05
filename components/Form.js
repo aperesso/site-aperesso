@@ -129,8 +129,8 @@ const Form = ({onSubmit : submit}) => {
                 '/api/contact' , {
                     method : 'POST',
                     body : JSON.stringify({
-                        name : form.name.value,
-                        email : form.email.value,
+                        name : form.name.value.trim(),
+                        email : form.email.value.trim(),
                         message : form.message.value
                     })
                 }

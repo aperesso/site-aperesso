@@ -76,6 +76,7 @@ export default async (req, res) => {
 
         const parsed = JSON.parse(req.body);
         if (!parsed) return ;
+        
         const { name, email , message} = parsed;
 
         const isContact = await requestMailChimp({endpoint: `members/${md5(email)}`});
