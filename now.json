@@ -1,7 +1,7 @@
 {
     "env": {
         "ACCESS_TOKEN": "@access-token",
-        "REFRESH_TOKEN" : "@refresh_token",
+        "REFRESH_TOKEN" : "@refresh-token",
         "CLIENT_ID" : "@client_id",
         "CLIENT_SECRET" : "@client_secret",
         "CONTACT_EMAIL" : "@contact-email",
