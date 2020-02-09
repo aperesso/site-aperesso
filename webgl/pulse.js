@@ -23,7 +23,7 @@ const Pulse = function() {
 
     program.setUp(
         ({camera, renderer}) => {            
-            camera.position.set(0,0, isMobile ? 30 : 20);
+            camera.position.set(0,0, isMobile ? 40 : 20);
 
             renderer.setClearColor(new THREE.Color('#010101'), 1.);
 

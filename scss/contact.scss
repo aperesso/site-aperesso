@@ -7,6 +7,10 @@
     display: flex;
     justify-content: space-between;
 
+    @media screen and (max-width: 1199px) {
+        flex-direction: column;
+    }
+
     .animation-wrapper {
         min-width: calc(50% - 40px);
         max-width: calc(50% - 40px);
@@ -15,8 +19,11 @@
         overflow: hidden;
         
         @media screen and (max-width: 1199px) {
-            display: none;
-          }
+
+            height: 350px;
+            min-width: 100%;
+            max-width: 100%;
+        }
     }
 
     .form-wrapper {

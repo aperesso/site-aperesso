@@ -25,9 +25,10 @@
     text-decoration: none; }
   @media screen and (max-width: 640px) {
     .header {
+      height: 80px;
       font-size: 12px; }
       .header ul a {
-        margin-left: 8px; } }
+        margin-left: 16px; } }
 
 html, body {
   box-sizing: border-box;
@@ -143,6 +144,9 @@ canvas:focus {
   color: white;
   display: flex;
   justify-content: space-between; }
+  @media screen and (max-width: 1199px) {
+    .contact {
+      flex-direction: column; } }
   .contact .animation-wrapper {
     min-width: calc(50% - 40px);
     max-width: calc(50% - 40px);
@@ -151,7 +155,9 @@ canvas:focus {
     overflow: hidden; }
     @media screen and (max-width: 1199px) {
       .contact .animation-wrapper {
-        display: none; } }
+        height: 350px;
+        min-width: 100%;
+        max-width: 100%; } }
   .contact .form-wrapper {
     min-width: calc(50% - 40px);
     max-width: calc(50% - 40px);
@@ -307,7 +313,7 @@ canvas:focus {
     .typing-title {
       left: 40px;
       padding-right: 40px;
-      font-size: 25px;
+      font-size: 16px;
       bottom: 80px; } }
   .typing-title .blinking:after {
     content: "|";

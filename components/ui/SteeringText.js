@@ -1,14 +1,43 @@
-import React , { memo , useCallback, useRef , useState} from 'react';
+import React , { memo , useCallback, useRef , useState, useEffect } from 'react';
 import Sketch from "react-p5";
 
-const stroke = 6;
-const size = 100;
+import { useSelector } from '../../lib/useRedux';
+
+const stroke = 4;
+const DEFAULT_STROKE_WIDTH = 4;
+const MOBILE_STROKE_WIDTH = 4;
+const DEFAULT_FONT_SIZE = 100; 
+const MOBILE_FONT_SIZE = 60; 
 
 const SteeringText = ({text}) => {
 
+    const device = useSelector(({device}) => device);
+
     const ref = useRef();
+    const deviceRef = useRef(device);
+
     const [font, setFont] = useState();
     const [points, setPoints] = useState();
+
+    const [drawingParams, setDrawingParams] = useState({
+        stroke : device === 'mobile' ? MOBILE_STROKE_WIDTH : DEFAULT_STROKE_WIDTH,
+        size : device === 'mobile' ? MOBILE_FONT_SIZE : DEFAULT_FONT_SIZE
+    })
+
+    useEffect(
+        () => {
+            if (deviceRef.current !== device) {
+                deviceRef.current = device;
+                setDrawingParams(() => (
+                    {
+                        stroke : device === 'mobile' ? MOBILE_STROKE_WIDTH : DEFAULT_STROKE_WIDTH,
+                        size : device === 'mobile' ? MOBILE_FONT_SIZE : DEFAULT_FONT_SIZE
+                    }
+                ))
+            }
+        }, [device, setDrawingParams]
+    )
+
 
     
     const preload = useCallback(p5 => {
@@ -22,9 +51,9 @@ const SteeringText = ({text}) => {
 
 
         p5.textFont(font);
-        p5.textSize(size);
+        p5.textSize(drawingParams.size);
         const textWidth = p5.textWidth(text);
-        const textPoints = font.textToPoints(text, width / 2 - textWidth / 2, height / 2 + stroke / 2)
+        const textPoints = font.textToPoints(text, width / 2 - textWidth / 2, height / 2 + drawingParams.stroke / 2)
 
         const Vehicle = function(x,y) {
             this.pos = p5.createVector(Math.random() * width , Math.random() * height );
@@ -108,7 +137,7 @@ const SteeringText = ({text}) => {
         )
 
         setPoints(vehicles);
-    }, [font, points, text]);
+    }, [font, points, text, drawingParams]);
     
     const draw = useCallback(p5 => {
         p5.background(5);
@@ -129,19 +158,19 @@ const SteeringText = ({text}) => {
         p5.resizeCanvas(width, height);
 
         p5.textFont(font);
-        p5.textSize(size);
+        p5.textSize(drawingParams.size);
         const textWidth = p5.textWidth(text);
-        const textPoints = font.textToPoints(text, width / 2 - textWidth / 2, height / 2 + stroke / 2)
+        const textPoints = font.textToPoints(text, width / 2 - textWidth / 2, height / 2 + drawingParams.stroke / 2)
 
         points.forEach((point, i) => {
             point.target.x = textPoints[i].x;
             point.target.y = textPoints[i].y;
         })
-    }, [points]);
+    }, [points, drawingParams]);
 
 
     return (
-       <Sketch preload={preload} setup={setup} draw={draw} windowResized={onResize} key={text}/>
+       <Sketch preload={preload} setup={setup} draw={draw} windowResized={onResize} key={`${text}-${device}`}/>
     )
 
 }

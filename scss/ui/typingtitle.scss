@@ -13,9 +13,11 @@
     @media screen and (max-width: 640px) {
         left: 40px;
         padding-right: 40px;
-        font-size: 25px;
+        font-size: 16px;
         bottom: 80px;
     }
+
+
 
     .blinking:after {
         content: "|";
