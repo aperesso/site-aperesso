@@ -34,7 +34,7 @@ const Particles = function() {
     const texture = await loadTexture('smoke.png');
     const material = new THREE.RawShaderMaterial({
         uniforms : {
-            opacity : { value : 0.1 },
+            opacity : { value : 0.01 },
             texture : { value : texture },
             time : { value : 0.0 },
             uAudioBandsBuffer : { value : new Array(8).fill(null)}

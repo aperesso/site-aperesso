@@ -100,17 +100,22 @@ varying vec3 vColor;
 uniform float uAudioBandsBuffer[8];
 
 
+
 void main() {
+
+    float averageAudio = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2] + uAudioBandsBuffer[3] +
+        uAudioBandsBuffer[4] + uAudioBandsBuffer[5] + uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 8.0;
+    
 
     float a = (uAudioBandsBuffer[0] + uAudioBandsBuffer[1] + uAudioBandsBuffer[2]) / 3.;
     float b = (uAudioBandsBuffer[3] + uAudioBandsBuffer[4] + uAudioBandsBuffer[5]) / 3.;
     float c = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.;
   
-    vec3 diffuse = vec3(0.8) +  0.5 * vec3(a,b,c);
+    vec3 diffuse = vec3( averageAudio * 0.1, 0., 0.2 + averageAudio * 0.6);
 
     vec4 tex = texture2D(texture, vUv);
     vec3 color = mix(tex.rgb, diffuse, 0.5);
-    gl_FragColor = .2 * vec4(color, tex.a);
+    gl_FragColor = vec4(color, tex.a * averageAudio * 0.05 );
 }
 `
 

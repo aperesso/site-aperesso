@@ -90,13 +90,15 @@ const Sphere = function() {
     this.mesh = new THREE.Mesh(geometry, st);
   }
 
+  const time = new THREE.Clock();
   this.update = () => {
     if (!this.materialShader) return;
-    this.materialShader.uniforms["uTime"].value += 0.1;
+    // this.mesh.rotation.y += 0.01;
+    this.materialShader.uniforms["uTime"].value += time.getDelta();
     this.materialShader.uniforms["uAudioBandsBuffer"].value = this.audio.getAudioBandsBuffer();
-    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.2;
-    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.2;
-    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.2;
+    this.materialShader.uniforms["uNoiseOffset"].value.x += 0.;
+    this.materialShader.uniforms["uNoiseOffset"].value.y += 0.;
+    this.materialShader.uniforms["uNoiseOffset"].value.z += 0.;
   }
 }
 

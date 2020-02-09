@@ -8,7 +8,7 @@ const CAMERA_SETTINGS = {
 
 const AUDIO_SETTINGS = {
   volume : 1,
-  file : 'ghost.mp3',
+  file : 'LLYxAP.wav',
   ftSize :  1024
 }
 const SPHERE_SETTINGS = {

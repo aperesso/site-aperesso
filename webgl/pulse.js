@@ -27,9 +27,11 @@ const Pulse = function() {
 
             renderer.setClearColor(new THREE.Color('#010101'), 1.);
 
-            const light = new THREE.DirectionalLight(0xffffff, 0.4);
-            light.position.z = 5;
-            
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.z = 10;
+            light.position.y = 10;
+            light.position.x = 10;
+            light.lookAt(new THREE.Vector3(0,0,0))
             program.addToScene([light])
             
             renderer.shadowMap.enabled = true;
