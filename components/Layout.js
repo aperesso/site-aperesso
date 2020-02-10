@@ -7,11 +7,11 @@ import '../scss/index.scss';
 const Layout = props => {
     useEffect(
         () => {
-            // if (!window.GA_INITIALIZED) {
-            //     GA.initGA()
-            //     window.GA_INITIALIZED = true
-            //   }
-            //   GA.logPageView()
+            if (!window.GA_INITIALIZED) {
+                GA.initGA()
+                window.GA_INITIALIZED = true
+              }
+              GA.logPageView()
         } , []
     )
 
