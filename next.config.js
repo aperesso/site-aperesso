@@ -9,10 +9,4 @@ module.exports = withPlugins([
   [withSass, {}],
   [withImages, {}],
   [withTM , { transpileModules : ['three'] }],
-] , {
-  publicRuntimeConfig : {
-    env : {
-      DATA_LAYER_ID : process.env.DATA_LAYER_ID
-    }
-  }
-})
+])
