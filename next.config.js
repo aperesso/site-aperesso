@@ -11,6 +11,8 @@ module.exports = withPlugins([
   [withTM , { transpileModules : ['three'] }],
 ] , {
   publicRuntimeConfig : {
-    DATA_LAYER_ID : process.env.DATA_LAYER_ID
+    env : {
+      DATA_LAYER_ID : process.env.DATA_LAYER_ID
+    }
   }
 })

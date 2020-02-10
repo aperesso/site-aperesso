@@ -8,7 +8,7 @@ const Layout = props => {
     useEffect(
         () => {
             if (!window.GA_INITIALIZED) {
-                GA.initGA()
+                GA.initGA('UA-158099552-1')
                 window.GA_INITIALIZED = true
               }
               GA.logPageView()
