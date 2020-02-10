@@ -17,13 +17,7 @@ const App = ({Component, pageProps, reduxStore, router }) => {
   return ( 
     <>
       <Head>
-        <title>Alexia Peresson</title>
-        <meta name="theme-color" content="#050505"/>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-          key="viewport"
-        />
+        <title>Alexia Peresson </title>
       </Head>
       <CssBaseline/>
       <Provider store={reduxStore}>

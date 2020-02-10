@@ -9,8 +9,8 @@ const Target = () => {
     () => {
         const mouseMove = event => {
           setCoord(() => ({
-            x : event.clientX - 20,
-            y : event.clientY - 20
+            x : event.pageX - 20,
+            y : event.pageY - 20
           }))
         }
 

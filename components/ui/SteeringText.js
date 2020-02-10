@@ -5,7 +5,7 @@ import { useSelector } from '../../lib/useRedux';
 
 const stroke = 4;
 const DEFAULT_STROKE_WIDTH = 4;
-const MOBILE_STROKE_WIDTH = 4;
+const MOBILE_STROKE_WIDTH = 1;
 const DEFAULT_FONT_SIZE = 100; 
 const MOBILE_FONT_SIZE = 60; 
 
@@ -20,8 +20,8 @@ const SteeringText = ({text}) => {
     const [points, setPoints] = useState();
 
     const [drawingParams, setDrawingParams] = useState({
-        stroke : device === 'mobile' ? MOBILE_STROKE_WIDTH : DEFAULT_STROKE_WIDTH,
-        size : device === 'mobile' ? MOBILE_FONT_SIZE : DEFAULT_FONT_SIZE
+        stroke : device !== 'desktop' ? MOBILE_STROKE_WIDTH : DEFAULT_STROKE_WIDTH,
+        size : device !== 'desktop' ? MOBILE_FONT_SIZE : DEFAULT_FONT_SIZE
     })
 
     useEffect(

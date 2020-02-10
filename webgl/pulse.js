@@ -42,8 +42,9 @@ const Pulse = function() {
 
     program.setUpComposer(
         ({composer, size}) => {
-            // const bloomPass = new UnrealBloomPass(size, 1.3, .9, .8);
-            // composer.addPass(bloomPass);
+            const bloomPass = new UnrealBloomPass(size, 1.2, .9, .8);
+            composer.addPass(bloomPass);
+            bloomPass.renderToScreen = true;
             const filmPass = new FilmPass(0.35,0.25, 648, false);
             composer.addPass(filmPass); 
         }

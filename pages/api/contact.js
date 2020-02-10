@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const md5 = require('md5');
 const nodemailer = require('nodemailer');
-const config = require('dotenv').config();
+require('dotenv').config();
 
 const {
     MAILCHIMP_API_KEY,

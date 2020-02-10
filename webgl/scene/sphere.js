@@ -52,6 +52,8 @@ const Sphere = function() {
       metalnessMap,
       normalMap,
       roughnessMap,
+      // roughness: .8,
+      // metalness: 1.
     });
 
     st.onBeforeCompile = shader => {

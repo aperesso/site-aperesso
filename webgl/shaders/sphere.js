@@ -48,8 +48,7 @@ const fragmentShader = `
   float b = (uAudioBandsBuffer[3] + uAudioBandsBuffer[4] + uAudioBandsBuffer[5]) / 3.;
   float c = (uAudioBandsBuffer[6] + uAudioBandsBuffer[7]) / 2.;
 
-  vec3 diffuse = vec3( 0.1, 0.0, 0.1 + averageAudio * 0.2
-  );
+  vec3 diffuse = vec3(0.1) + vec3( a * 0.1 , b * 0.05, c * 0.1 );
 
   vec4 diffuseColor = vec4(diffuse, opacity );
 `

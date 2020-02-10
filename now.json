@@ -6,6 +6,7 @@
         "CLIENT_SECRET" : "@client-secret",
         "CONTACT_EMAIL" : "@contact-email",
         "MAILCHIMP_API_KEY" : "@mailchimp-api-key",
-        "MAILCHIMP_LIST_ID" : "mailchimp-list-id"
+        "MAILCHIMP_LIST_ID" : "mailchimp-list-id",
+        "DATA_LAYER_ID" : "@data-layer-id"
     }
 }
